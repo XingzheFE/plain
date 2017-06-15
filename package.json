@@ -1,0 +1,23 @@
+{
+    "name": "plain",
+    "version": "0.0.1",
+    "description": "",
+    "main": "dist/plain.js",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "dev": "rollup -c -w",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/XingzheFE/plain.git"
+    },
+    "author": "",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/XingzheFE/plain/issues"
+    },
+    "homepage": "https://github.com/XingzheFE/plain#readme"
+}

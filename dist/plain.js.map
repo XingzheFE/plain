@@ -1,0 +1,1 @@
+{"version":3,"file":"plain.js","sources":["../src/plain.ts"],"sourcesContent":["import Map from 'constructor/map.ts';\n\nexport class P {\n    map: Map;\n    factory: string;\n    constructor (opt: mapOption) {\n        this.factory = opt;\n    }\n}\n"],"names":[],"mappings":";;;;;;AAEO;IAGH,WAAa,GAAc;QACvB,IAAI,CAAC,OAAO,GAAG,GAAG,CAAC;KACtB;IACL,QAAC;CAAA;;;;;;;;;;;;"}
