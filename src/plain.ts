@@ -1,9 +1,28 @@
-import Map from 'constructor/map.ts';
+import Map from './constructors/map';
+import Layer from './constructors/layer';
+import { Layers } from './type/type';
+import { mapOption, PlainOption } from './options/mapOptions';
 
-export class P {
+export default class Plain {
     map: Map;
-    factory: string;
-    constructor (opt: mapOption) {
-        this.factory = opt;
+    layers: Layers;                         // every layer has own id and type
+    factory: object;          
+    
+    constructor (opt: PlainOption) {
+        this.layers = {};        
+        this.use(opt);        
+    }
+
+    // load the map factory plugin
+    use (opt: PlainOption): void {
+        this.factory = opt.factory;
+    }
+
+    createMap (opt: mapOption) {
+        // this.map = new Map(opt);
+    }
+
+    createMarker (opt: object) {
+        
     }
 }

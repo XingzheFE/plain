@@ -1,0 +1,3 @@
+export {
+    DEBUG: boolean = true,
+}

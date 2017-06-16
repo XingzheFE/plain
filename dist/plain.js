@@ -1,19 +1,25 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-	typeof define === 'function' && define.amd ? define(['exports'], factory) :
-	(factory((global.plain = global.plain || {})));
-}(this, (function (exports) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.Plain = factory());
+}(this, (function () { 'use strict';
 
-var P = (function () {
-    function P(opt) {
-        this.factory = opt;
+var Plain = (function () {
+    function Plain(opt) {
+        this.layers = {};
+        this.use(opt);
     }
-    return P;
+    Plain.prototype.use = function (opt) {
+        this.factory = opt.factory;
+    };
+    Plain.prototype.createMap = function (opt) {
+    };
+    Plain.prototype.createMarker = function (opt) {
+    };
+    return Plain;
 }());
 
-exports.P = P;
-
-Object.defineProperty(exports, '__esModule', { value: true });
+return Plain;
 
 })));
 //# sourceMappingURL=plain.js.map
