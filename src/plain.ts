@@ -1,32 +1,38 @@
-import Map from './constructors/map';
-import Layer from './constructors/layer';
 import { Layers } from './type/type';
-import { mapOption, PlainOption } from './options/mapOptions';
+import Factory from './factory/index';
+import { mapOption, markerOption, polylineOption } from './options/mapOptions';
 
 export default class Plain {
-    map: Map;
+    map: object;
     layers: Layers;                         // every layer has own id and type
     factory: object;          
     
-    constructor (opt: PlainOption) {
+    constructor (factory: Factory ) {
         this.layers = {};        
-        this.use(opt);        
+        this.use(factory);        
     }
 
     // load the map factory plugin
-    use (opt: PlainOption): void {
-        this.factory = opt.factory;
+    use (factory: Factory): void {
+        if (!this.factory) {
+            this.factory = factory;
+        }
     }
 
     createMap (opt: mapOption) {
+        return this.factory.Map();
+    }
+
+    createMarker (opt: markerOption) {
         
     }
 
-    createMarker (opt: object) {
-        
-    }
-
-    createPolyline (opt: object) {
+    createPolyline (opt: PolylineOption) {
 
     }
+    
+    initModule (module: object): void {
+        module.
+    }
+
 }

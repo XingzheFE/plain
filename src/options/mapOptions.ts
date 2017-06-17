@@ -1,4 +1,8 @@
-import Icon from "../constructors/icon";
+// import Icon from "../constructors/icon";
+
+export interface PlainOption {
+    key: string;
+}
 
 export interface mapOption {
     zoom?: number;
@@ -6,13 +10,18 @@ export interface mapOption {
 }
 
 export interface markerOption {
-    icon?: Icon;
+    icon?: iconOption;
 }
 
-export interface PlainOption {
-    key: string;
+export interface polylineOption {
+    color?: string;
+    weight?: number;
+    opacity?: number; 
 }
 
-export interface PolylineOption {
-
+export interface IconOption {
+    url?: string;
+    size?: Array<number>;
+    offset?: Array<number>;
+    anchor?: Array<number>;
 }
