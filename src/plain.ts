@@ -19,10 +19,14 @@ export default class Plain {
     }
 
     createMap (opt: mapOption) {
-        // this.map = new Map(opt);
+        
     }
 
     createMarker (opt: object) {
         
+    }
+
+    createPolyline (opt: object) {
+
     }
 }

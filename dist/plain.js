@@ -16,6 +16,8 @@ var Plain = (function () {
     };
     Plain.prototype.createMarker = function (opt) {
     };
+    Plain.prototype.createPolyline = function (opt) {
+    };
     return Plain;
 }());
 

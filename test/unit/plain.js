@@ -12,6 +12,8 @@ describe('src/plain', () => {
     it('has methods', (done) => {
         p.should.be.an.Object();
         p.should.have.property('createMap').which.is.a.Function();
+        p.should.have.property('createMarker').which.is.a.Function();
+        p.should.have.property('createPolyline').which.is.a.Function();
         done();
     });
 });
