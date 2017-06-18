@@ -29,10 +29,6 @@ var Plain = (function () {
         var polyline = this.factory.Polyline(opt);
         return this.factory.Polyline(opt);
     };
-    Plain.prototype.tag = function (module) {
-        module._id = Math.random().toString(16).substr(2);
-        return module;
-    };
     __decorate([
         tagging()
     ], Plain.prototype, "Map", null);

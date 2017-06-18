@@ -34,11 +34,6 @@ export default class Plain {
         let polyline = this.factory.Polyline(opt);
         return this.factory.Polyline(opt);
     }
-    
-    tag<T extends {_id: string}> (module:T): T {
-        module._id = Math.random().toString(16).substr(2);
-        return module;
-    }
 }
 
 /**
@@ -54,12 +49,3 @@ function tagging (): Function {
         };
     }
 }
-
-// function interval (time: number): Function {
-//     return function (target: any, propertyKey: string, descriptor: PropertyDecorator) {
-//         setInterval( () => {
-//             console.log( `[decorator] 每 ${ time } 毫秒后开始执行`);
-//             target[propertyKey]();
-//         }, time );
-//     }
-// }

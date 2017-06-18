@@ -17,6 +17,10 @@ describe('src/plain', () => {
             return marker;
         },
         Polyline () {
+            let polyline = {};
+            polyline.prototype = {
+
+            }
             return {};
         }
     });
@@ -26,7 +30,7 @@ describe('src/plain', () => {
     before( done => {
         done();
     });
-    it('has methods', (done) => {
+    it('Plain has methods', done => {
         p.should.be.an.Object();
         p.should.have.property('Map').which.is.a.Function();
         p.should.have.property('Marker').which.is.a.Function();
