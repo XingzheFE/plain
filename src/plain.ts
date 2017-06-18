@@ -4,35 +4,62 @@ import { mapOption, markerOption, polylineOption } from './options/mapOptions';
 
 export default class Plain {
     map: object;
-    layers: Layers;                         // every layer has own id and type
-    factory: object;          
+    // layers: Layers;                         // every layer has own id and type
+    factory: Factory;          
     
-    constructor (factory: Factory ) {
-        this.layers = {};        
+    constructor (factory?: Factory ) {
+        // this.layers = {};        
         this.use(factory);        
     }
 
     // load the map factory plugin
-    use (factory: Factory): void {
-        if (!this.factory) {
-            this.factory = factory;
-        }
+    use (factory: Factory): Plain {
+        this.factory = factory;
+        return this;
     }
 
-    createMap (opt: mapOption) {
-        return this.factory.Map();
+    // create Map
+    @tagging()
+    Map (opt: mapOption) {
+        return this.factory.Map(opt);
     }
 
-    createMarker (opt: markerOption) {
-        
+    @tagging()
+    Marker (opt: markerOption) {
+        return this.factory.Marker(opt);
     }
 
-    createPolyline (opt: PolylineOption) {
-
+    @tagging()
+    Polyline (opt: polylineOption) {
+        let polyline = this.factory.Polyline(opt);
+        return this.factory.Polyline(opt);
     }
     
-    initModule (module: object): void {
-        module.
+    tag<T extends {_id: string}> (module:T): T {
+        module._id = Math.random().toString(16).substr(2);
+        return module;
     }
-
 }
+
+/**
+ * PropertyDescriptor
+ */
+function tagging (): Function {
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        let oldFn = descriptor.value;
+        descriptor.value= function (arg: any) {
+            let value = oldFn.call(this, arg);
+            value._id = Math.random().toString(16).substr(2);
+            return value;  
+        };
+    }
+}
+
+// function interval (time: number): Function {
+//     return function (target: any, propertyKey: string, descriptor: PropertyDecorator) {
+//         setInterval( () => {
+//             console.log( `[decorator] 每 ${ time } 毫秒后开始执行`);
+//             target[propertyKey]();
+//         }, time );
+//     }
+// }
