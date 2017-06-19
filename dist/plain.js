@@ -11,19 +11,26 @@ function __decorate(decorators, target, key, desc) {
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 }
 
+var FACTORY = {
+    'BMap': new BMap(),
+};
 var Plain = (function () {
     function Plain(factory) {
         this.use(factory);
     }
     Plain.prototype.use = function (factory) {
-        this.factory = factory;
+        var f;
+        if (typeof factory === 'string') {
+            f = FACTORY[factory];
+        }
+        this.factory = f;
         return this;
     };
     Plain.prototype.Map = function (opt) {
         return this.factory.Map(opt);
     };
-    Plain.prototype.Marker = function (opt) {
-        return this.factory.Marker(opt);
+    Plain.prototype.Marker = function (latlng, opt) {
+        return this.factory.Marker(latlng, opt);
     };
     Plain.prototype.Polyline = function (opt) {
         var polyline = this.factory.Polyline(opt);

@@ -1,6 +1,7 @@
 import Map from './map';
 import Marker from './marker';
 import Polyline from './polyline';
+import LatLng from './latlng';
 import { mapOption, markerOption, polylineOption } from '../options/mapOptions';
 
 /**
@@ -10,8 +11,8 @@ import { mapOption, markerOption, polylineOption } from '../options/mapOptions';
  */
 interface Factory {
     Map (opt: mapOption): Map;
-    Marker (opt: markerOption): Marker;
-    Polyline (opt: polylineOption): Polyline;
+    Marker (point: LatLng, opt?: markerOption): Marker;
+    Polyline (points: Array<LatLng>, opt?: polylineOption): Polyline;
 }
 
 export default Factory;

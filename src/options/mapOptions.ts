@@ -5,6 +5,7 @@ export interface PlainOption {
 }
 
 export interface mapOption {
+    container: string | HTMLDivElement;
     zoom?: number;
     center?: Array<number>;
 }
@@ -19,7 +20,7 @@ export interface polylineOption {
     opacity?: number; 
 }
 
-export interface IconOption {
+export interface iconOption {
     url?: string;
     size?: Array<number>;
     offset?: Array<number>;
