@@ -2,16 +2,12 @@ import { Layers } from './type/type';
 import Factory from './factory/index';
 import LatLng from './factory/latlng';
 import { mapOption, markerOption, polylineOption } from './options/mapOptions';
-// import B_Map from './constructors/bmap/index';
+import B_Map from './constructors/bmap/index';
 
-interface Win {
-    a: string;
+declare global {
+    interface Window {
+    }
 }
-
-// declare global {
-//     interface Window {
-//     }
-// }
 
 export default class Plain {
     FACTORYS: {[key: string]: Factory};

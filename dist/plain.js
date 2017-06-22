@@ -11,6 +11,83 @@ function __decorate(decorators, target, key, desc) {
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 }
 
+var Map = (function () {
+    function Map(opt) {
+        this._original = new BMap.Map();
+    }
+    Map.prototype.addLayer = function (layer) {
+        var layerOrigin = layer._original;
+        this._original.addOverlay(layerOrigin);
+    };
+    Map.prototype.removeLayer = function () {
+    };
+    Map.prototype.clearLayers = function () {
+    };
+    Map.prototype.setZoom = function () {
+    };
+    Map.prototype.getZoom = function () {
+    };
+    Map.prototype.fitView = function () {
+    };
+    Map.prototype.setCenter = function () {
+    };
+    return Map;
+}());
+var Marker = (function () {
+    function Marker(latlng, opt) {
+        var options = {};
+        this._original = new BMap.Marker();
+    }
+    Marker.prototype.setLatLng = function (latlng) {
+        var p = {
+            lat: latlng[0],
+            lng: latlng[1]
+        };
+        this._original.setPosition(p);
+        return this;
+    };
+    Marker.prototype.getLatLng = function () {
+        var p = this._original.getPosition();
+        return [p.lat, p.lng];
+    };
+    return Marker;
+}());
+var Polyline = (function () {
+    function Polyline(latlngs, opt) {
+        this._original = new BMap.Poyline();
+    }
+    Polyline.prototype.setPath = function (latlngs) {
+        var points = latlngs.map(function (item) {
+            return {
+                lat: item[0],
+                lng: item[1]
+            };
+        });
+        this._original.setPath(points);
+    };
+    Polyline.prototype.getPath = function () {
+        var points = this._original.getPath() || [];
+        return points.map(function (item) {
+            return [item.lat, item.lng];
+        });
+    };
+    return Polyline;
+}());
+var B_Map = (function () {
+    function B_Map() {
+    }
+    B_Map.prototype.Map = function (opt) {
+        return new Map(opt);
+    };
+    B_Map.prototype.Marker = function (latlng, opt) {
+        return new Marker(latlng, opt);
+    };
+    B_Map.prototype.Polyline = function (latlngs, opt) {
+        return new Polyline(latlngs, opt);
+    };
+    return B_Map;
+}());
+
 var Plain = (function () {
     function Plain(factory) {
         this.FACTORYS = {

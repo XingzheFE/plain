@@ -3,18 +3,15 @@ import typescript from 'rollup-plugin-typescript';
 // import path from 'path';
 
 export default {
-	entry: 'src/plain.ts',
-	plugins: [
-		typescript({
-            include: 'src/*'
+    entry: 'src/plain.ts',
+    plugins: [
+        typescript({
+            include: 'src/**/*.ts'
         }),
-		// alias({
-		// 	'@': path.resolve(__dirname, './src/')
-		// }),
-	],
-	sourceMap: true,
-	moduleName: 'Plain',
-	targets: [
-		{ dest: 'dist/plain.js', format: 'umd' }
-	]
+    ],
+    sourceMap: true,
+    moduleName: 'Plain',
+    targets: [
+        { dest: 'dist/plain.js', format: 'umd' }
+    ]
 };

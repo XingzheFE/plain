@@ -1,4 +1,4 @@
-import Factory from '../../factory/index'
+import Factory from '../../factory/index';
 import _Map from '../../factory/map';
 import _Marker from '../../factory/marker';
 import _Polyline from '../../factory/polyline';
@@ -6,9 +6,10 @@ import Layer from '../../factory/layer';
 import LatLng from '../../factory/latlng';
 import { mapOption, markerOption, polylineOption } from '../../options/mapOptions';
 
-interface Window {
-    BMap: Original_BMap;
-}
+// BMap in not defined in this file
+// But you will get this variable on window Object
+// while loaded baidu map script
+
 interface Original_BMap {
     Map: {new(): Function};
     Marker: {new(): Function};
@@ -25,8 +26,6 @@ interface Original_BMap_Polyline {
     getPath?(): Original_BMap_Position[];
     setPath?(points: Original_BMap_Position[]): void;
 }
-
-let BMap = window.BMap;
 
 class Map implements _Map {
     _original: Original_BMap_Map;
