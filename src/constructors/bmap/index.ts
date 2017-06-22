@@ -9,14 +9,17 @@ import { mapOption, markerOption, polylineOption } from '../../options/mapOption
 // BMap in not defined in this file
 // But you will get this variable on window Object
 // while loaded baidu map script
+declare const BMap: any;
 
 interface Original_BMap {
     Map: {new(): Function};
     Marker: {new(): Function};
     Poyline: {new(): Function};
 }
-interface Original_BMap_Map {
-    addOverlay?(l: object): void;
+declare interface Original_BMap_Map {
+    addOverlay(l: object): void;
+    centerAndZoom(center: Original_BMap_Position[], zoom: number): void;
+    enableScrollWheelZoom(): void;
 }
 interface Original_BMap_Position {
     lat: number;
@@ -32,7 +35,10 @@ class Map implements _Map {
     _id: string;
 
     constructor (opt: mapOption) {
-        this._original = new BMap.Map();
+        let centerPoint = new BMap.Point(opt.center[1] || 0, opt.center[0] || 0);
+        this._original = new BMap.Map(opt.container);
+        this._original.centerAndZoom(centerPoint, opt.zoom || 15);
+        this._original.enableScrollWheelZoom();
     }
 
     addLayer (layer: Layer) {

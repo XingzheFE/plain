@@ -4,11 +4,6 @@ import LatLng from './factory/latlng';
 import { mapOption, markerOption, polylineOption } from './options/mapOptions';
 import B_Map from './constructors/bmap/index';
 
-declare global {
-    interface Window {
-    }
-}
-
 export default class Plain {
     FACTORYS: {[key: string]: Factory};
     map: object;
