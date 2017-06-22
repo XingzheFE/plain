@@ -2,27 +2,36 @@ import { Layers } from './type/type';
 import Factory from './factory/index';
 import LatLng from './factory/latlng';
 import { mapOption, markerOption, polylineOption } from './options/mapOptions';
-import B_Map from './constructors/bmap/index';
+// import B_Map from './constructors/bmap/index';
 
-const FACTORY = {
-    'BMap': new B_Map(),
-};
+interface Win {
+    a: string;
+}
+
+// declare global {
+//     interface Window {
+//     }
+// }
 
 export default class Plain {
+    FACTORYS: {[key: string]: Factory};
     map: object;
-    // layers: Layers;                         // every layer has own id and type
     factory: Factory;          
     
     constructor (factory?: Factory | string) {
-        // this.layers = {};        
-        this.use(factory);        
+        this.FACTORYS = {
+            'BMAP': new B_Map(),
+        };
+        factory && this.use(factory);      
     }
 
     // load the map factory plugin
     use (factory: Factory | string): Plain {
         let f;
         if (typeof factory === 'string') {
-            f = FACTORY[factory];
+            f = this.FACTORYS[factory];
+        } else {
+            f = factory;
         }
         this.factory = f;
         return this;
@@ -36,15 +45,14 @@ export default class Plain {
 
     // create Marker
     @tagging()
-    Marker (latlng: LatLng, opt: markerOption) {
+    Marker (latlng: LatLng, opt?: markerOption) {
         return this.factory.Marker(latlng, opt);
     }
 
     // create Polyline
     @tagging()
-    Polyline (opt: polylineOption) {
-        let polyline = this.factory.Polyline(opt);
-        return this.factory.Polyline(opt);
+    Polyline (latlngs: LatLng[], opt?: polylineOption) {
+        return this.factory.Polyline(latlngs, opt);
     }
 }
 

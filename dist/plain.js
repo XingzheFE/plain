@@ -11,17 +11,20 @@ function __decorate(decorators, target, key, desc) {
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 }
 
-var FACTORY = {
-    'BMap': new BMap(),
-};
 var Plain = (function () {
     function Plain(factory) {
-        this.use(factory);
+        this.FACTORYS = {
+            'BMAP': new B_Map(),
+        };
+        factory && this.use(factory);
     }
     Plain.prototype.use = function (factory) {
         var f;
         if (typeof factory === 'string') {
-            f = FACTORY[factory];
+            f = this.FACTORYS[factory];
+        }
+        else {
+            f = factory;
         }
         this.factory = f;
         return this;
@@ -32,9 +35,8 @@ var Plain = (function () {
     Plain.prototype.Marker = function (latlng, opt) {
         return this.factory.Marker(latlng, opt);
     };
-    Plain.prototype.Polyline = function (opt) {
-        var polyline = this.factory.Polyline(opt);
-        return this.factory.Polyline(opt);
+    Plain.prototype.Polyline = function (latlngs, opt) {
+        return this.factory.Polyline(latlngs, opt);
     };
     __decorate([
         tagging()

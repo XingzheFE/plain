@@ -1,4 +1,4 @@
-import _Factory from '../../factory/index'
+import Factory from '../../factory/index'
 import _Map from '../../factory/map';
 import _Marker from '../../factory/marker';
 import _Polyline from '../../factory/polyline';
@@ -6,27 +6,32 @@ import Layer from '../../factory/layer';
 import LatLng from '../../factory/latlng';
 import { mapOption, markerOption, polylineOption } from '../../options/mapOptions';
 
+interface Window {
+    BMap: Original_BMap;
+}
 interface Original_BMap {
     Map: {new(): Function};
     Marker: {new(): Function};
     Poyline: {new(): Function};
 }
-interface Original_Position {
+interface Original_BMap_Map {
+    addOverlay?(l: object): void;
+}
+interface Original_BMap_Position {
     lat: number;
     lng: number;
 }
-declare global {
-    interface Window {
-        BMap: Original_BMap;
-    }
+interface Original_BMap_Polyline {
+    getPath?(): Original_BMap_Position[];
+    setPath?(points: Original_BMap_Position[]): void;
 }
-let BMap: Original_BMap = window.BMap;
+
+let BMap = window.BMap;
 
 class Map implements _Map {
-    _original: {
-        addOverlay?(l: object): void;
-    };
+    _original: Original_BMap_Map;
     _id: string;
+
     constructor (opt: mapOption) {
         this._original = new BMap.Map();
     }
@@ -63,11 +68,11 @@ class Map implements _Map {
 
 class Marker implements _Marker {
     _original: {
-        getPosition?(): Original_Position;
-        setPosition?(p: Original_Position): void;
+        getPosition?(): Original_BMap_Position;
+        setPosition?(p: Original_BMap_Position): void;
     };
 
-    constructor (opt: markerOption) {
+    constructor (latlng: LatLng, opt?: markerOption) {
         let options = {
 
         };
@@ -88,3 +93,42 @@ class Marker implements _Marker {
         return [p.lat, p.lng];
     }
 }
+
+class Polyline implements _Polyline {
+    _original: Original_BMap_Polyline;
+ 
+    constructor (latlngs: LatLng[], opt?: polylineOption) {
+        this._original = new BMap.Poyline();
+    }
+
+    setPath (latlngs: LatLng[]) {
+        let points = latlngs.map(item => {
+            return {
+                lat: item[0],
+                lng: item[1]
+            }
+        });
+        this._original.setPath(points);
+    }
+
+    getPath (): LatLng[] {
+        let points = this._original.getPath() || [];
+        return points.map(item => {
+            return [item.lat, item.lng]
+        });
+    }
+}
+
+export default class B_Map implements Factory {
+    Map (opt: mapOption): Map {
+        return new Map(opt);
+    }
+
+    Marker (latlng: LatLng, opt?: markerOption): Marker {
+        return new Marker(latlng, opt);
+    }
+
+    Polyline (latlngs: LatLng[], opt: polylineOption): Polyline {
+        return new Polyline(latlngs, opt);
+    }
+};
