@@ -1,4 +1,4 @@
-![plain](./plain.png)
+![plain](./plain-200.png)
 
 ![plain](https://travis-ci.org/XingzheFE/plain.svg?branch=master)
 
