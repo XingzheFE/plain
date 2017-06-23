@@ -14,22 +14,30 @@
         
         html,
         body,
-        #map {
+        #bmap {
             width: 100%;
             height: 100%;
+            background: greenyellow;
         }
     </style>
 </head>
 
 <body>
-    <div id="bmap"></div>
+    <div id="bmap">loading</div>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=hPKNosYElVbALMK2ySnseejdXN7y8nqT"></script>
+    <script>
+    </script>
     <script src="../dist/plain.js"></script>
     <script>
-        let plain = new Plain().use('BMAP');
+        document.getElementById('bmap').innerHTML = "section 1";
+    </script>
+    <script>
+        var plain = new Plain().use('BMAP');
+        document.getElementById('bmap').innerHTML = plain;
+
         plain.Map({
             container: "bmap",
-            center: [39.915, 116.400],
+            center: [39.915, 116.402],
             zoom: 15
         });
     </script>

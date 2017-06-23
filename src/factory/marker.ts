@@ -1,8 +1,7 @@
 import Layer from './layer';
 import LatLng from './latlng';
 
-interface Marker {
-    _original: object;
+interface Marker extends Layer {
     setLatLng(latLng: LatLng): Marker;
     getLatLng(): LatLng;
 }

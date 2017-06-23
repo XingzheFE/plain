@@ -18,13 +18,11 @@ export default class Plain {
 
     // load the map factory plugin
     use (factory: Factory | string): Plain {
-        let f;
         if (typeof factory === 'string') {
-            f = this.FACTORYS[factory];
+            this.factory = this.FACTORYS[factory];
         } else {
-            f = factory;
+            this.factory = factory;
         }
-        this.factory = f;
         return this;
     }
 
@@ -48,7 +46,7 @@ export default class Plain {
 }
 
 /**
- * PropertyDescriptor
+ * set _id property
  */
 function tagging (): Function {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {

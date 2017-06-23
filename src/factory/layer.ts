@@ -1,6 +1,6 @@
 interface Layer {
     _original: object;
-    _id?: string;
+    _id: string;
 }
 
 export default Layer;
