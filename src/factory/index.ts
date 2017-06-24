@@ -10,9 +10,9 @@ import { mapOption, markerOption, polylineOption } from '../options/mapOptions';
  * @description type for map factory plugin
  */
 interface Factory {
-    Map (opt: mapOption): Map;
-    Marker (point: LatLng, opt?: markerOption): Marker;
-    Polyline (points: Array<LatLng>, opt?: polylineOption): Polyline;
+    Map(opt: mapOption): Map;
+    Marker(point: LatLng, opt?: markerOption): Marker;
+    Polyline(points: Array<LatLng>, opt?: polylineOption): Polyline;
 }
 
 export default Factory;
