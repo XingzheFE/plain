@@ -1,18 +1,39 @@
-import Map from './map';
-import Marker from './marker';
-import Polyline from './polyline';
-import LatLng from './latlng';
-import { mapOption, markerOption, polylineOption } from '../options/mapOptions';
+import F_Map from './map';
+import F_Marker from './marker';
+import F_Polyline from './polyline';
+import F_LatLng from './latlng';
+import F_Layer from './layer';
+import F_Icon from './icon';
+import F_Size from './size';
+import {  MapOption, MarkerOption, PolylineOption, IconOption } from '../options/mapOptions';
 
-/**
- * @interface Factory
- * 
- * @description type for map factory plugin
- */
-interface Factory {
-    Map(opt: mapOption): Map;
-    Marker(point: LatLng, opt?: markerOption): Marker;
-    Polyline(points: Array<LatLng>, opt?: polylineOption): Polyline;
+export default F;
+
+namespace F {
+
+    /**
+     * @interface Factory
+     * 
+     * @description type for map factory plugin
+     */
+    export interface Factory {
+        Map(opt:  MapOption): Map;
+        Marker(point: LatLng, opt?: MarkerOption): Marker;
+        Polyline(points: Array<LatLng>, opt?: PolylineOption): Polyline;
+        Icon(opt: IconOption): Icon;
+    }
+
+    export type Map = F_Map;
+
+    export type Marker = F_Marker;
+
+    export type Polyline = F_Polyline;
+    
+    export type Icon = F_Icon;
+
+    export type Size = F_Size;
+    
+    export type LatLng = F_LatLng;
+
+    export type Layer = F_Layer;
 }
-
-export default Factory;

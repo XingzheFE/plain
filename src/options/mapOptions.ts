@@ -1,28 +1,33 @@
-// import Icon from "../constructors/icon";
+import F from "../factory/index";
 
 export interface PlainOption {
     key: string;
 }
 
-export interface mapOption {
+export interface MapOption {
     container: string | HTMLDivElement;
     zoom?: number;
     center?: Array<number>;
 }
 
-export interface markerOption {
-    icon?: iconOption;
+export interface MarkerOption {
+    icon?: F.Icon;
+    offset?: F.Size;
+    draggable?: boolean;
 }
 
-export interface polylineOption {
+export interface PolylineOption {
     color?: string;
     weight?: number;
     opacity?: number; 
 }
 
-export interface iconOption {
+export interface IconOption {
     url?: string;
     size?: Array<number>;
-    offset?: Array<number>;
     anchor?: Array<number>;
+}
+
+export interface ViewportOption {
+    margins: number[];
 }

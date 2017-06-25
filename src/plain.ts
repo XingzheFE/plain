@@ -1,15 +1,14 @@
-import { Layers } from './type/type';
-import Factory from './factory/index';
+import F from './factory/index';
 import LatLng from './factory/latlng';
-import { mapOption, markerOption, polylineOption } from './options/mapOptions';
+import O from './options/mapOptions';
 import B_Map from './constructors/bmap/index';
 
 export default class Plain {
-    FACTORYS: {[key: string]: Factory};
+    FACTORYS: {[key: string]: F.Factory};
     map: object;
-    factory: Factory;          
+    factory: F.Factory;          
     
-    constructor(factory?: Factory | string) {
+    constructor(factory?: F.Factory | string) {
         this.FACTORYS = {
             'BMAP': new B_Map(),
         };
@@ -17,7 +16,7 @@ export default class Plain {
     }
 
     // load the map factory plugin
-    use(factory: Factory | string): Plain {
+    use(factory: F.Factory | string): Plain {
         if(typeof factory === 'string') {
             this.factory = this.FACTORYS[factory];
         } else {
@@ -28,20 +27,26 @@ export default class Plain {
 
     // create Map
     @tagging()
-    Map(opt: mapOption) {
+    Map([opt] : [O.MapOption]) {
         return this.factory.Map(opt);
     }
 
     // create Marker
     @tagging()
-    Marker(latlng: LatLng, opt?: markerOption) {
+    Marker([latlng, opt] : [LatLng, O.MarkerOption]) {
         return this.factory.Marker(latlng, opt);
     }
 
     // create Polyline
     @tagging()
-    Polyline(latlngs: LatLng[], opt?: polylineOption) {
+    Polyline([latlngs, opt] : [LatLng[], O.PolylineOption]) {
         return this.factory.Polyline(latlngs, opt);
+    }
+
+    // create Icon
+    @tagging()
+    Icon([opt] : [O.IconOption]) {
+        return this.factory.Icon(opt);
     }
 }
 
@@ -51,7 +56,7 @@ export default class Plain {
 function tagging(): Function {
     return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         let oldFn = descriptor.value;
-        descriptor.value= function(arg: any) {
+        descriptor.value= function(...arg: any[]) {
             let value = oldFn.call(this, arg);
             value._id = Math.random().toString(16).substr(2);
             return value;  
