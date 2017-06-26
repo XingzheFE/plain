@@ -2,6 +2,20 @@
 # yarn lockfile v1
 
 
+"@types/geojson@*":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-1.0.2.tgz#b02d10ab028e2928ac592a051aaa4981a1941d03"
+
+"@types/googlemaps@^3.26.14":
+  version "3.26.14"
+  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.26.14.tgz#611cb24214bfc0bada86105696b66325f9ad372d"
+
+"@types/leaflet@^1.0.63":
+  version "1.0.63"
+  resolved "https://registry.yarnpkg.com/@types/leaflet/-/leaflet-1.0.63.tgz#389649103a1dd718ba7ffcc84bb56d9dd1c6dbe6"
+  dependencies:
+    "@types/geojson" "*"
+
 abbrev@1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.0.tgz#d0554c2256636e2f56e7c2e5ad183f859428d81f"

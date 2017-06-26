@@ -58,13 +58,9 @@
         map.addLayer([marker, marker2]);
         map.addLayer(polyline);
 
-        marker.on('click', (e) => {
-            console.log(e);
+        marker.on('click', function(e) {
+            console.log(plain.Util.formatEvent.call(this, e));
         });
-        // baidu marker eventListener
-        // marker._original.addEventListener("click", function() {
-        //     alert("您点击了标注");
-        // });
     </script>
 </body>
 

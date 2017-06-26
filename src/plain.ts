@@ -5,17 +5,25 @@ import B_Map from './constructors/bmap/index';
 
 export default class Plain {
     FACTORYS: {[key: string]: F.Factory};
+    Util: F.Util;
     map: object;
     factory: F.Factory;          
     
     constructor(factory?: F.Factory | string) {
-        this.FACTORYS = {
+        let that = this;
+        that.FACTORYS = {
             'BMAP': new B_Map(),
         };
-        factory && this.use(factory);      
+        factory && this.use(factory);
+        // Various utility functions
+        this.Util = {
+            formatEvent(e: any): F.Event {
+                return that.factory.Util.formatEvent.call(this, e);
+            }
+        }
     }
 
-    // load the map factory plugin
+    // Load the map factory plugin
     use(factory: F.Factory | string): Plain {
         if(typeof factory === 'string') {
             this.factory = this.FACTORYS[factory];
@@ -25,25 +33,25 @@ export default class Plain {
         return this;
     }
 
-    // create Map
+    // Create Map
     @tagging()
     Map([opt] : [O.MapOption]) {
         return this.factory.Map(opt);
     }
 
-    // create Marker
+    // Create Marker
     @tagging()
     Marker([latlng, opt] : [LatLng, O.MarkerOption]) {
         return this.factory.Marker(latlng, opt);
     }
 
-    // create Polyline
+    // Create Polyline
     @tagging()
     Polyline([latlngs, opt] : [LatLng[], O.PolylineOption]) {
         return this.factory.Polyline(latlngs, opt);
     }
 
-    // create Icon
+    // Create Icon
     @tagging()
     Icon([opt] : [O.IconOption]) {
         return this.factory.Icon(opt);

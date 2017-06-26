@@ -152,4 +152,9 @@ declare module BMap {
         enableEditing?: boolean;
         enableClicking?: boolean;
     }
+
+    export interface Event {
+        type: string;
+        target?: any;
+    }
 }

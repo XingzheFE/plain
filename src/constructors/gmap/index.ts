@@ -1,4 +1,4 @@
-/// <reference path="./gmap.d.ts" />
+/// <reference types="googlemaps" />
 
-// test
 new google.maps.Map().controls;
+

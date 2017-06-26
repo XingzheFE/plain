@@ -171,6 +171,20 @@ class Icon implements F.Icon {
 }
 
 export default class B_Map implements F.Factory {
+    Util: F.Util;
+
+    constructor () {
+        this.Util = {
+            formatEvent(e: any = {}): F.Event {
+                return {
+                    type: e.type.replace(/^on/g, ''),
+                    target: this,
+                    e: e
+                }
+            }
+        }
+    }
+
     Map(opt: O.MapOption): Map {
         return new Map(opt);
     }
@@ -182,6 +196,7 @@ export default class B_Map implements F.Factory {
     Polyline(latlngs: F.LatLng[], opt: O.PolylineOption): Polyline {
         return new Polyline(latlngs, opt);
     }
+
     Icon(opt: O.IconOption): Icon {
         return new Icon(opt);
     }
@@ -193,9 +208,25 @@ export default class B_Map implements F.Factory {
  */
 function eventBinder(constructor: Function) {
     constructor.prototype.on = function(eventName: string, handler: Function) {
-        this._original.addEventListener(eventName, handler);
+        this._original.addEventListener(eventName, handler.bind(this));
     }
     constructor.prototype.off = function(eventName: string, handler: Function) {
-        this._original.removeEventListener(eventName, handler);
+        this._original.removeEventListener(eventName, handler.bind(this));
+    }
+}
+
+/**
+ * @function format event object
+ * @param {Event} e 
+ * TOOD: how to off eventListener?
+ */
+function formatEventObj (handler: Function): Function {
+    return function (e: BMap.Event) {
+        let event: F.Event = {
+            type: e.type.replace(/^on/g, ''),
+            target: this,
+            e: e
+        };
+        return handler(event);
     }
 }

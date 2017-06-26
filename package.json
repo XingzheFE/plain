@@ -1,5 +1,5 @@
 {
-    "name": "plain",
+    "name": "plain-js",
     "version": "0.0.1",
     "description": "",
     "main": "dist/plain.js",
@@ -30,5 +30,9 @@
         "rollup-plugin-typescript": "^0.8.1",
         "rollup-watch": "^4.0.0",
         "should": "^11.2.1"
+    },
+    "dependencies": {
+        "@types/googlemaps": "^3.26.14",
+        "@types/leaflet": "^1.0.63"
     }
 }
