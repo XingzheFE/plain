@@ -5,7 +5,7 @@ export interface PlainOption {
 }
 
 export interface MapOption {
-    container: string | HTMLDivElement;
+    container: string | Element;
     zoom?: number;
     center?: Array<number>;
 }

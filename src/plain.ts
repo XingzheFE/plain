@@ -1,7 +1,8 @@
 import F from './factory/index';
 import LatLng from './factory/latlng';
 import O from './options/mapOptions';
-import B_Map from './constructors/bmap/index';
+import B_Map from './constructors/bmap/index';      // baidu map
+import G_Map from './constructors/gmap/index';      // google map
 
 export default class Plain {
     FACTORYS: {[key: string]: F.Factory};
@@ -11,9 +12,6 @@ export default class Plain {
     
     constructor(factory?: F.Factory | string) {
         let that = this;
-        that.FACTORYS = {
-            'BMAP': new B_Map(),
-        };
         factory && this.use(factory);
         // Various utility functions
         this.Util = {
@@ -26,7 +24,24 @@ export default class Plain {
     // Load the map factory plugin
     use(factory: F.Factory | string): Plain {
         if(typeof factory === 'string') {
-            this.factory = this.FACTORYS[factory];
+            switch (factory) {
+                case 'BMAP': {
+                    console.log('BMAP');
+                    
+                    this.factory = new B_Map();
+                    break;
+                }
+                case 'GMAP': {
+                    this.factory = new G_Map();    
+                    break;
+                }
+                case 'AMAP': {
+                    // this.factory = new A_Map();
+                }
+                case 'LMAP': {
+                    // this.factory = new L_Map();
+                }
+            }
         } else {
             this.factory = factory;
         }

@@ -14,7 +14,7 @@
         
         html,
         body,
-        #bmap {
+        #map {
             width: 100%;
             height: 100%;
         }
@@ -22,8 +22,9 @@
 </head>
 
 <body>
-    <div id="gmap">loading</div>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAN8W2vq0_ipEqUFrSvX8n411V_TmPlg5s&callback=initMap" type="text/javascript"></script>
+    <div id="map">loading</div>
+    <!--do not use async defer-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAN8W2vq0_ipEqUFrSvX8n411V_TmPlg5s" type="text/javascript"></script>
 
     <script src="../dist/plain.js"></script>
     <script>
@@ -36,7 +37,7 @@
             [39.710, 118]
         ];
         var map = plain.Map({
-            container: "gmap",
+            container: "map",
             center: [39.910, 116.404],
             zoom: 15
         });
@@ -45,19 +46,23 @@
             size: [25, 40],
             anchor: [12.5, 40]
         });
-        var markerOpt = {
-            icon: icon,
-            draggable: true
-        };
-        var marker = plain.Marker([39.910, 116.404], markerOpt);
-        var marker2 = plain.Marker([39.910, 116.402], markerOpt);
-        var polyline = plain.Polyline(path, {
-            color: "#f00",
-            weight: 2,
-            opacity: 0.8
-        });
-        map.addLayer([marker, marker2]);
-        map.addLayer(polyline);
+        // var markerOpt = {
+        //     icon: icon,
+        //     draggable: true
+        // };
+        // var marker = plain.Marker([39.910, 116.404], markerOpt);
+        // var marker2 = plain.Marker([39.910, 116.402], markerOpt);
+        // var polyline = plain.Polyline(path, {
+        //     color: "#f00",
+        //     weight: 2,
+        //     opacity: 0.8
+        // });
+        // map.addLayer([marker, marker2]);
+        // map.addLayer(polyline);
+
+        // marker.on('click', function(e) {
+        //     console.log(plain.Util.formatEvent.call(this, e));
+        // });
     </script>
 </body>
 
