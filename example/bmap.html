@@ -27,7 +27,6 @@
     <script src="../dist/plain.js"></script>
     <script>
         var plain = new Plain().use('BMAP');
-        document.getElementById('bmap').innerHTML = plain;
 
         var path = [
             [39.910, 116.404],
@@ -46,7 +45,7 @@
             anchor: [12.5, 40]
         });
         var markerOpt = {
-            icon: icon,
+            // icon: icon,
             draggable: true
         };
         var marker = plain.Marker([39.910, 116.404], markerOpt);
@@ -58,6 +57,14 @@
         });
         map.addLayer([marker, marker2]);
         map.addLayer(polyline);
+
+        marker.on('click', (e) => {
+            console.log(e);
+        });
+        // baidu marker eventListener
+        // marker._original.addEventListener("click", function() {
+        //     alert("您点击了标注");
+        // });
     </script>
 </body>
 

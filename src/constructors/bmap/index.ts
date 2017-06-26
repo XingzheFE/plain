@@ -7,6 +7,7 @@ import * as O from '../../options/mapOptions';
 // But you will get this variable on window Object
 // while loaded baidu map script
 
+@eventBinder
 class Map implements F.Map {
     _original: BMap.Map;
     _id: string;
@@ -73,17 +74,13 @@ class Map implements F.Map {
     }
 }
 
+@eventBinder
 class Marker implements F.Marker {
     _id: string;
     _original: BMap.Marker;
 
     constructor(latlng: F.LatLng, opt?: O.MarkerOption) {
-        console.log(latlng);
-        console.log(opt);
-        let point = {
-            lat: latlng[0],
-            lng: latlng[1]
-        };
+        let point = new BMap.Point(latlng[1], latlng[0]);
         let opts = this.formatOpt(opt);
         this._original = new BMap.Marker(point, opts);
     }
@@ -97,11 +94,8 @@ class Marker implements F.Marker {
     }
     
     setLatLng(latlng: F.LatLng) {
-        let p = {
-            lat: latlng[0],
-            lng: latlng[1]
-        };
-        this._original.setPosition(p);
+        let point = new BMap.Point(latlng[1], latlng[0]);
+        this._original.setPosition(point);
         return this;
     }
 
@@ -111,6 +105,7 @@ class Marker implements F.Marker {
     }
 }
 
+@eventBinder
 class Polyline implements F.Polyline {
     _id: string;
     _original: BMap.Polyline;
@@ -191,3 +186,16 @@ export default class B_Map implements F.Factory {
         return new Icon(opt);
     }
 };
+
+/**
+ * @function set overlay eventListener
+ * @param {Function} constructor 
+ */
+function eventBinder(constructor: Function) {
+    constructor.prototype.on = function(eventName: string, handler: Function) {
+        this._original.addEventListener(eventName, handler);
+    }
+    constructor.prototype.off = function(eventName: string, handler: Function) {
+        this._original.removeEventListener(eventName, handler);
+    }
+}

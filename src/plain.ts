@@ -51,7 +51,7 @@ export default class Plain {
 }
 
 /**
- * set _id property
+ * @function set _id property
  */
 function tagging(): Function {
     return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {

@@ -20,6 +20,8 @@ declare module BMap {
         enableScrollWheelZoom(): void;
         clearOverlays(): void;
         setViewport(points: Point[], viewportOptions?: ViewportOptions): void;
+        addEventListener(event: string, handler: Function): void;
+        removeEventListener(event: string, handler: Function): void;
     }
 
     export class Marker extends Overlay {
@@ -32,12 +34,16 @@ declare module BMap {
         setOffset(offset: Size): void;
         getLabel(): Label;
         setLabel(label: Label): void;
+        addEventListener(event: string, handler: Function): void; 
+        removeEventListener(event: string, handler: Function): void;       
     }
 
     export class Polyline extends Overlay {
         constructor(points: Point[], opts?: PolylineOptions);
         getPath?(): Point[];
         setPath?(points: Point[]): void;
+        addEventListener(event: string, handler: Function): void;
+        removeEventListener(event: string, handler: Function): void;
     }
 
     export class Point {
