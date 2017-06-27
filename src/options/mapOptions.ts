@@ -12,7 +12,7 @@ export interface MapOption {
 
 export interface MarkerOption {
     icon?: F.Icon;
-    offset?: F.Size;
+    // offset?: F.Size;
     draggable?: boolean;
 }
 

@@ -88,7 +88,7 @@ class Marker implements F.Marker {
     formatOpt (opt: O.MarkerOption = {}) {
         return {
             icon: opt.icon ? opt.icon._original : null,
-            offset: opt.offset ? new BMap.Size(opt.offset[0], opt.offset[1]) : null,
+            // offset: opt.offset ? new BMap.Size(opt.offset[0], opt.offset[1]) : null,
             enableDragging: opt.draggable
         }
     }

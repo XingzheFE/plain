@@ -24,10 +24,10 @@ class Map implements F.Map {
     addLayer(layer: F.Layer | Array<F.Layer>) {
         if (layer instanceof Array) {
             for (let i = 0; i < layer.length; i++) {
-                this._original.addOverlay(layer[i]._original);
+                layer[i]._original.setMap(this._original);
             }
         } else {
-            this._original.addOverlay(layer._original);
+            layer._original.setMap(this._original);
         }
     }
 
@@ -79,48 +79,52 @@ class Map implements F.Map {
 @eventBinder
 class Marker implements F.Marker {
     _id: string;
-    _original: BMap.Marker;
+    _original: google.maps.Marker;
 
     constructor(latlng: F.LatLng, opt?: O.MarkerOption) {
-        let point = new BMap.Point(latlng[1], latlng[0]);
-        let opts = this.formatOpt(opt);
-        this._original = new BMap.Marker(point, opts);
+        let point = new google.maps.LatLng(latlng[0], latlng[1]);
+        let opts = this.formatOpt(opt, point);
+        this._original = new google.maps.Marker(opts);
     }
 
-    formatOpt (opt: O.MarkerOption = {}) {
+    formatOpt (opt: O.MarkerOption = {}, p: google.maps.LatLng) {
         return {
             icon: opt.icon ? opt.icon._original : null,
-            offset: opt.offset ? new BMap.Size(opt.offset[0], opt.offset[1]) : null,
-            enableDragging: opt.draggable
+            position: p,
+            // offset: opt.offset ? new google.maps.Size(opt.offset[0], opt.offset[1]) : null,
+            draggable: opt.draggable
         }
     }
     
     setLatLng(latlng: F.LatLng) {
-        let point = new BMap.Point(latlng[1], latlng[0]);
+        let point = new google.maps.LatLng(latlng[0], latlng[1]);
         this._original.setPosition(point);
         return this;
     }
 
     getLatLng(): F.LatLng {
         let p =  this._original.getPosition();
-        return [p.lat, p.lng];
+        return [p.lat(), p.lng()];
     }
+    
+    // TODO: change draggable property 
 }
 
 @eventBinder
 class Polyline implements F.Polyline {
     _id: string;
-    _original: BMap.Polyline;
+    _original: google.maps.Polyline;
  
     constructor(latlngs: F.LatLng[], opt?: O.PolylineOption) {
-        let points = latlngs.map(latlng => {
-            return new BMap.Point(latlng[1], latlng[0]);
+        let path = latlngs.map(latlng => {
+            return new google.maps.LatLng(latlng[0], latlng[1]);
         });
-        this._original = new BMap.Polyline(points, this.formatOpt(opt));
+        this._original = new google.maps.Polyline(this.formatOpt(opt, path));
     }   
 
-    formatOpt (opt: O.PolylineOption = {}) {
+    formatOpt (opt: O.PolylineOption = {}, path: google.maps.LatLng[]) {
         return {
+            path: path,
             strokeColor: opt.color || '#3388ff',
             strokeWeight: opt.weight || 3,
             strokeOpacity: opt.opacity || 1
@@ -128,34 +132,38 @@ class Polyline implements F.Polyline {
     }
 
     setPath(latlngs: F.LatLng[]) {
-        let points = latlngs.map(latlng => {
-            return new BMap.Point(latlng[1], latlng[0]);
+        let path = latlngs.map(latlng => {
+            return new google.maps.LatLng(latlng[0], latlng[1]);
         });
-        this._original.setPath(points);
+        this._original.setPath(path);
     }
 
     getPath(): F.LatLng[] {
-        let points = this._original.getPath() || [];
-        return points.map(item => {
-            return [item.lat, item.lng]
+        let points: google.maps.MVCArray<google.maps.LatLng> = this._original.getPath();
+        return points.getArray().map(item => {
+            return [item.lat(), item.lng()]
         });
     }
 }
 
 class Icon implements F.Icon {
     _id: string;
-    _original: BMap.Icon;
+    _original: google.maps.Icon;
 
     constructor(opt: O.IconOption) {
         let iconOption = this.formatOpt(opt);
-        this._original = new BMap.Icon(iconOption.url, iconOption.size, iconOption);
+        this._original = {
+            url: iconOption.url,
+            size: iconOption.size,
+            anchor: iconOption.anchor,
+        };
     }
 
     formatOpt(opt: O.IconOption = {}) {
         return {
-            anchor: opt.anchor ? new BMap.Size(opt.anchor[0], opt.anchor[1]) : null,
+            anchor: opt.anchor ? new google.maps.Point(opt.anchor[0], opt.anchor[1]) : null,
             url: opt.url,
-            size: opt.size ? new BMap.Size(opt.size[0], opt.size[1]) : null,
+            size: opt.size ? new google.maps.Size(opt.size[0], opt.size[1]) : null,
         }
     }
 
@@ -170,9 +178,9 @@ class Icon implements F.Icon {
     setAnchor(size: F.Size) {
 
     }
-}
+}``
 
-export default class B_Map implements F.Factory {
+export default class G_Map implements F.Factory {
     Util: F.Util;
 
     constructor () {
@@ -223,7 +231,7 @@ function eventBinder(constructor: Function) {
  * TOOD: how to off eventListener?
  */
 function formatEventObj (handler: Function): Function {
-    return function (e: BMap.Event) {
+    return function (e: google.maps.Event) {
         let event: F.Event = {
             type: e.type.replace(/^on/g, ''),
             target: this,
