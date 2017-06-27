@@ -31,3 +31,10 @@ export interface IconOption {
 export interface ViewportOption {
     margins: number[];
 }
+
+export interface EventListenerOptions {
+    eventName: string;
+    host: F.Layer;
+    handler?: Function;         // one of them must be set (handler | listener) 
+    listener?: any;
+}

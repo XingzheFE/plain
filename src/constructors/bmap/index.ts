@@ -1,6 +1,7 @@
 /// <reference path="./bmap.d.ts" />
 
 import F from '../../factory/index';
+import F_MapsEventListener from '../../factory/mapsEventListener';
 import * as O from '../../options/mapOptions';
 
 // BMap in not defined in this file
@@ -203,22 +204,30 @@ export default class B_Map implements F.Factory {
 };
 
 /**
- * @function set overlay eventListener
+ * @function Set overlay eventListener
  * @param {Function} constructor 
  */
 function eventBinder(constructor: Function) {
-    constructor.prototype.on = function(eventName: string, handler: Function) {
-        this._original.addEventListener(eventName, handler.bind(this));
+    constructor.prototype.on = function(eventName: string, handler: Function):  F.MapsEventListener {
+        let fn: Function = handler.bind(this);
+        let listener = this._original.addEventListener(eventName, fn);
+        return new F_MapsEventListener({
+            eventName: eventName,
+            host: this,
+            listener: listener,
+            handler: fn 
+        });
     }
-    constructor.prototype.off = function(eventName: string, handler: Function) {
-        this._original.removeEventListener(eventName, handler.bind(this));
+    // require MapEventListener
+    constructor.prototype.off = function(listener: F.MapsEventListener) {
+        this._original.removeEventListener(listener.eventName, listener.handler);
     }
 }
 
 /**
- * @function format event object
+ * @function Format event object
  * @param {Event} e 
- * TOOD: how to off eventListener?
+ * TOOD: How to off eventListener?
  */
 function formatEventObj (handler: Function): Function {
     return function (e: BMap.Event) {

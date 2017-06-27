@@ -1,6 +1,7 @@
 /// <reference path="./gmap.d.ts" />
 
 import F from '../../factory/index';
+import F_MapsEventListener from '../../factory/mapsEventListener';
 import * as O from '../../options/mapOptions';
 
 // google.maps in not defined in this file
@@ -185,9 +186,9 @@ export default class G_Map implements F.Factory {
 
     constructor () {
         this.Util = {
-            formatEvent(e: any = {}): F.Event {
+            formatEvent(e: any = {}): F.Event {              
                 return {
-                    type: e.type.replace(/^on/g, ''),
+                    type: e.ta.type,
                     target: this,
                     e: e
                 }
@@ -217,11 +218,20 @@ export default class G_Map implements F.Factory {
  * @param {Function} constructor 
  */
 function eventBinder(constructor: Function) {
-    constructor.prototype.on = function(eventName: string, handler: Function) {
-        this._original.addEventListener(eventName, handler.bind(this));
+    // return MapEventListener
+    constructor.prototype.on = function(eventName: string, handler: Function):  F.MapsEventListener {
+        let fn: Function = handler.bind(this);
+        let listener: google.maps.MapsEventListener = this._original.addListener(eventName, fn);
+        return new F_MapsEventListener({
+            eventName: eventName,
+            host: this,
+            listener: listener,
+            handler: fn 
+        });
     }
-    constructor.prototype.off = function(eventName: string, handler: Function) {
-        this._original.removeEventListener(eventName, handler.bind(this));
+    // require MapEventListener
+    constructor.prototype.off = function(listener: F.MapsEventListener) {
+        google.maps.event.removeListener(listener.listener);
     }
 }
 
@@ -231,7 +241,7 @@ function eventBinder(constructor: Function) {
  * TOOD: how to off eventListener?
  */
 function formatEventObj (handler: Function): Function {
-    return function (e: google.maps.Event) {
+    return function (e: google.maps.event) {        
         let event: F.Event = {
             type: e.type.replace(/^on/g, ''),
             target: this,

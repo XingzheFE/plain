@@ -58,9 +58,13 @@
         map.addLayer([marker, marker2]);
         map.addLayer(polyline);
 
-        marker.on('click', function(e) {
+        var listener = marker.on('click', function(e) {
             console.log(plain.Util.formatEvent.call(this, e));
         });
+        console.log(listener);
+        setTimeout(() => {
+            marker.off(listener);            
+        }, 2000);
     </script>
 </body>
 

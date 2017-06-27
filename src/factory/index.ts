@@ -6,6 +6,7 @@ import F_Layer from './layer';
 import F_Icon from './icon';
 import F_Size from './size';
 import F_Event from './event';
+import F_MapsEventListener from './mapsEventListener';
 import {  MapOption, MarkerOption, PolylineOption, IconOption } from '../options/mapOptions';
 
 export default F;
@@ -49,4 +50,6 @@ namespace F {
     export type Layer = F_Layer;
 
     export type Event = F_Event;
+    
+    export type MapsEventListener = F_MapsEventListener;
 }
