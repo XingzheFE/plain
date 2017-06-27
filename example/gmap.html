@@ -60,12 +60,14 @@
         map.addLayer([marker, marker2]);
         map.addLayer(polyline);
         function eventHandler (e) {
+            alert(e);
             console.log(plain.Util.formatEvent.call(this, e));
         }
         var listener = marker.on('click', eventHandler);
         setTimeout(() => {
+            console.log("remove listener");
             marker.off(listener);            
-        }, 2000);
+        }, 4000);
     </script>
 </body>
 
