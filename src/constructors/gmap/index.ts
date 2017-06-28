@@ -201,7 +201,7 @@ export default class G_Map implements F.Factory {
         this.Util = {
             formatEvent(e: any = {}): F.Event {              
                 return {
-                    type: e.ta.type,
+                    type: e.ta && e.ta.type,
                     target: this,
                     e: e
                 }

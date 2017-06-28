@@ -86,9 +86,10 @@ class Marker implements F.Marker {
 
     formatOpt (opt: O.MarkerOption = {}, latlng: F.LatLng): object {
         let markerOffset;
-        if (opt.icon && opt.icon.getOffset) {
-            
-        }
+        // if (opt.icon && opt.icon.getAnchor) {
+        //     let anchor = opt.icon.getAnchor();
+        //     markerOffset
+        // }
         return {
             map: null,
             position: [latlng[1], latlng[0]],
