@@ -51,6 +51,14 @@ class Map implements F.Map {
     getZoom() {
         return this._original.getZoom();
     }
+    
+    zoomIn() {
+        this._original.zoomIn();
+    }
+    
+    zoomOut() {
+        this._original.zoomOut();
+    }
 
     fitView(latlngs: F.LatLng[], opt?: O.ViewportOption) {
         let points= latlngs.map(p => {

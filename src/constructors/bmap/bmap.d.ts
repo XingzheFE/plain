@@ -11,6 +11,8 @@ declare module BMap {
         constructor(container: string | HTMLDivElement);
         getZoom(): number;
         setZoom(zoom: number): void;
+        zoomIn(): void;
+        zoomOut(): void;
         setCenter(center: Point| string): void;
         getCenter(): Point;
         panTo(center: Point, opts: PanOptions): void;

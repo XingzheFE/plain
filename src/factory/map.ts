@@ -9,9 +9,12 @@ interface Map extends Layer {
     clearLayers(): void;
     setZoom(zoom: number): void;
     getZoom(): void;
-    fitView(points: LatLng[], opt: O.viewportOption): void;
+    zoomIn(): void;
+    zoomOut(): void;
+    fitView(points: LatLng[], opt: O.ViewportOption): void;
     setCenter(center: LatLng): void;
     getCenter(): LatLng;
+    panTo(latlng: LatLng): void;
 }
 
 export default Map;
