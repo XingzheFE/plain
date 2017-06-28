@@ -179,7 +179,7 @@ class Icon implements F.Icon {
     setAnchor(size: F.Size) {
 
     }
-}``
+}
 
 export default class G_Map implements F.Factory {
     Util: F.Util;
@@ -211,7 +211,7 @@ export default class G_Map implements F.Factory {
     Icon(opt: O.IconOption): Icon {
         return new Icon(opt);
     }
-};
+}
 
 /**
  * @function set overlay eventListener
