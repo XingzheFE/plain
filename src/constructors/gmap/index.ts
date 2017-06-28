@@ -2,6 +2,7 @@
 import F from '../../factory/index';
 import F_MapsEventListener from '../../factory/mapsEventListener';
 import * as O from '../../options/mapOptions';
+import util from '../../utils';
 
 // google.maps in not defined in this file
 // But you will get this variable on window Object
@@ -11,7 +12,8 @@ import * as O from '../../options/mapOptions';
 class Map implements F.Map {
     _original: google.maps.Map;
     _id: string;
-
+    // _fitBound: google.maps.LatLngBounds;
+    
     constructor(opt: O.MapOption) {
         let centerPoint: google.maps.LatLng = new google.maps.LatLng(opt.center[0], opt.center[1]);
         let container = typeof opt.container === 'string' ? document.getElementById(opt.container) : opt.container;
@@ -62,13 +64,11 @@ class Map implements F.Map {
     }
     
     fitView(latlngs: F.LatLng[], opt?: O.ViewportOption) {
-        let points= latlngs.map(p => {
-            return {
-                lat: p[0],
-                lng: p[1]
-            }
+        let bound = util.getBound(latlngs).map(p => {
+            return new google.maps.LatLng(p[0], p[1]);
         });
-        this._original.setViewport(points);
+        let googleBound = new google.maps.LatLngBounds(bound[0], bound[1]);
+        this._original.fitBounds(googleBound);
     }
 
     setCenter(latlng: F.LatLng) {
