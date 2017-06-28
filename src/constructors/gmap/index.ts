@@ -19,7 +19,12 @@ class Map implements F.Map {
         let container = typeof opt.container === 'string' ? document.getElementById(opt.container) : opt.container;
         this._original = new google.maps.Map(container, {
             zoom: opt.zoom,
-            center: centerPoint
+            center: centerPoint,
+            mapTypeControl: false,
+            fullscreenControl: false,
+            scaleControl: false,
+            streetViewControl: false,
+            zoomControl: false
         });
     }
 
