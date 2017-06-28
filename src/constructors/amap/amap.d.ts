@@ -225,7 +225,7 @@ declare namespace AMap {
     
     export interface MarkerOptions {
         map?: Map;
-        position?: LngLat;
+        position?: LngLat | number[];
         offset?: Pixel;
         icon?: string | Icon;
         content?: string | object;

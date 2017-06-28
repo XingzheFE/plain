@@ -3,16 +3,20 @@
 import F from '../../factory/index';
 import F_MapsEventListener from '../../factory/mapsEventListener';
 import * as O from '../../options/mapOptions';
+import util from '../../utils';
 
 // AMap in not defined in this file
 // But you will get this variable on window Object
 // while loaded baidu map script
+// NOTICE: AMap library will cause memory leak !!
 
 @eventBinder
 class Map implements F.Map {
     _original: AMap.Map;
     _id: string;
-
+    private _boundMarkers: AMap.Marker[];      // For set Viewport
+    private _boundIcon: AMap.Icon;             // For set Viewport
+    
     constructor(opt: O.MapOption) {
         this._original = new AMap.Map(opt.container, {
             zoom: opt.zoom,
@@ -61,15 +65,28 @@ class Map implements F.Map {
     }
     
     fitView(latlngs: F.LatLng[], opt?: O.ViewportOption) {
-        let points= latlngs.map(p => {
-            return {
-                lat: p[0],
-                lng: p[1]
-            }
-        });
-        // TODO: get Bounds
-        // AMap require Overlayer array
-        // this._original.setFitView();
+        let bound = util.getBound(latlngs);     // length === 2
+        if (this._boundMarkers) {
+            bound.map((p, i, arr) => {
+                this._boundMarkers[i].setPosition([p[1], p[0]]);
+            });
+        } else {
+            console.log('new');
+            
+            this._boundIcon = new AMap.Icon({
+                size: new AMap.Size(0, 0)
+            });
+            this._boundMarkers = bound.map(latlng => {
+                return new AMap.Marker({
+                    map: this._original,
+                    icon: this._boundIcon,
+                    position: [latlng[1], latlng[0]],
+                });
+            });
+        }
+        this._original.setFitView(this._boundMarkers);
+        // Release memory
+        this._original.remove(this._boundMarkers);
     }
 
     setCenter(latlng: F.LatLng) {
@@ -79,6 +96,10 @@ class Map implements F.Map {
     getCenter(): F.LatLng {
         let center = this._original.getCenter();
         return [center.lat, center.lng];
+    }
+    
+    panTo(point: F.LatLng) {
+        // TODO
     }
 }
 

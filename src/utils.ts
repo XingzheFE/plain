@@ -26,7 +26,7 @@ export default {
             }
             if (latlng[1] < minLng) {
                 minLng = latlng[1];
-            } else if (latlng[0] > maxLng) {
+            } else if (latlng[1] > maxLng) {
                 maxLng = latlng[1];
             }
         });

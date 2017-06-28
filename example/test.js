@@ -19,7 +19,7 @@ var markerOpt = {
     draggable: true
 };
 var marker = plain.Marker([39.910, 116.404], markerOpt);
-var marker2 = plain.Marker([39.910, 116.402], markerOpt);
+var marker2 = plain.Marker([39.910, 116.39], markerOpt);
 var polyline = plain.Polyline(path, {
     color: "#f00",
     weight: 2,
@@ -43,3 +43,7 @@ setTimeout(() => {
     console.log("remove listener");
     marker.off(listener);            
 }, 4000);
+
+document.getElementById("btn-fitview").addEventListener("click", function () {
+   map.fitView(path);
+});
