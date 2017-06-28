@@ -90,6 +90,8 @@ class Marker implements F.Marker {
         return {
             icon: opt.icon ? opt.icon._original : null,
             // offset: opt.offset ? new BMap.Size(opt.offset[0], opt.offset[1]) : null,
+            raiseOnDrag: opt.raiseOnDrag ? opt.raiseOnDrag : true,
+            crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
             enableDragging: opt.draggable
         }
     }
@@ -169,6 +171,18 @@ class Icon implements F.Icon {
     setAnchor(size: F.Size) {
 
     }
+    
+    getImageUrl(): string {
+        return '';
+    }
+    
+    getAnchor(): F.Size {
+        return [];        
+    }
+    
+    getSize(): F.Size {
+        return [];
+    }
 }
 
 export default class B_Map implements F.Factory {
@@ -221,21 +235,5 @@ function eventBinder(constructor: Function) {
     // require MapEventListener
     constructor.prototype.off = function(listener: F.MapsEventListener) {
         this._original.removeEventListener(listener.eventName, listener.handler);
-    }
-}
-
-/**
- * @function Format event object
- * @param {Event} e 
- * TOOD: How to off eventListener?
- */
-function formatEventObj (handler: Function): Function {
-    return function (e: BMap.Event) {
-        let event: F.Event = {
-            type: e.type.replace(/^on/g, ''),
-            target: this,
-            e: e
-        };
-        return handler(event);
     }
 }

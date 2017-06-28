@@ -1,8 +1,12 @@
 import F from './factory/index';
 import LatLng from './factory/latlng';
 import O from './options/mapOptions';
+import A_Map from './constructors/amap/index';      // gaode map
 import B_Map from './constructors/bmap/index';      // baidu map
 import G_Map from './constructors/gmap/index';      // google map
+import util from './utils';
+// Error with import require: can not find module 'object-assign'
+// import objectAssign = require('object-assign');
 
 export default class Plain {
     FACTORYS: {[key: string]: F.Factory};
@@ -19,6 +23,7 @@ export default class Plain {
                 return that.factory.Util.formatEvent.call(this, e);
             }
         }
+        util.objectAssign(this.Util, util);
     }
 
     // Load the map factory plugin
@@ -26,8 +31,6 @@ export default class Plain {
         if(typeof factory === 'string') {
             switch (factory) {
                 case 'BMAP': {
-                    console.log('BMAP');
-                    
                     this.factory = new B_Map();
                     break;
                 }
@@ -36,7 +39,8 @@ export default class Plain {
                     break;
                 }
                 case 'AMAP': {
-                    // this.factory = new A_Map();
+                    this.factory = new A_Map();    
+                    break;
                 }
                 case 'LMAP': {
                     // this.factory = new L_Map();

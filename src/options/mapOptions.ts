@@ -14,6 +14,8 @@ export interface MarkerOption {
     icon?: F.Icon;
     // offset?: F.Size;
     draggable?: boolean;
+    crossOnDrag?: boolean;
+    raiseOnDrag?: boolean;
 }
 
 export interface PolylineOption {

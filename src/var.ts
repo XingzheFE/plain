@@ -1,3 +1,4 @@
-export {
-    DEBUG: boolean = true,
+export default {
+    DEBUG: true,
+    name: 'plain',
 }

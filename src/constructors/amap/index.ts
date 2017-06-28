@@ -14,34 +14,34 @@ class Map implements F.Map {
     _id: string;
 
     constructor(opt: O.MapOption) {
-        let centerPoint = new AMap.Point(opt.center[1] || 0, opt.center[0] || 0);
-        this._original = new AMap.Map(opt.container);
-        this._original.centerAndZoom(centerPoint, opt.zoom || 15);
-        this._original.enableScrollWheelZoom();
+        this._original = new AMap.Map(opt.container, {
+            zoom: opt.zoom,
+            center: opt.center.slice().reverse(),
+        });
     }
 
     addLayer(layer: F.Layer | Array<F.Layer>) {
         if (layer instanceof Array) {
             for (let i = 0; i < layer.length; i++) {
-                this._original.addOverlay(layer[i]._original);
+                layer[i]._original.setMap(this._original);
             }
         } else {
-            this._original.addOverlay(layer._original);
+            layer._original.setMap(this._original);
         }
     }
 
     removeLayer(layer: F.Layer | Array<F.Layer>) {
         if (layer instanceof Array) {
             for (let i = 0; i < layer.length; i++) {
-                this._original.removeOverlay(layer[i]._original);
+                layer[i]._original.setMap(null);
             }
         } else {
-            this._original.removeOverlay(layer._original);
+            layer._original.setMap(null);
         }
     }
 
     clearLayers() {
-        this._original.clearOverlays();
+        this._original.clearMap();
     }
 
     setZoom(zoom: number) {
@@ -59,14 +59,13 @@ class Map implements F.Map {
                 lng: p[1]
             }
         });
-        this._original.setViewport(points);
+        // TODO: get Bounds
+        // AMap require Overlayer array
+        // this._original.setFitView();
     }
 
     setCenter(latlng: F.LatLng) {
-        this._original.setCenter({
-            lat: latlng[0],
-            lng: latlng[1]
-        });
+        this._original.setCenter(new AMap.LngLat(latlng[1], latlng[0]));
     }
 
     getCenter(): F.LatLng {
@@ -81,16 +80,23 @@ class Marker implements F.Marker {
     _original: AMap.Marker;
 
     constructor(latlng: F.LatLng, opt?: O.MarkerOption) {
-        let point = new AMap.Point(latlng[1], latlng[0]);
-        let opts = this.formatOpt(opt);
-        this._original = new AMap.Marker(point, opts);
+        let opts: AMap.MarkerOptions = this.formatOpt(opt, latlng);
+        this._original = new AMap.Marker(opts);
     }
 
-    formatOpt (opt: O.MarkerOption = {}) {
+    formatOpt (opt: O.MarkerOption = {}, latlng: F.LatLng): object {
+        let markerOffset;
+        if (opt.icon && opt.icon.getOffset) {
+            
+        }
         return {
+            map: null,
+            position: [latlng[1], latlng[0]],
             icon: opt.icon ? opt.icon._original : null,
+            raiseOnDrag: opt.raiseOnDrag ? opt.raiseOnDrag : true,
+            crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
             // offset: opt.offset ? new AMap.Size(opt.offset[0], opt.offset[1]) : null,
-            enableDragging: opt.draggable
+            draggable: opt.draggable
         }
     }
     
@@ -112,14 +118,16 @@ class Polyline implements F.Polyline {
     _original: AMap.Polyline;
  
     constructor(latlngs: F.LatLng[], opt?: O.PolylineOption) {
-        let points = latlngs.map(latlng => {
-            return new AMap.Point(latlng[1], latlng[0]);
+        let path = latlngs.map(latlng => {
+            return [latlng[1], latlng[0]];
         });
-        this._original = new AMap.Polyline(points, this.formatOpt(opt));
+        let polylineOption = this.formatOpt(opt, path);
+        this._original = new AMap.Polyline(polylineOption);
     }   
 
-    formatOpt (opt: O.PolylineOption = {}) {
+    formatOpt (opt: O.PolylineOption = {}, path: number[][]) {
         return {
+            path: path,
             strokeColor: opt.color || '#3388ff',
             strokeWeight: opt.weight || 3,
             strokeOpacity: opt.opacity || 1
@@ -128,7 +136,7 @@ class Polyline implements F.Polyline {
 
     setPath(latlngs: F.LatLng[]) {
         let points = latlngs.map(latlng => {
-            return new AMap.Point(latlng[1], latlng[0]);
+            return [latlng[1], latlng[0]];
         });
         this._original.setPath(points);
     }
@@ -144,17 +152,21 @@ class Polyline implements F.Polyline {
 class Icon implements F.Icon {
     _id: string;
     _original: AMap.Icon;
-
+    anchor: F.Size;
+    
     constructor(opt: O.IconOption) {
         let iconOption = this.formatOpt(opt);
-        this._original = new AMap.Icon(iconOption.url, iconOption.size, iconOption);
+        this._original = new AMap.Icon(iconOption);
+        this.anchor = opt.anchor;
     }
 
     formatOpt(opt: O.IconOption = {}) {
+        let image = opt.url;
+        let size = opt.size ? new AMap.Size(opt.size[0], opt.size[1]) : null;
         return {
-            anchor: opt.anchor ? new AMap.Size(opt.anchor[0], opt.anchor[1]) : null,
-            url: opt.url,
-            size: opt.size ? new AMap.Size(opt.size[0], opt.size[1]) : null,
+            image: image,
+            size: size,
+            imageSize: size,
         }
     }
 
@@ -168,6 +180,18 @@ class Icon implements F.Icon {
 
     setAnchor(size: F.Size) {
 
+    }
+    
+    getImageUrl(): string {
+        return '';
+    }
+    
+    getAnchor(): F.Size {
+        return [];        
+    }
+    
+    getSize(): F.Size {
+        return [];
     }
 }
 
@@ -210,7 +234,7 @@ export default class B_Map implements F.Factory {
 function eventBinder(constructor: Function) {
     constructor.prototype.on = function(eventName: string, handler: Function):  F.MapsEventListener {
         let fn: Function = handler.bind(this);
-        let listener = this._original.addEventListener(eventName, fn);
+        let listener = this._original.on(eventName, fn);
         return new F_MapsEventListener({
             eventName: eventName,
             host: this,
@@ -220,22 +244,6 @@ function eventBinder(constructor: Function) {
     }
     // require MapEventListener
     constructor.prototype.off = function(listener: F.MapsEventListener) {
-        this._original.removeEventListener(listener.eventName, listener.handler);
-    }
-}
-
-/**
- * @function Format event object
- * @param {Event} e 
- * TOOD: How to off eventListener?
- */
-function formatEventObj (handler: Function): Function {
-    return function (e: AMap.Event) {
-        let event: F.Event = {
-            type: e.type.replace(/^on/g, ''),
-            target: this,
-            e: e
-        };
-        return handler(event);
+        this._original.off(listener.eventName, listener.handler);
     }
 }

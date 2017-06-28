@@ -22,6 +22,9 @@
     },
     "homepage": "https://github.com/XingzheFE/plain#readme",
     "devDependencies": {
+        "@types/node": "^8.0.4",
+        "@types/googlemaps": "^3.26.14",
+        "@types/leaflet": "^1.0.63",
         "karma": "^1.7.0",
         "karma-phantomjs-launcher": "^1.0.4",
         "mocha": "^3.4.2",
@@ -30,9 +33,5 @@
         "rollup-plugin-typescript": "^0.8.1",
         "rollup-watch": "^4.0.0",
         "should": "^11.2.1"
-    },
-    "dependencies": {
-        "@types/googlemaps": "^3.26.14",
-        "@types/leaflet": "^1.0.63"
     }
 }

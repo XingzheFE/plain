@@ -31,6 +31,8 @@ declare namespace AMap {
     
     /****** LngLat ******/
     export class LngLat {
+        lat: number;
+        lng: number;
         constructor(lng: number, lat: number);
         offset(w: number, s: number): LngLat;
         distance(lnglat: LngLat | LngLat[]): number;
@@ -52,13 +54,13 @@ declare namespace AMap {
     
     /****** Map *******/
     export class Map {
-        constructor(container: string|HTMLDivElement, opts: MapOptions);
+        constructor(container: string | Element, opts: MapOptions);
         poiOnAMAP(obj: object): void;
         detailOnAMAP(obj: object): void;
-        getZoom(): number:
+        getZoom(): number;
         getLayers(): any[];         // TODO: Layer[]
         getCenter(): LngLat;
-        getContainer(): HTMLDivElement;
+        getContainer(): Element;
         getCity(): any;
         getBounds(): Bounds;
         getlabelzIndex(): number;
@@ -71,9 +73,9 @@ declare namespace AMap {
         getScale(dpi: number): number;
         setZoom(zoom: number): void;
         setlabelzIndex(index: number): void;
-        setLayers(layers: Layers[]): void;
+        setLayers(layers: Overlayer[]): void;
         add(overlayers: Overlayer[]): void;
-        remove(overlayers: Overlayer[]);
+        remove(overlayers: Overlayer[]): void;
         setAllOverlays(type: any): Overlayer[]; // TODO:
         setCenter(position: LngLat): void;
         setZoomAndCenter(zoom: number, center: LngLat): void;
@@ -89,7 +91,7 @@ declare namespace AMap {
         setFitView(overlayers: Overlayer[]): void;
         clearMap(): void;
         destroy(): void;
-        plugin(name: string|stringp[], callback: Function): void;
+        plugin(name: string|string[], callback: Function): void;
         addControl(obj: object): void;
         removeControl(obj: object): void;
         clearInfoWindow(): void;
@@ -98,15 +100,15 @@ declare namespace AMap {
         lngLatToContainer(lnglat: LngLat): Pixel;
         setMapStyle(style: string): void;
         getMapStyle(): string;
-        setFeatures(features: array): void;
-        getFeatures(): array;
-        setDefaultLayer(layer: TIleLayer): void;
+        setFeatures(features: any[]): void;
+        getFeatures(): any[];
+        setDefaultLayer(layer: TileLayer): void;
     }
     export interface MapOptions {
         view?: View2D;
         zoom?: number;           // []
         zooms?: number[];        // pc[3,18], mobile[3,19]
-        center?: LngLat;
+        center?: LngLat | number[];
         layers?: any[];
         labelzIndex?: number;
         lang?: string;
@@ -123,7 +125,6 @@ declare namespace AMap {
         showBuildingBlock?: boolean;
         features?: any[];
         mapStyle?: string;
-        showBuildingBlock?: boolean; 
     }
     
     /******** View2D ********/
@@ -132,10 +133,10 @@ declare namespace AMap {
     }
     
     export interface View2DOptions {
-        center: LngLat;
-        rotation: number;
-        zoom: number;
-        crs: string;
+        center?: LngLat;
+        rotation?: number;
+        zoom?: number;
+        crs?: string;
     }
     
     /******* event *******/
@@ -151,10 +152,10 @@ declare namespace AMap {
     }
     
     export interface MapsEvent {
-        lnglat: LngLat;
-        pixel: Pixel;
-        type: string;
-        target: object;
+        lnglat?: LngLat;
+        pixel?: Pixel;
+        type?: string;
+        target?: object;
     }
     
     /****** TileLayer *******/
@@ -172,15 +173,15 @@ declare namespace AMap {
     }
     
     export interface TileLayerOptions {
-        map: Map;
-        titleSize: number;
-        tileUrl: string;
-        errorUrl: string;
-        getTileUrl: string | Function(x: number, y: number, z: number);
-        zIndex: number;
-        opacity: number;
-        zooms: number[];
-        detectRetina: boolean;
+        map?: Map;
+        titleSize?: number;
+        tileUrl?: string;
+        errorUrl?: string;
+        getTileUrl?: string | { Function(x: number, y: number, z: number): string};
+        zIndex?: number;
+        opacity?: number;
+        zooms?: number[];
+        detectRetina?: boolean;
     }
     
     /******* Marker *******/
@@ -243,7 +244,7 @@ declare namespace AMap {
         clickable?: boolean;
         shape?: MarkerShape;
         extData?: any;
-        label: {content: string | Element, offset: number[]};
+        label?: {content: string | Element, offset: number[]};
     }
     
     export class MarkerShape {
@@ -251,8 +252,8 @@ declare namespace AMap {
     }
     
     export interface MarkerShapeOptions {
-        coords: number[],
-        type: string
+        coords?: number[],
+        type?: string
     }
     
     /******* Icon ********/
@@ -265,17 +266,16 @@ declare namespace AMap {
     export interface IconOptions {
         // You'd better set size to new AMap.Size(19, 31)
         // Because AMap.Icon can not set offset
-        size: Size;
-        imageOffset: Pixel;
-        image: string;
-        imageOffset: Size;
+        size?: Size;
+        imageOffset?: Pixel;
+        image?: string;
     }
     
     /******* Polyline ********/
     export class Polyline extends Overlayer {
         constructor(opt: PolylineOptions);
-        getPath(): LngLat[];
-        setPath(lnglats: LngLat[]): void;
+        getPath(): number[][];
+        setPath(lnglats: number[][]): void;
         setOptions(opt: PolylineOptions): void;
         getOptions(): PolylineOptions;
         getLength(): number;                // m

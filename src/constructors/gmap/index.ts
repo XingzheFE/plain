@@ -1,4 +1,3 @@
-/// <reference path="./gmap.d.ts" />
 
 import F from '../../factory/index';
 import F_MapsEventListener from '../../factory/mapsEventListener';
@@ -93,6 +92,8 @@ class Marker implements F.Marker {
             icon: opt.icon ? opt.icon._original : null,
             position: p,
             // offset: opt.offset ? new google.maps.Size(opt.offset[0], opt.offset[1]) : null,
+            raiseOnDrag: opt.raiseOnDrag ? opt.raiseOnDrag : true,
+            crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
             draggable: opt.draggable
         }
     }
@@ -179,6 +180,18 @@ class Icon implements F.Icon {
     setAnchor(size: F.Size) {
 
     }
+    
+    getImageUrl(): string {
+        return '';
+    }
+    
+    getAnchor(): F.Size {
+        return [];        
+    }
+    
+    getSize(): F.Size {
+        return [];
+    }
 }
 
 export default class G_Map implements F.Factory {
@@ -235,19 +248,5 @@ function eventBinder(constructor: Function) {
     }
 }
 
-/**
- * @function format event object
- * @param {Event} e 
- * TOOD: how to off eventListener?
- */
-function formatEventObj (handler: Function): Function {
-    return function (e: google.maps.event) {        
-        let event: F.Event = {
-            type: e.type.replace(/^on/g, ''),
-            target: this,
-            e: e
-        };
-        return handler(event);
-    }
-}
+
 
