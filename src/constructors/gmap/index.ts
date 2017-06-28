@@ -34,10 +34,10 @@ class Map implements F.Map {
     removeLayer(layer: F.Layer | Array<F.Layer>) {
         if (layer instanceof Array) {
             for (let i = 0; i < layer.length; i++) {
-                this._original.removeOverlay(layer[i]._original);
+                layer[i]._original.setMap(null);
             }
         } else {
-            this._original.removeOverlay(layer._original);
+            layer._original.setMap(null);
         }
     }
 
