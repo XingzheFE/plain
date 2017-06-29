@@ -85,7 +85,11 @@ class Map implements F.Map {
 
     getCenter(): F.LatLng {
         let center = this._original.getCenter();
-        return [center.lat, center.lng];
+        return [center.lat(), center.lng()];
+    }
+    
+    panTo(latlng: F.LatLng): void {
+        this._original.panTo(new google.maps.LatLng(latlng[0], latlng[1]));
     }
 }
 

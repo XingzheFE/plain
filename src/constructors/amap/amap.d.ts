@@ -86,7 +86,7 @@ declare namespace AMap {
         setDefaultCursor(cursor: string): void;
         zoomIn(): void;
         zoomOut(): void;
-        panTo(position: LngLat): void;
+        panTo(position: LngLat | number[]): void;
         panBy(x: number, y: number): void;
         setFitView(overlayers: Overlayer[]): void;
         clearMap(): void;

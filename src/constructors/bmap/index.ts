@@ -81,6 +81,10 @@ class Map implements F.Map {
         let center = this._original.getCenter();
         return [center.lat, center.lng];
     }
+    
+    panTo(latlng: F.LatLng) {
+        this._original.panTo(new BMap.Point(latlng[1], latlng[0]));
+    }
 }
 
 @eventBinder

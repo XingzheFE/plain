@@ -15,7 +15,7 @@ declare module BMap {
         zoomOut(): void;
         setCenter(center: Point| string): void;
         getCenter(): Point;
-        panTo(center: Point, opts: PanOptions): void;
+        panTo(center: Point, opts?: PanOptions): void;
         addOverlay(l: Overlay): void;
         removeOverlay(l: Overlay): void;
         centerAndZoom(center: Point, zoom: number): void;

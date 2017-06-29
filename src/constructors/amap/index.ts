@@ -98,8 +98,8 @@ class Map implements F.Map {
         return [center.lat, center.lng];
     }
     
-    panTo(point: F.LatLng) {
-        // TODO
+    panTo(latlng: F.LatLng) {
+        this._original.panTo(latlng.slice().reverse());
     }
 }
 
