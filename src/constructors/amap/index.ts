@@ -23,8 +23,8 @@ class Map implements F.Map {
         this.MAP_TYPE = {
             HYBRID: 'HYBRID',
             NORMAL: 'NORMAL',
-            TERRAIN: 'TERRAIN',
             SATELLITE: 'SATELLITE',
+            // TERRAIN: 'TERRAIN',
         };
         this._original = new AMap.Map(opt.container, {
             zoom: opt.zoom,
@@ -79,8 +79,6 @@ class Map implements F.Map {
                 this._boundMarkers[i].setPosition([p[1], p[0]]);
             });
         } else {
-            console.log('new');
-            
             this._boundIcon = new AMap.Icon({
                 size: new AMap.Size(0, 0)
             });

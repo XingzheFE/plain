@@ -25,7 +25,6 @@ var variable = {
     DEBUG: true,
     name: 'plain',
 };
-//# sourceMappingURL=var.js.map
 
 var util = {
     log: function (v) {
@@ -69,14 +68,12 @@ var util = {
         return target;
     }
 };
-//# sourceMappingURL=utils.js.map
 
 var Map = (function () {
     function Map(opt) {
         this.MAP_TYPE = {
             HYBRID: 'HYBRID',
             NORMAL: 'NORMAL',
-            TERRAIN: 'TERRAIN',
             SATELLITE: 'SATELLITE',
         };
         this._original = new AMap.Map(opt.container, {
@@ -128,7 +125,6 @@ var Map = (function () {
             });
         }
         else {
-            console.log('new');
             this._boundIcon = new AMap.Icon({
                 size: new AMap.Size(0, 0)
             });
@@ -327,7 +323,6 @@ var Map$1 = (function () {
         this.MAP_TYPE = {
             HYBRID: 'HYBRID',
             NORMAL: 'NORMAL',
-            TERRAIN: 'TERRAIN',
             SATELLITE: 'SATELLITE',
         };
     }

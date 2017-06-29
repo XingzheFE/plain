@@ -22,8 +22,8 @@ class Map implements F.Map {
         this.MAP_TYPE = {
             HYBRID: 'HYBRID',
             NORMAL: 'NORMAL',
-            TERRAIN: 'TERRAIN',
             SATELLITE: 'SATELLITE',
+            // TERRAIN: 'TERRAIN',
         };
     }
 

@@ -5,11 +5,28 @@ var path = [
     [39.710, 118]
 ];
 
+var plain = new Plain().use('AMAP');
+
 var map = plain.Map({
-    container: document.getElementById("map"),
+    container: document.getElementById("amap"),
     center: [39.910, 116.404],
     zoom: 15
 });
+
+plain.use('BMAP');
+var map2 = plain.Map({
+    container: document.getElementById("bmap"),
+    center: [39.910, 116.404],
+    zoom: 15
+});
+
+plain.use('GMAP');
+var map3 = plain.Map({
+    container: document.getElementById("gmap"),
+    center: [39.910, 116.404],
+    zoom: 15
+});
+plain.use('AMAP');
 
 var icon = plain.Icon({
     url: 'https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon.png',

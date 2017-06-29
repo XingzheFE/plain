@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Plain</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+        #amap,
+        #bmap,
+        #gmap {
+            box-shadow: 2px 0px 4px 0px rgba(0,0,0,0.5);
+            height: 33%;   
+            margin-bottom: 5px;    
+        }
+        #btn-fitview {
+            position: fixed;
+            top: 0;
+            right: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="amap">loading</div>
+    <div id="bmap">loading</div>
+    <div id="gmap">loading</div>
+    <button id="btn-fitview">fitView</button>
+    <!--do not use async defer-->
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=c6cf0a6f81c01e6226691a7308962357"></script> 
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=hPKNosYElVbALMK2ySnseejdXN7y8nqT"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAN8W2vq0_ipEqUFrSvX8n411V_TmPlg5s" type="text/javascript"></script>
+    <script src="../dist/plain.js"></script>
+    <script src="./index.js"></script>
+</body>
+
+</html>
