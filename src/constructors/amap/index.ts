@@ -114,11 +114,6 @@ class Marker implements F.Marker {
     }
 
     formatOpt (opt: O.MarkerOption = {}, latlng: F.LatLng): object {
-        let markerOffset;
-        // if (opt.icon && opt.icon.getAnchor) {
-        //     let anchor = opt.icon.getAnchor();
-        //     markerOffset
-        // }
         return {
             map: null,
             position: [latlng[1], latlng[0]],
@@ -131,8 +126,7 @@ class Marker implements F.Marker {
     }
     
     setLatLng(latlng: F.LatLng) {
-        let point = new AMap.Point(latlng[1], latlng[0]);
-        this._original.setPosition(point);
+        this._original.setPosition(latlng.slice().reverse());
         return this;
     }
 

@@ -195,7 +195,7 @@ declare namespace AMap {
         setClickable(clickable: boolean): void;
         getClickable(): boolean;
         getPosition(): LngLat;
-        setPosition(lnglat: LngLat): void;
+        setPosition(lnglat: LngLat | number[]): void;
         setAngle(angle: number): void;
         setLabel(label: object): void;
         getLabel(): object;
@@ -274,7 +274,7 @@ declare namespace AMap {
     /******* Polyline ********/
     export class Polyline extends Overlayer {
         constructor(opt: PolylineOptions);
-        getPath(): number[][];
+        getPath(): LngLat[];
         setPath(lnglats: number[][]): void;
         setOptions(opt: PolylineOptions): void;
         getOptions(): PolylineOptions;
