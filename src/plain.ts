@@ -35,7 +35,7 @@ export default class Plain {
                     break;
                 }
                 case 'GMAP': {
-                    this.factory = new G_Map();    
+                    this.factory = new G_Map();
                     break;
                 }
                 case 'AMAP': {

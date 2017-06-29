@@ -1,9 +1,11 @@
 import Layer from './layer';
 import LatLng from './latlng';
+import MapType from './mapType';
 import * as O from '../options/mapOptions';
 
 interface Map extends Layer {
     _original: object;          // original map object, create in constructor method
+    MAP_TYPE: MapType;
     addLayer<T>(layer: T | Array<T>): T | Array<T>;
     removeLayer<T>(layer: T | Array<T>): void;
     clearLayers(): void;
@@ -15,6 +17,7 @@ interface Map extends Layer {
     setCenter(center: LatLng): void;
     getCenter(): LatLng;
     panTo(latlng: LatLng): void;
+    setMapType(type: string): void;
 }
 
 export default Map;

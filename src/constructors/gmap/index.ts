@@ -12,6 +12,7 @@ import util from '../../utils';
 class Map implements F.Map {
     _original: google.maps.Map;
     _id: string;
+    MAP_TYPE: F.MapType;
     // _fitBound: google.maps.LatLngBounds;
     
     constructor(opt: O.MapOption) {
@@ -26,6 +27,12 @@ class Map implements F.Map {
             streetViewControl: false,
             zoomControl: false
         });
+        this.MAP_TYPE = {
+            HYBRID: 'HYBRID',
+            NORMAL: 'NORMAL',
+            TERRAIN: 'TERRAIN',
+            SATELLITE: 'SATELLITE',
+        };
     }
 
     addLayer(layer: F.Layer | Array<F.Layer>) {
@@ -81,6 +88,28 @@ class Map implements F.Map {
             lat: latlng[0],
             lng: latlng[1]
         });
+    }
+    
+    setMapType(type: string) {
+        let { MAP_TYPE } = this;
+        switch (type) {
+            case MAP_TYPE.HYBRID: {
+                this._original.setMapTypeId(google.maps.MapTypeId.HYBRID);
+                break;
+            }
+            case MAP_TYPE.NORMAL: {
+                this._original.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+                break;
+            }
+            case MAP_TYPE.SATELLITE: {
+                this._original.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+                break;
+            }
+            case MAP_TYPE.TERRAIN: {
+                this._original.setMapTypeId(google.maps.MapTypeId.TERRAIN);
+                break;
+            }
+        }
     }
 
     getCenter(): F.LatLng {

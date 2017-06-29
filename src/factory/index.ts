@@ -6,6 +6,7 @@ import F_Layer from './layer';
 import F_Icon from './icon';
 import F_Size from './size';
 import F_Event from './event';
+import F_MapType from './mapType';
 import F_MapsEventListener from './mapsEventListener';
 import {  MapOption, MarkerOption, PolylineOption, IconOption } from '../options/mapOptions';
 
@@ -36,20 +37,13 @@ namespace F {
     }
 
     export type Map = F_Map;
-
     export type Marker = F_Marker;
-
-    export type Polyline = F_Polyline;
-    
+    export type Polyline = F_Polyline;    
     export type Icon = F_Icon;
-
     export type Size = F_Size;
-
     export type LatLng = F_LatLng;
-
     export type Layer = F_Layer;
-
-    export type Event = F_Event;
-    
-    export type MapsEventListener = F_MapsEventListener;
+    export type Event = F_Event;    
+    export type MapType = F_MapType;
+    export type MapsEventListener = F_MapsEventListener;    
 }

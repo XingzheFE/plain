@@ -160,6 +160,8 @@ declare namespace AMap {
     
     /****** TileLayer *******/
     export class TileLayer {
+        RoadNet: RoadNet;
+        Satellite: Satellite;        
         constructor(tileOpt: TileLayerOptions);
         setOpacity(alpha: number): void;
         show(): void;
@@ -170,6 +172,13 @@ declare namespace AMap {
         getZooms(): any[];
         setzIndex(index: number): void;
         setMap(map: Map): void;
+    }
+    
+    export class RoadNet {
+        
+    }
+    export class Satellite {
+        
     }
     
     export interface TileLayerOptions {

@@ -12,12 +12,19 @@ import * as O from '../../options/mapOptions';
 class Map implements F.Map {
     _original: BMap.Map;
     _id: string;
-
+    MAP_TYPE: F.MapType;
+    
     constructor(opt: O.MapOption) {
         let centerPoint = new BMap.Point(opt.center[1] || 0, opt.center[0] || 0);
         this._original = new BMap.Map(opt.container);
         this._original.centerAndZoom(centerPoint, opt.zoom || 15);
         this._original.enableScrollWheelZoom();
+        this.MAP_TYPE = {
+            HYBRID: 'HYBRID',
+            NORMAL: 'NORMAL',
+            TERRAIN: 'TERRAIN',
+            SATELLITE: 'SATELLITE',
+        };
     }
 
     addLayer(layer: F.Layer | Array<F.Layer>) {
@@ -84,6 +91,28 @@ class Map implements F.Map {
     
     panTo(latlng: F.LatLng) {
         this._original.panTo(new BMap.Point(latlng[1], latlng[0]));
+    }
+    
+    setMapType(type: string) {
+        let { MAP_TYPE } = this;
+        switch (type) {
+            case MAP_TYPE.HYBRID: {
+                this._original.setMapType(BMAP_HYBRID_MAP);
+                break;
+            }
+            case MAP_TYPE.NORMAL: {
+                this._original.setMapType(BMAP_NORMAL_MAP);
+                break;
+            }
+            case MAP_TYPE.SATELLITE: {
+                this._original.setMapType(BMAP_SATELLITE_MAP);
+                break;
+            }
+            case MAP_TYPE.TERRAIN: {
+                // TODO
+                break;
+            }
+        }
     }
 }
 

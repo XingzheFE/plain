@@ -14,10 +14,18 @@ import util from '../../utils';
 class Map implements F.Map {
     _original: AMap.Map;
     _id: string;
+    MAP_TYPE: F.MapType;
+    
     private _boundMarkers: AMap.Marker[];      // For set Viewport
     private _boundIcon: AMap.Icon;             // For set Viewport
     
     constructor(opt: O.MapOption) {
+        this.MAP_TYPE = {
+            HYBRID: 'HYBRID',
+            NORMAL: 'NORMAL',
+            TERRAIN: 'TERRAIN',
+            SATELLITE: 'SATELLITE',
+        };
         this._original = new AMap.Map(opt.container, {
             zoom: opt.zoom,
             center: opt.center.slice().reverse(),
@@ -100,6 +108,28 @@ class Map implements F.Map {
     
     panTo(latlng: F.LatLng) {
         this._original.panTo(latlng.slice().reverse());
+    }
+    
+    setMapType(type: string) {
+        let { MAP_TYPE } = this;
+        switch (type) {
+            case MAP_TYPE.HYBRID: {
+                this._original.setLayers([new AMap.TileLayer.Satellite(), new AMap.TileLayer.RoadNet()]);
+                break;
+            }
+            case MAP_TYPE.NORMAL: {
+                this._original.setLayers([new AMap.TileLayer()]);
+                break;
+            }
+            case MAP_TYPE.SATELLITE: {
+                this._original.setLayers([new AMap.TileLayer.Satellite()]);
+                break;
+            }
+            case MAP_TYPE.TERRAIN: {
+                // TODO
+                break;
+            }
+        }
     }
 }
 
