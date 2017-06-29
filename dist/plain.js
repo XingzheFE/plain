@@ -25,6 +25,7 @@ var variable = {
     DEBUG: true,
     name: 'plain',
 };
+//# sourceMappingURL=var.js.map
 
 var util = {
     log: function (v) {
@@ -68,6 +69,7 @@ var util = {
         return target;
     }
 };
+//# sourceMappingURL=utils.js.map
 
 var Map = (function () {
     function Map(opt) {
@@ -299,6 +301,24 @@ var B_Map = (function () {
     };
     B_Map.prototype.Icon = function (opt) {
         return new Icon(opt);
+    };
+    B_Map.prototype.load = function (key, resolve, reject) {
+        if (window.AMap) {
+            resolve && resolve();
+            return;
+        }
+        var callbackName = 'map_init_' + Math.random().toString(16).substr(2);
+        var body = document.body;
+        var script = document.createElement("SCRIPT");
+        var url = "https://webapi.amap.com/maps?v=1.3&key=" + key + "&callback=" + callbackName;
+        script.setAttribute("src", url);
+        script.setAttribute("defer", "");
+        script.setAttribute("async", "");
+        body.appendChild(script);
+        window[callbackName] = function () {
+            resolve && resolve();
+            delete window[callbackName];
+        };
     };
     return B_Map;
 }());
@@ -533,6 +553,24 @@ var B_Map$1 = (function () {
     };
     B_Map.prototype.Icon = function (opt) {
         return new Icon$1(opt);
+    };
+    B_Map.prototype.load = function (key, resolve, reject) {
+        if (window.BMap) {
+            resolve && resolve();
+            return;
+        }
+        var callbackName = 'map_init_' + Math.random().toString(16).substr(2);
+        var body = document.body;
+        var script = document.createElement("SCRIPT");
+        var url = "https://api.map.baidu.com/api?v=2.0&ak=" + key + "&callback=" + callbackName;
+        script.setAttribute("src", url);
+        script.setAttribute("defer", "");
+        script.setAttribute("async", "");
+        body.appendChild(script);
+        window[callbackName] = function () {
+            resolve && resolve();
+            delete window[callbackName];
+        };
     };
     return B_Map;
 }());
@@ -781,6 +819,24 @@ var G_Map = (function () {
     G_Map.prototype.Icon = function (opt) {
         return new Icon$2(opt);
     };
+    G_Map.prototype.load = function (key, resolve, reject) {
+        if (window.google.maps) {
+            resolve && resolve();
+            return;
+        }
+        var callbackName = 'map_init_' + Math.random().toString(16).substr(2);
+        var body = document.body;
+        var script = document.createElement("SCRIPT");
+        var url = "https://maps.googleapis.com/maps/api/js?key=" + key + "&callback=" + callbackName;
+        script.setAttribute("src", url);
+        script.setAttribute("defer", "");
+        script.setAttribute("async", "");
+        body.appendChild(script);
+        window[callbackName] = function () {
+            resolve && resolve();
+            delete window[callbackName];
+        };
+    };
     return G_Map;
 }());
 function eventBinder$2(constructor) {
@@ -810,7 +866,7 @@ var Plain = (function () {
         };
         util.objectAssign(this.Util, util);
     }
-    Plain.prototype.use = function (factory) {
+    Plain.prototype.use = function (factory, key) {
         if (typeof factory === 'string') {
             switch (factory) {
                 case 'BMAP': {
@@ -849,6 +905,9 @@ var Plain = (function () {
     Plain.prototype.Icon = function (_a) {
         var opt = _a[0];
         return this.factory.Icon(opt);
+    };
+    Plain.prototype.loadMap = function (key, resolve, reject) {
+        this.factory.load(key, resolve, reject);
     };
     __decorate([
         tagging()

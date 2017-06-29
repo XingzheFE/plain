@@ -261,6 +261,26 @@ export default class B_Map implements F.Factory {
     Icon(opt: O.IconOption): Icon {
         return new Icon(opt);
     }
+    
+    // Load map script
+    load(key: string, resolve: Function, reject: Function): void {
+        if ((<any>window).BMap) {
+            resolve && resolve();
+            return;
+        }
+        let callbackName = 'map_init_' + Math.random().toString(16).substr(2);
+        let body = document.body;
+        let script = document.createElement("SCRIPT");
+        let url = "https://api.map.baidu.com/api?v=2.0&ak=" + key + "&callback=" + callbackName;
+        script.setAttribute("src", url);
+        script.setAttribute("defer", "");
+        script.setAttribute("async", "");
+        body.appendChild(script);
+        (<any>window)[callbackName] = function () {
+            resolve && resolve();
+            delete (<any>window)[callbackName];
+        }
+    }
 };
 
 /**

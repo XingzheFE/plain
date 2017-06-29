@@ -275,6 +275,26 @@ export default class G_Map implements F.Factory {
     Icon(opt: O.IconOption): Icon {
         return new Icon(opt);
     }
+    
+    // Load map script
+    load(key: string, resolve: Function, reject: Function): void {
+        if ((<any>window).google.maps) {
+            resolve && resolve();
+            return;
+        }
+        let callbackName = 'map_init_' + Math.random().toString(16).substr(2);
+        let body = document.body;
+        let script = document.createElement("SCRIPT");
+        let url = "https://maps.googleapis.com/maps/api/js?key=" + key + "&callback=" + callbackName;
+        script.setAttribute("src", url);
+        script.setAttribute("defer", "");
+        script.setAttribute("async", "");
+        body.appendChild(script);
+        (<any>window)[callbackName] = function () {
+            resolve && resolve();
+            delete (<any>window)[callbackName];
+        }
+    }
 }
 
 /**

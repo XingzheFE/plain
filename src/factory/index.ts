@@ -20,11 +20,13 @@ namespace F {
      * @description Type for map factory plugin
      */
     export interface Factory {
+        Util: Util;
+        
         Map(opt:  MapOption): Map;
         Marker(point: LatLng, opt?: MarkerOption): Marker;
         Polyline(points: Array<LatLng>, opt?: PolylineOption): Polyline;
         Icon(opt: IconOption): Icon;
-        Util: Util;
+        load(key: string, resolve?: Function, reject?: Function): void;
     }
 
     /**

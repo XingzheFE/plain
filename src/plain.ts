@@ -27,7 +27,7 @@ export default class Plain {
     }
 
     // Load the map factory plugin
-    use(factory: F.Factory | string): Plain {
+    use(factory: F.Factory | string, key?: string): Plain {
         if(typeof factory === 'string') {
             switch (factory) {
                 case 'BMAP': {
@@ -76,7 +76,9 @@ export default class Plain {
         return this.factory.Icon(opt);
     }
     
-    
+    loadMap(key: string, resolve: Function, reject: Function): void {
+        this.factory.load(key, resolve, reject);
+    }
 }
 
 /**
