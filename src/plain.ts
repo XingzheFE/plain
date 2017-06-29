@@ -75,6 +75,8 @@ export default class Plain {
     Icon([opt] : [O.IconOption]) {
         return this.factory.Icon(opt);
     }
+    
+    
 }
 
 /**

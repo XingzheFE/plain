@@ -42,13 +42,15 @@ marker.on('dragend', function (e) {
     console.log(event);
 });
 
-setTimeout(() => {
-    console.log("remove listener");
-    marker.off(listener);            
-}, 4000);
+// setTimeout(() => {
+//     console.log("remove listener");
+//     marker.off(listener);            
+// }, 4000);
 
 map.fitView(path);
-
+map.on('rightclick', function (e) {
+    console.log(plain.Util.formatEvent.call(this, e));
+});
 document.getElementById("btn-fitview").addEventListener("click", function () {
-   map.fitView(path);
+    map.fitView(path);
 });

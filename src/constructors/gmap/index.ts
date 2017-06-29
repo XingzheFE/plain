@@ -245,11 +245,16 @@ export default class G_Map implements F.Factory {
 
     constructor () {
         this.Util = {
-            formatEvent(e: any = {}): F.Event {              
+            formatEvent(e: any = {}): F.Event {
+                let point;
+                if (e.latLng) {
+                    point = [e.latLng.lat(), e.latLng.lng()];
+                }            
                 return {
                     type: e.ta && e.ta.type,
                     target: this,
-                    e: e
+                    e: e,
+                    p: point,
                 }
             }
         }

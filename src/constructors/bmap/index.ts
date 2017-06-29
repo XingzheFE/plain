@@ -232,10 +232,15 @@ export default class B_Map implements F.Factory {
     constructor () {
         this.Util = {
             formatEvent(e: any = {}): F.Event {
+                let point;
+                if (e.point) {
+                    point = [e.point.lat, e.point.lng];
+                }
                 return {
                     type: e.type.replace(/^on/g, ''),
                     target: this,
-                    e: e
+                    e: e,
+                    p: point,
                 }
             }
         }

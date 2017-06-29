@@ -275,10 +275,15 @@ var B_Map = (function () {
         this.Util = {
             formatEvent: function (e) {
                 if (e === void 0) { e = {}; }
+                var point;
+                if (e.lnglat) {
+                    point = [e.lnglat.lat, e.lnglat.lng];
+                }
                 return {
                     type: e.type.replace(/^on/g, ''),
                     target: this,
-                    e: e
+                    e: e,
+                    p: point
                 };
             }
         };
@@ -504,10 +509,15 @@ var B_Map$1 = (function () {
         this.Util = {
             formatEvent: function (e) {
                 if (e === void 0) { e = {}; }
+                var point;
+                if (e.point) {
+                    point = [e.point.lat, e.point.lng];
+                }
                 return {
                     type: e.type.replace(/^on/g, ''),
                     target: this,
-                    e: e
+                    e: e,
+                    p: point,
                 };
             }
         };
@@ -746,10 +756,15 @@ var G_Map = (function () {
         this.Util = {
             formatEvent: function (e) {
                 if (e === void 0) { e = {}; }
+                var point;
+                if (e.latLng) {
+                    point = [e.latLng.lat(), e.latLng.lng()];
+                }
                 return {
                     type: e.ta && e.ta.type,
                     target: this,
-                    e: e
+                    e: e,
+                    p: point,
                 };
             }
         };
