@@ -46,5 +46,13 @@ export default {
             }
         }
         return target;
+    },
+    
+    // GCJ02 to BD09
+    g2b (latlngs: LatLng[]): LatLng[] {
+        return latlngs.map(latlng => {
+            // TODO
+            return latlng;
+        });
     }
 }

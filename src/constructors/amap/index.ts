@@ -3,6 +3,7 @@
 import F from '../../factory/index';
 import F_MapsEventListener from '../../factory/mapsEventListener';
 import * as O from '../../options/mapOptions';
+import D from '../../options/default';
 import util from '../../utils';
 
 // AMap in not defined in this file
@@ -178,11 +179,12 @@ class Polyline implements F.Polyline {
     }   
 
     formatOpt (opt: O.PolylineOption = {}, path: number[][]) {
+        util.objectAssign(D.polyline, opt);
         return {
             path: path,
-            strokeColor: opt.color || '#3388ff',
-            strokeWeight: opt.weight || 3,
-            strokeOpacity: opt.opacity || 1
+            strokeColor: D.polyline.color,
+            strokeWeight: D.polyline.weight,
+            strokeOpacity: D.polyline.opacity
         }
     }
 

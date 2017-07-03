@@ -60,3 +60,8 @@ plain.loadMap('hPKNosYElVbALMK2ySnseejdXN7y8nqT', (e) => {
         map.fitView(path);
     });
 });
+
+
+window.onbeforeunload = function (e) {
+    // return '确定离开？';
+}

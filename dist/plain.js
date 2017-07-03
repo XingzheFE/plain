@@ -21,11 +21,18 @@ var MapsEventListener = (function () {
     return MapsEventListener;
 }());
 
+var D = {
+    polyline: {
+        color: '#3388ff',
+        weight: 3,
+        opacity: 0.8,
+    }
+};
+
 var variable = {
     DEBUG: true,
     name: 'plain',
 };
-//# sourceMappingURL=var.js.map
 
 var util = {
     log: function (v) {
@@ -67,9 +74,13 @@ var util = {
             }
         }
         return target;
+    },
+    g2b: function (latlngs) {
+        return latlngs.map(function (latlng) {
+            return latlng;
+        });
     }
 };
-//# sourceMappingURL=utils.js.map
 
 var Map = (function () {
     function Map(opt) {
@@ -215,11 +226,12 @@ var Polyline = (function () {
     }
     Polyline.prototype.formatOpt = function (opt, path) {
         if (opt === void 0) { opt = {}; }
+        util.objectAssign(D.polyline, opt);
         return {
             path: path,
-            strokeColor: opt.color || '#3388ff',
-            strokeWeight: opt.weight || 3,
-            strokeOpacity: opt.opacity || 1
+            strokeColor: D.polyline.color,
+            strokeWeight: D.polyline.weight,
+            strokeOpacity: D.polyline.opacity
         };
     };
     Polyline.prototype.setPath = function (latlngs) {
@@ -471,10 +483,11 @@ var Polyline$1 = (function () {
     }
     Polyline.prototype.formatOpt = function (opt) {
         if (opt === void 0) { opt = {}; }
+        util.objectAssign(D.polyline, opt);
         return {
-            strokeColor: opt.color || '#3388ff',
-            strokeWeight: opt.weight || 3,
-            strokeOpacity: opt.opacity || 1
+            strokeColor: D.polyline.color,
+            strokeWeight: D.polyline.weight,
+            strokeOpacity: D.polyline.opacity
         };
     };
     Polyline.prototype.setPath = function (latlngs) {
@@ -731,11 +744,12 @@ var Polyline$2 = (function () {
     }
     Polyline.prototype.formatOpt = function (opt, path) {
         if (opt === void 0) { opt = {}; }
+        util.objectAssign(D.polyline, opt);
         return {
             path: path,
-            strokeColor: opt.color || '#3388ff',
-            strokeWeight: opt.weight || 3,
-            strokeOpacity: opt.opacity || 1
+            strokeColor: D.polyline.color,
+            strokeWeight: D.polyline.weight,
+            strokeOpacity: D.polyline.opacity
         };
     };
     Polyline.prototype.setPath = function (latlngs) {

@@ -3,6 +3,8 @@
 import F from '../../factory/index';
 import F_MapsEventListener from '../../factory/mapsEventListener';
 import * as O from '../../options/mapOptions';
+import D from '../../options/default';
+import util from '../../utils';
 
 // BMap in not defined in this file
 // But you will get this variable on window Object
@@ -162,10 +164,11 @@ class Polyline implements F.Polyline {
     }   
 
     formatOpt (opt: O.PolylineOption = {}) {
+        util.objectAssign(D.polyline, opt);
         return {
-            strokeColor: opt.color || '#3388ff',
-            strokeWeight: opt.weight || 3,
-            strokeOpacity: opt.opacity || 1
+            strokeColor: D.polyline.color,
+            strokeWeight: D.polyline.weight,
+            strokeOpacity: D.polyline.opacity
         }
     }
 
