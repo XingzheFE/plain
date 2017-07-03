@@ -1,5 +1,6 @@
 import variable from './var';
 import LatLng from './factory/latlng';
+import coordtransform from './coordtransform';
 
 export default {
     // Print infomation
@@ -35,7 +36,7 @@ export default {
     
     // Object property assign
     // TODO: ...obj[]
-    objectAssign<T> (target: T, source: T): T {
+    objectAssign (target: {[key: string]: any}, source: {[key: string]: any}): object {
         if ((<any>Object).assign) {
             (<any>Object).assign(target, source);
         } else {
@@ -48,11 +49,74 @@ export default {
         return target;
     },
     
+    coord: {
+        type: 'auto',
+        setType (type: string) {
+            this.type = type;
+        },
+        
+    },
     // GCJ02 to BD09
     g2b (latlngs: LatLng[]): LatLng[] {
+        if (!(latlngs[0] instanceof Array)) {
+            return coordtransform.gcj02tobd09(latlngs[0], latlngs[1]);
+        }
         return latlngs.map(latlng => {
-            // TODO
-            return latlng;
+            return coordtransform.gcj02tobd09(latlng[0], latlng[1]);
+        });
+    },
+    
+    // BD09 to GCJ02
+    b2g (latlngs: LatLng[]): LatLng[] {
+        if (!(latlngs[0] instanceof Array)) {
+            return coordtransform.bd09togcj02(latlngs[0], latlngs[1]);
+        }
+        return latlngs.map(latlng => {
+            return coordtransform.bd09togcj02(latlng[0], latlng[1]);
+        });
+    },
+    
+    w2g (latlngs: LatLng[]): LatLng[] {
+        if (!(latlngs[0] instanceof Array)) {
+            return coordtransform.wgs84togcj02(latlngs[0], latlngs[1]);
+        }
+        return latlngs.map(latlng => {
+            return coordtransform.wgs84togcj02(latlng[0], latlng[1]);
+        });
+    },
+    
+    g2w (latlngs: LatLng[]): LatLng[] {
+        if (!(latlngs[0] instanceof Array)) {
+            return coordtransform.gcj02towgs84(latlngs[0], latlngs[1]);
+        }
+        return latlngs.map(latlng => {
+            return coordtransform.gcj02towgs84(latlng[0], latlng[1]);
+        });
+    },
+    
+    w2b (latlngs: LatLng[]): LatLng[] {
+        if (!(latlngs[0] instanceof Array)) {
+            let coor = coordtransform.wgs84togcj02(latlngs[0], latlngs[1]);
+            return coordtransform.gcj02tobd09(coor[0], coor[1]);
+        }
+        let coords = latlngs.map(latlng => {
+            return coordtransform.wgs84togcj02(latlng[0], latlng[1]);
+        });
+        return coords.map(latlng => {
+            return coordtransform.gcj02tobd09(latlng[0], latlng[1]);
+        });
+    },
+    
+    b2w (latlngs: LatLng[]): LatLng[] {
+        if (!(latlngs[0] instanceof Array)) {
+            let coor = coordtransform.bd09togcj02(latlngs[0], latlngs[1]);
+            return coordtransform.gcj02towgs84(coor[0], coor[1]);
+        }
+        let coords = latlngs.map(latlng => {
+            return coordtransform.bd09togcj02(latlng[0], latlng[1]);
+        });
+        return coords.map(latlng => {
+            return coordtransform.gcj02towgs84(latlng[0], latlng[1]);
         });
     }
 }

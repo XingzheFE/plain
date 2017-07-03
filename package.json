@@ -1,37 +1,40 @@
 {
-    "name": "plain-js",
-    "version": "0.0.1",
-    "description": "",
-    "main": "dist/plain.js",
-    "directories": {
-        "test": "test"
-    },
-    "scripts": {
-        "build": "rollup -c",
-        "dev": "rollup -c -w",
-        "test:unit": "mocha test/unit/"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/XingzheFE/plain.git"
-    },
-    "author": "joe223",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/XingzheFE/plain/issues"
-    },
-    "homepage": "https://github.com/XingzheFE/plain#readme",
-    "devDependencies": {
-        "@types/node": "^8.0.4",
-        "@types/googlemaps": "^3.26.14",
-        "@types/leaflet": "^1.0.63",
-        "karma": "^1.7.0",
-        "karma-phantomjs-launcher": "^1.0.4",
-        "mocha": "^3.4.2",
-        "phantom": "^4.0.4",
-        "rollup": "^0.43.0",
-        "rollup-plugin-typescript": "^0.8.1",
-        "rollup-watch": "^4.0.0",
-        "should": "^11.2.1"
-    }
+  "name": "plain-js",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/plain.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test:unit": "mocha test/unit/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XingzheFE/plain.git"
+  },
+  "author": "joe223",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/XingzheFE/plain/issues"
+  },
+  "homepage": "https://github.com/XingzheFE/plain#readme",
+  "devDependencies": {
+    "@types/googlemaps": "^3.26.14",
+    "@types/leaflet": "^1.0.63",
+    "@types/node": "^8.0.4",
+    "karma": "^1.7.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "mocha": "^3.4.2",
+    "phantom": "^4.0.4",
+    "rollup": "^0.43.0",
+    "rollup-plugin-typescript": "^0.8.1",
+    "rollup-watch": "^4.0.0",
+    "should": "^11.2.1"
+  },
+  "dependencies": {
+    "coordtransform2": "^2.1.2"
+  }
 }

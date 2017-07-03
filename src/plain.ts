@@ -1,3 +1,4 @@
+import V from './var';
 import F from './factory/index';
 import LatLng from './factory/latlng';
 import O from './options/mapOptions';
@@ -12,7 +13,7 @@ export default class Plain {
     FACTORYS: {[key: string]: F.Factory};
     Util: F.Util;
     map: object;
-    factory: F.Factory;          
+    factory: F.Factory;  
     
     constructor(factory?: F.Factory | string) {
         let that = this;
@@ -24,6 +25,7 @@ export default class Plain {
             }
         }
         util.objectAssign(this.Util, util);
+        this._v = V;
     }
 
     // Load the map factory plugin

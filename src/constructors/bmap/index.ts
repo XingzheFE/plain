@@ -1,5 +1,6 @@
 /// <reference path="./bmap.d.ts" />
 
+import V from '../../var';
 import F from '../../factory/index';
 import F_MapsEventListener from '../../factory/mapsEventListener';
 import * as O from '../../options/mapOptions';
@@ -17,7 +18,8 @@ class Map implements F.Map {
     MAP_TYPE: F.MapType;
     
     constructor(opt: O.MapOption) {
-        let centerPoint = new BMap.Point(opt.center[1] || 0, opt.center[0] || 0);
+        let center = opt.center ? fixCoord(opt.center) : [0, 0];
+        let centerPoint = new BMap.Point(opt.center[1], opt.center[0]);
         this._original = new BMap.Map(opt.container);
         this._original.centerAndZoom(centerPoint, opt.zoom || 15);
         this._original.enableScrollWheelZoom();
@@ -124,6 +126,9 @@ class Marker implements F.Marker {
     _original: BMap.Marker;
 
     constructor(latlng: F.LatLng, opt?: O.MarkerOption) {
+        latlng = fixCoord(latlng);
+        console.log(latlng);
+        
         let point = new BMap.Point(latlng[1], latlng[0]);
         let opts = this.formatOpt(opt);
         this._original = new BMap.Marker(point, opts);
@@ -304,5 +309,26 @@ function eventBinder(constructor: Function) {
     // require MapEventListener
     constructor.prototype.off = function(listener: F.MapsEventListener) {
         this._original.removeEventListener(listener.eventName, listener.handler);
+    }
+}
+
+function fixCoord (latlngs: F.LatLng[] | F.LatLng): F.LatLng[] | F.LatLng {
+    if (V.coordType === 'DEFAULT') {
+        return latlngs;
+    }
+
+    switch (V.coordType) {
+        case ('DEFAULT'): {
+            return latlngs;
+        }
+        case ('GCJ02'): {
+            return util.g2b(latlngs);
+        }
+        case ('BD09'): {
+            return latlngs;
+        }
+        case ('WGS84'): {
+            return util.w2b(latlngs);
+        }
     }
 }

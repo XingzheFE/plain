@@ -20,6 +20,10 @@
   version "8.0.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.4.tgz#d0ca03fa4a3d7ab66c1f4e78a0fd06e30e46a7a9"
 
+"@types/underscore@^1.8.1":
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/@types/underscore/-/underscore-1.8.1.tgz#bf5d680f24277284d4e42fed86bd86e5a59a44a4"
+
 abbrev@1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.0.tgz#d0554c2256636e2f56e7c2e5ad183f859428d81f"
@@ -345,6 +349,14 @@ content-type@~1.0.2:
 cookie@0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
+
+coordtransform2@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/coordtransform2/-/coordtransform2-2.1.2.tgz#d62cf9841192713edfc8d3de895d9aba01276e5b"
+
+coordtransform@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/coordtransform/-/coordtransform-2.1.2.tgz#090349cd62b1dc05fae47b291bf9f0b7ce827f66"
 
 core-js@^2.2.0:
   version "2.4.1"
@@ -943,6 +955,10 @@ isstream@0.1.x, isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
+jquery@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
+
 jsbn@~0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
@@ -1261,7 +1277,7 @@ object-assign@4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.0.tgz#7a3b3d0e98063d43f4c03f2e8ae6cd51a86883a0"
 
-object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
+object-assign@^4.0.1, object-assign@^4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
 
@@ -1892,6 +1908,10 @@ uid-number@^0.0.6:
 ultron@1.0.x:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.0.2.tgz#ace116ab557cd197386a4e88f4685378c8b2e4fa"
+
+underscore@^1.8.3:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
 
 unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"

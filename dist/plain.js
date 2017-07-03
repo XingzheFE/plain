@@ -11,6 +11,16 @@ function __decorate(decorators, target, key, desc) {
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 }
 
+var V = {
+    DEBUG: true,
+    name: 'plain',
+    coordType: 'DEFAULT',
+    setCoordType: function (type) {
+        this.coordType = type;
+    }
+};
+//# sourceMappingURL=var.js.map
+
 var MapsEventListener = (function () {
     function MapsEventListener(parm) {
         this.eventName = parm.eventName;
@@ -28,19 +38,110 @@ var D = {
         opacity: 0.8,
     }
 };
+//# sourceMappingURL=default.js.map
 
-var variable = {
-    DEBUG: true,
-    name: 'plain',
+var x_PI = 3.14159265358979324 * 3000.0 / 180.0;
+var PI = 3.1415926535897932384626;
+var a = 6378245.0;
+var ee = 0.00669342162296594323;
+var bd09togcj02 = function bd09togcj02(bd_lat, bd_lon) {
+    var bd_lon = +bd_lon;
+    var bd_lat = +bd_lat;
+    var x = bd_lon - 0.0065;
+    var y = bd_lat - 0.006;
+    var z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * x_PI);
+    var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_PI);
+    var gg_lng = z * Math.cos(theta);
+    var gg_lat = z * Math.sin(theta);
+    return [gg_lat, gg_lng];
 };
+var gcj02tobd09 = function gcj02tobd09(lat, lng) {
+    var lat = +lat;
+    var lng = +lng;
+    var z = Math.sqrt(lng * lng + lat * lat) + 0.00002 * Math.sin(lat * x_PI);
+    var theta = Math.atan2(lat, lng) + 0.000003 * Math.cos(lng * x_PI);
+    var bd_lng = z * Math.cos(theta) + 0.0065;
+    var bd_lat = z * Math.sin(theta) + 0.006;
+    return [bd_lat, bd_lng];
+};
+var wgs84togcj02 = function wgs84togcj02(lat, lng) {
+    var lat = +lat;
+    var lng = +lng;
+    if (out_of_china(lat, lng)) {
+        return [lat, lng];
+    }
+    else {
+        var dlat = transformlat(lat - 35.0, lng - 105.0);
+        var dlng = transformlng(lat - 35.0, lng - 105.0);
+        var radlat = lat / 180.0 * PI;
+        var magic = Math.sin(radlat);
+        magic = 1 - ee * magic * magic;
+        var sqrtmagic = Math.sqrt(magic);
+        dlat = (dlat * 180.0) / ((a * (1 - ee)) / (magic * sqrtmagic) * PI);
+        dlng = (dlng * 180.0) / (a / sqrtmagic * Math.cos(radlat) * PI);
+        var mglat = lat + dlat;
+        var mglng = lng + dlng;
+        return [mglat, mglng];
+    }
+};
+var gcj02towgs84 = function gcj02towgs84(lat, lng) {
+    var lat = +lat;
+    var lng = +lng;
+    if (out_of_china(lat, lng)) {
+        return [lat, lng];
+    }
+    else {
+        var dlat = transformlat(lat - 35.0, lng - 105.0);
+        var dlng = transformlng(lat - 35.0, lng - 105.0);
+        var radlat = lat / 180.0 * PI;
+        var magic = Math.sin(radlat);
+        magic = 1 - ee * magic * magic;
+        var sqrtmagic = Math.sqrt(magic);
+        dlat = (dlat * 180.0) / ((a * (1 - ee)) / (magic * sqrtmagic) * PI);
+        dlng = (dlng * 180.0) / (a / sqrtmagic * Math.cos(radlat) * PI);
+        var mglat = lat + dlat;
+        var mglng = lng + dlng;
+        return [lat * 2 - mglat, lng * 2 - mglng];
+    }
+};
+var transformlat = function transformlat(lat, lng) {
+    var lat = +lat;
+    var lng = +lng;
+    var ret = -100.0 + 2.0 * lng + 3.0 * lat + 0.2 * lat * lat + 0.1 * lng * lat + 0.2 * Math.sqrt(Math.abs(lng));
+    ret += (20.0 * Math.sin(6.0 * lng * PI) + 20.0 * Math.sin(2.0 * lng * PI)) * 2.0 / 3.0;
+    ret += (20.0 * Math.sin(lat * PI) + 40.0 * Math.sin(lat / 3.0 * PI)) * 2.0 / 3.0;
+    ret += (160.0 * Math.sin(lat / 12.0 * PI) + 320 * Math.sin(lat * PI / 30.0)) * 2.0 / 3.0;
+    return ret;
+};
+var transformlng = function transformlng(lat, lng) {
+    var lat = +lat;
+    var lng = +lng;
+    var ret = 300.0 + lng + 2.0 * lat + 0.1 * lng * lng + 0.1 * lng * lat + 0.1 * Math.sqrt(Math.abs(lng));
+    ret += (20.0 * Math.sin(6.0 * lng * PI) + 20.0 * Math.sin(2.0 * lng * PI)) * 2.0 / 3.0;
+    ret += (20.0 * Math.sin(lng * PI) + 40.0 * Math.sin(lng / 3.0 * PI)) * 2.0 / 3.0;
+    ret += (150.0 * Math.sin(lng / 12.0 * PI) + 300.0 * Math.sin(lng / 30.0 * PI)) * 2.0 / 3.0;
+    return ret;
+};
+var out_of_china = function out_of_china(lat, lng) {
+    var lat = +lat;
+    var lng = +lng;
+    return !(lng > 73.66 && lng < 135.05 && lat > 3.86 && lat < 53.55);
+};
+var coordtransform = {
+    bd09togcj02: bd09togcj02,
+    gcj02tobd09: gcj02tobd09,
+    wgs84togcj02: wgs84togcj02,
+    gcj02towgs84: gcj02towgs84
+};
+//# sourceMappingURL=coordtransform.js.map
 
 var util = {
     log: function (v) {
         if (v instanceof Error) {
             console.error(v);
         }
-        else if (variable.DEBUG) {
-            console.log("[" + variable.name + "] ", v);
+        else if (V.DEBUG) {
+            console.log("[" + V.name + "] ", v);
         }
     },
     getBound: function (latlngs) {
@@ -75,12 +176,70 @@ var util = {
         }
         return target;
     },
+    coord: {
+        type: 'auto',
+        setType: function (type) {
+            this.type = type;
+        },
+    },
     g2b: function (latlngs) {
+        if (!(latlngs[0] instanceof Array)) {
+            return coordtransform.gcj02tobd09(latlngs[0], latlngs[1]);
+        }
         return latlngs.map(function (latlng) {
-            return latlng;
+            return coordtransform.gcj02tobd09(latlng[0], latlng[1]);
+        });
+    },
+    b2g: function (latlngs) {
+        if (!(latlngs[0] instanceof Array)) {
+            return coordtransform.bd09togcj02(latlngs[0], latlngs[1]);
+        }
+        return latlngs.map(function (latlng) {
+            return coordtransform.bd09togcj02(latlng[0], latlng[1]);
+        });
+    },
+    w2g: function (latlngs) {
+        if (!(latlngs[0] instanceof Array)) {
+            return coordtransform.wgs84togcj02(latlngs[0], latlngs[1]);
+        }
+        return latlngs.map(function (latlng) {
+            return coordtransform.wgs84togcj02(latlng[0], latlng[1]);
+        });
+    },
+    g2w: function (latlngs) {
+        if (!(latlngs[0] instanceof Array)) {
+            return coordtransform.gcj02towgs84(latlngs[0], latlngs[1]);
+        }
+        return latlngs.map(function (latlng) {
+            return coordtransform.gcj02towgs84(latlng[0], latlng[1]);
+        });
+    },
+    w2b: function (latlngs) {
+        if (!(latlngs[0] instanceof Array)) {
+            var coor = coordtransform.wgs84togcj02(latlngs[0], latlngs[1]);
+            return coordtransform.gcj02tobd09(coor[0], coor[1]);
+        }
+        var coords = latlngs.map(function (latlng) {
+            return coordtransform.wgs84togcj02(latlng[0], latlng[1]);
+        });
+        return coords.map(function (latlng) {
+            return coordtransform.gcj02tobd09(latlng[0], latlng[1]);
+        });
+    },
+    b2w: function (latlngs) {
+        if (!(latlngs[0] instanceof Array)) {
+            var coor = coordtransform.bd09togcj02(latlngs[0], latlngs[1]);
+            return coordtransform.gcj02towgs84(coor[0], coor[1]);
+        }
+        var coords = latlngs.map(function (latlng) {
+            return coordtransform.bd09togcj02(latlng[0], latlng[1]);
+        });
+        return coords.map(function (latlng) {
+            return coordtransform.gcj02towgs84(latlng[0], latlng[1]);
         });
     }
 };
+//# sourceMappingURL=utils.js.map
 
 var Map = (function () {
     function Map(opt) {
@@ -194,7 +353,7 @@ var Marker = (function () {
     }
     Marker.prototype.formatOpt = function (opt, latlng) {
         if (opt === void 0) { opt = {}; }
-        return {
+        var option = {
             map: null,
             position: [latlng[1], latlng[0]],
             icon: opt.icon ? opt.icon._original : null,
@@ -202,6 +361,10 @@ var Marker = (function () {
             crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
             draggable: opt.draggable
         };
+        if (opt.icon && opt.icon.anchor) {
+            option.offset = new AMap.Pixel(-opt.icon.anchor[0], -opt.icon.anchor[1]);
+        }
+        return option;
     };
     Marker.prototype.setLatLng = function (latlng) {
         this._original.setPosition(latlng.slice().reverse());
@@ -353,7 +516,8 @@ function eventBinder(constructor) {
 
 var Map$1 = (function () {
     function Map(opt) {
-        var centerPoint = new BMap.Point(opt.center[1] || 0, opt.center[0] || 0);
+        var center = opt.center ? fixCoord(opt.center) : [0, 0];
+        var centerPoint = new BMap.Point(opt.center[1], opt.center[0]);
         this._original = new BMap.Map(opt.container);
         this._original.centerAndZoom(centerPoint, opt.zoom || 15);
         this._original.enableScrollWheelZoom();
@@ -447,6 +611,8 @@ var Map$1 = (function () {
 }());
 var Marker$1 = (function () {
     function Marker(latlng, opt) {
+        latlng = fixCoord(latlng);
+        console.log(latlng);
         var point = new BMap.Point(latlng[1], latlng[0]);
         var opts = this.formatOpt(opt);
         this._original = new BMap.Marker(point, opts);
@@ -602,6 +768,25 @@ function eventBinder$1(constructor) {
     constructor.prototype.off = function (listener) {
         this._original.removeEventListener(listener.eventName, listener.handler);
     };
+}
+function fixCoord(latlngs) {
+    if (V.coordType === 'DEFAULT') {
+        return latlngs;
+    }
+    switch (V.coordType) {
+        case ('DEFAULT'): {
+            return latlngs;
+        }
+        case ('GCJ02'): {
+            return util.g2b(latlngs);
+        }
+        case ('BD09'): {
+            return latlngs;
+        }
+        case ('WGS84'): {
+            return util.w2b(latlngs);
+        }
+    }
 }
 
 var Map$2 = (function () {
@@ -879,6 +1064,7 @@ var Plain = (function () {
             }
         };
         util.objectAssign(this.Util, util);
+        this._v = V;
     }
     Plain.prototype.use = function (factory, key) {
         if (typeof factory === 'string') {

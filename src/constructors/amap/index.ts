@@ -143,15 +143,19 @@ class Marker implements F.Marker {
     }
 
     formatOpt (opt: O.MarkerOption = {}, latlng: F.LatLng): object {
-        return {
+        let option = {
             map: null,
             position: [latlng[1], latlng[0]],
             icon: opt.icon ? opt.icon._original : null,
             raiseOnDrag: opt.raiseOnDrag ? opt.raiseOnDrag : true,
             crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
-            // offset: opt.offset ? new AMap.Size(opt.offset[0], opt.offset[1]) : null,
             draggable: opt.draggable
         }
+        // 19 31
+        if (opt.icon && opt.icon.anchor) {
+            option.offset = new AMap.Pixel(-opt.icon.anchor[0], -opt.icon.anchor[1]);  
+        }
+        return option;
     }
     
     setLatLng(latlng: F.LatLng) {
