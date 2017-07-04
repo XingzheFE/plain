@@ -24,6 +24,7 @@ declare module BMap {
         setViewport(points: Point[], viewportOptions?: ViewportOptions): void;
         addEventListener(event: string, handler: Function): void;
         removeEventListener(event: string, handler: Function): void;
+        setMapType(type: string): void;
     }
 
     export class Marker extends Overlay {

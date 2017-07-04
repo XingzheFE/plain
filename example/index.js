@@ -4,59 +4,48 @@ var p = {
     lng: 116.399348,
 }
 plain._v.setCoordType('GCJ02');
+var path = [
+    [39.910, 116.404],
+    [39.910, 116.5],
+    [39.910, 117],
+    [39.910, 118]
+];
+let bmap = setMap('bmap', 'BMAP');
+let gmap = setMap('gmap', 'GMAP');
+let amap = setMap('amap', 'AMAP');
 
+document.getElementById('btn-fitview').addEventListener('click', e => {
+    bmap.fitView(path); 
+    amap.fitView(path); 
+    gmap.fitView(path); 
+});
 
-plain.use('AMAP');
-var icon = plain.Icon({
-    url: 'https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon.png',
-    size: [25, 40],
-    anchor: [12.5, 40]
-});
-var markerOpt = {
-    icon: icon,
-    draggable: true
-};
-var map = plain.Map({
-    container: document.getElementById("amap"),
-    center: [p.lat, p.lng],
-    zoom: 15
-});
-var marker = plain.Marker([p.lat, p.lng], markerOpt);
-marker.on('click', function(e) {
-    console.log(plain.Util.formatEvent.call(this, e));
-});
-map.addLayer(marker);
+function setMap (container, type) {
+    plain.use(type);
+    var icon = plain.Icon({
+        url: 'https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon.png',
+        size: [25, 40],
+        anchor: [12.5, 40]
+    });
+    var markerOpt = {
+        icon: icon,
+        draggable: true
+    };
+    var map = plain.Map({
+        container: document.getElementById(container),
+        center: [p.lat, p.lng],
+        zoom: 15
+    });
+    var polyline = plain.Polyline(path, {
+        color: "#f00",
+        weight: 2,
+        opacity: 0.8
+    });
+    var marker = plain.Marker([p.lat, p.lng], markerOpt);
+    console.log(polyline.getPath());
+    console.log(marker.getLatLng());
+    map.addLayer(polyline);
+    map.addLayer(marker);
+    return map;
+}
 
-plain.use('BMAP');
-var icon = plain.Icon({
-    url: 'https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon.png',
-    size: [25, 40],
-    anchor: [12.5, 40]
-});
-var markerOpt = {
-    icon: icon,
-    draggable: true
-};
-var map = plain.Map({
-    container: document.getElementById("bmap"),
-    center: [p.lat, p.lng],
-    zoom: 15
-});
-map.addLayer(plain.Marker([p.lat, p.lng], markerOpt));
-
-plain.use('GMAP');
-var icon = plain.Icon({
-    url: 'https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon.png',
-    size: [25, 40],
-    anchor: [12.5, 40]
-});
-var markerOpt = {
-    icon: icon,
-    draggable: true
-};
-var map = plain.Map({
-    container: document.getElementById("gmap"),
-    center: [p.lat, p.lng],
-    zoom: 15
-});
-map.addLayer(plain.Marker([p.lat, p.lng], markerOpt));

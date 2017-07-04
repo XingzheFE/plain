@@ -517,7 +517,7 @@ function eventBinder(constructor) {
 var Map$1 = (function () {
     function Map(opt) {
         var center = opt.center ? fixCoord(opt.center) : [0, 0];
-        var centerPoint = new BMap.Point(opt.center[1], opt.center[0]);
+        var centerPoint = new BMap.Point(center[1], center[0]);
         this._original = new BMap.Map(opt.container);
         this._original.centerAndZoom(centerPoint, opt.zoom || 15);
         this._original.enableScrollWheelZoom();
@@ -572,6 +572,7 @@ var Map$1 = (function () {
         this._original.setViewport(points);
     };
     Map.prototype.setCenter = function (latlng) {
+        latlng = fixCoord(latlng);
         this._original.setCenter({
             lat: latlng[0],
             lng: latlng[1]
@@ -612,7 +613,6 @@ var Map$1 = (function () {
 var Marker$1 = (function () {
     function Marker(latlng, opt) {
         latlng = fixCoord(latlng);
-        console.log(latlng);
         var point = new BMap.Point(latlng[1], latlng[0]);
         var opts = this.formatOpt(opt);
         this._original = new BMap.Marker(point, opts);
@@ -627,13 +627,14 @@ var Marker$1 = (function () {
         };
     };
     Marker.prototype.setLatLng = function (latlng) {
+        latlng = fixCoord(latlng);
         var point = new BMap.Point(latlng[1], latlng[0]);
         this._original.setPosition(point);
         return this;
     };
     Marker.prototype.getLatLng = function () {
         var p = this._original.getPosition();
-        return [p.lat, p.lng];
+        return fixCoord([p.lat, p.lng], 'output');
     };
     Marker = __decorate([
         eventBinder$1
@@ -642,7 +643,7 @@ var Marker$1 = (function () {
 }());
 var Polyline$1 = (function () {
     function Polyline(latlngs, opt) {
-        var points = latlngs.map(function (latlng) {
+        var points = fixCoord(latlngs).map(function (latlng) {
             return new BMap.Point(latlng[1], latlng[0]);
         });
         this._original = new BMap.Polyline(points, this.formatOpt(opt));
@@ -657,16 +658,16 @@ var Polyline$1 = (function () {
         };
     };
     Polyline.prototype.setPath = function (latlngs) {
-        var points = latlngs.map(function (latlng) {
+        var points = fixCoord(latlngs).map(function (latlng) {
             return new BMap.Point(latlng[1], latlng[0]);
         });
         this._original.setPath(points);
     };
     Polyline.prototype.getPath = function () {
         var points = this._original.getPath() || [];
-        return points.map(function (item) {
+        return fixCoord(points.map(function (item) {
             return [item.lat, item.lng];
-        });
+        }), 'output');
     };
     Polyline = __decorate([
         eventBinder$1
@@ -769,22 +770,43 @@ function eventBinder$1(constructor) {
         this._original.removeEventListener(listener.eventName, listener.handler);
     };
 }
-function fixCoord(latlngs) {
-    if (V.coordType === 'DEFAULT') {
-        return latlngs;
+function fixCoord(latlngs, type) {
+    if (type === 'output') {
+        if (V.coordType === 'DEFAULT') {
+            return latlngs;
+        }
+        switch (V.coordType) {
+            case ('DEFAULT'): {
+                return latlngs;
+            }
+            case ('GCJ02'): {
+                return util.b2g(latlngs);
+            }
+            case ('BD09'): {
+                return latlngs;
+            }
+            case ('WGS84'): {
+                return util.b2w(latlngs);
+            }
+        }
     }
-    switch (V.coordType) {
-        case ('DEFAULT'): {
+    else {
+        if (V.coordType === 'DEFAULT') {
             return latlngs;
         }
-        case ('GCJ02'): {
-            return util.g2b(latlngs);
-        }
-        case ('BD09'): {
-            return latlngs;
-        }
-        case ('WGS84'): {
-            return util.w2b(latlngs);
+        switch (V.coordType) {
+            case ('DEFAULT'): {
+                return latlngs;
+            }
+            case ('GCJ02'): {
+                return util.g2b(latlngs);
+            }
+            case ('BD09'): {
+                return latlngs;
+            }
+            case ('WGS84'): {
+                return util.w2b(latlngs);
+            }
         }
     }
 }

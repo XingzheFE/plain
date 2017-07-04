@@ -19,7 +19,7 @@ class Map implements F.Map {
     
     constructor(opt: O.MapOption) {
         let center = opt.center ? fixCoord(opt.center) : [0, 0];
-        let centerPoint = new BMap.Point(opt.center[1], opt.center[0]);
+        let centerPoint = new BMap.Point(center[1], center[0]);
         this._original = new BMap.Map(opt.container);
         this._original.centerAndZoom(centerPoint, opt.zoom || 15);
         this._original.enableScrollWheelZoom();
@@ -82,6 +82,7 @@ class Map implements F.Map {
     }
 
     setCenter(latlng: F.LatLng) {
+        latlng = <F.LatLng>fixCoord(latlng);
         this._original.setCenter({
             lat: latlng[0],
             lng: latlng[1]
@@ -126,9 +127,7 @@ class Marker implements F.Marker {
     _original: BMap.Marker;
 
     constructor(latlng: F.LatLng, opt?: O.MarkerOption) {
-        latlng = fixCoord(latlng);
-        console.log(latlng);
-        
+        latlng = <F.LatLng>fixCoord(latlng);
         let point = new BMap.Point(latlng[1], latlng[0]);
         let opts = this.formatOpt(opt);
         this._original = new BMap.Marker(point, opts);
@@ -145,6 +144,7 @@ class Marker implements F.Marker {
     }
     
     setLatLng(latlng: F.LatLng) {
+        latlng = <F.LatLng>fixCoord(latlng);
         let point = new BMap.Point(latlng[1], latlng[0]);
         this._original.setPosition(point);
         return this;
@@ -152,7 +152,7 @@ class Marker implements F.Marker {
 
     getLatLng(): F.LatLng {
         let p =  this._original.getPosition();
-        return [p.lat, p.lng];
+        return <F.LatLng>fixCoord([p.lat, p.lng], 'output');
     }
 }
 
@@ -162,7 +162,7 @@ class Polyline implements F.Polyline {
     _original: BMap.Polyline;
  
     constructor(latlngs: F.LatLng[], opt?: O.PolylineOption) {
-        let points = latlngs.map(latlng => {
+        let points = (<F.LatLng[]>fixCoord(latlngs)).map(latlng => {
             return new BMap.Point(latlng[1], latlng[0]);
         });
         this._original = new BMap.Polyline(points, this.formatOpt(opt));
@@ -177,8 +177,8 @@ class Polyline implements F.Polyline {
         }
     }
 
-    setPath(latlngs: F.LatLng[]) {
-        let points = latlngs.map(latlng => {
+    setPath(latlngs: F.LatLng[]): void {
+        let points =  (<F.LatLng[]>fixCoord(latlngs)).map(latlng => {
             return new BMap.Point(latlng[1], latlng[0]);
         });
         this._original.setPath(points);
@@ -186,9 +186,9 @@ class Polyline implements F.Polyline {
 
     getPath(): F.LatLng[] {
         let points = this._original.getPath() || [];
-        return points.map(item => {
+        return <F.LatLng[]>fixCoord(points.map(item => {
             return [item.lat, item.lng]
-        });
+        }), 'output');
     }
 }
 
@@ -312,23 +312,42 @@ function eventBinder(constructor: Function) {
     }
 }
 
-function fixCoord (latlngs: F.LatLng[] | F.LatLng): F.LatLng[] | F.LatLng {
-    if (V.coordType === 'DEFAULT') {
-        return latlngs;
-    }
-
-    switch (V.coordType) {
-        case ('DEFAULT'): {
+function fixCoord (latlngs: F.LatLng[] | F.LatLng, type?: string): F.LatLng[] | F.LatLng {
+    if (type === 'output') {
+        if (V.coordType === 'DEFAULT') {
             return latlngs;
         }
-        case ('GCJ02'): {
-            return util.g2b(latlngs);
+        switch (V.coordType) {
+            case ('DEFAULT'): {
+                return latlngs;
+            }
+            case ('GCJ02'): {
+                return util.b2g(<F.LatLng[]>latlngs);
+            }
+            case ('BD09'): {
+                return latlngs;
+            }
+            case ('WGS84'): {
+                return util.b2w(<F.LatLng[]>latlngs);
+            }
         }
-        case ('BD09'): {
+    } else {
+        if (V.coordType === 'DEFAULT') {
             return latlngs;
         }
-        case ('WGS84'): {
-            return util.w2b(latlngs);
+        switch (V.coordType) {
+            case ('DEFAULT'): {
+                return latlngs;
+            }
+            case ('GCJ02'): {
+                return util.g2b(<F.LatLng[]>latlngs);
+            }
+            case ('BD09'): {
+                return latlngs;
+            }
+            case ('WGS84'): {
+                return util.w2b(<F.LatLng[]>latlngs);
+            }
         }
-    }
+    } 
 }
