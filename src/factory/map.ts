@@ -18,7 +18,7 @@ interface Map extends Layer {
     getCenter(): LatLng;
     panTo(latlng: LatLng): void;
     setMapType(type: string): void;
-    search(name: string, resolve: Function, reject?: Function): void;
+    search?(name: string, resolve: Function, reject?: Function): void;
 }
 
 export default Map;

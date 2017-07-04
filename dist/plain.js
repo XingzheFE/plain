@@ -19,7 +19,6 @@ var V = {
         this.coordType = type;
     }
 };
-//# sourceMappingURL=var.js.map
 
 var MapsEventListener = (function () {
     function MapsEventListener(parm) {
@@ -38,7 +37,6 @@ var D = {
         opacity: 0.8,
     }
 };
-//# sourceMappingURL=default.js.map
 
 var x_PI = 3.14159265358979324 * 3000.0 / 180.0;
 var PI = 3.1415926535897932384626;
@@ -133,7 +131,6 @@ var coordtransform = {
     wgs84togcj02: wgs84togcj02,
     gcj02towgs84: gcj02towgs84
 };
-//# sourceMappingURL=coordtransform.js.map
 
 var util = {
     log: function (v) {
@@ -175,12 +172,6 @@ var util = {
             }
         }
         return target;
-    },
-    coord: {
-        type: 'auto',
-        setType: function (type) {
-            this.type = type;
-        },
     },
     g2b: function (latlngs) {
         if (!(latlngs[0] instanceof Array)) {
@@ -237,9 +228,20 @@ var util = {
         return coords.map(function (latlng) {
             return coordtransform.gcj02towgs84(latlng[0], latlng[1]);
         });
-    }
+    },
+    locate: function (success, error) {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                success && success(position.coords.latitude, position.coords.longitude);
+            }, function (e) {
+                error && error(e);
+            });
+        }
+        else {
+            error && error(new Error('Geolocation is not supported by your browser'));
+        }
+    },
 };
-//# sourceMappingURL=utils.js.map
 
 var Map = (function () {
     function Map(opt) {

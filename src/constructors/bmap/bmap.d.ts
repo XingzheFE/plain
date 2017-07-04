@@ -87,6 +87,58 @@ declare module BMap {
         getTitle(): string;
     }
 
+    export class LocalSearch {
+        constructor(location: Map | Point | string, opt?: LocalSearchOptions);
+        search(keyword: string | string[], opt?: Object): void;
+        searchInBounds(keyword: String | Array<String>, bounds?: Bounds, option?: Object): void;getResults(): LocalResult| Array<LocalResult>;
+        clearResults(): void;
+        setSearchCompleteCallback(cb: Function): void;	
+    }
+    
+    export class LocalResult {
+        keyword: string;
+        center: LocalResultPoi;
+        radius: number;
+        bounds: Bounds;
+        city: string;
+        moreResultsUrl: string;
+        province: String;
+        suggestions: string[];
+        getPoi(i?: number): LocalResultPoi;
+        getCurrentNumPois(): number;
+        getNumPois(): number;
+        getNumPages(): number;
+        getPageIndex(): number;
+        getCityList(): Object[];
+    }
+    
+    export interface LocalResultPoi {
+        title?: string;
+        point?: Point;
+        url?: string;
+        address?: string;
+        city?: string;
+        phoneNumber?: string;
+        postcode?: string;
+        type?: PoiType;
+        isAccurate?: boolean;
+        province?: string;
+        tags?: string[];
+        detailUrl?: string;
+    }
+    
+    export interface PoiType {
+        
+    }
+    
+    export interface Bounds {
+        
+    }
+    
+    export interface LocalSearchOptions {
+        
+    }
+    
     export class TileLayer {}
 
     export class Projection {}
