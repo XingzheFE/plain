@@ -49,13 +49,6 @@ export default {
         return target;
     },
     
-    coord: {
-        type: 'auto',
-        setType (type: string) {
-            this.type = type;
-        },
-        
-    },
     // GCJ02 to BD09
     g2b (latlngs: LatLng[]): LatLng[] {
         if (!(latlngs[0] instanceof Array)) {
@@ -118,5 +111,17 @@ export default {
         return coords.map(latlng => {
             return coordtransform.gcj02towgs84(latlng[0], latlng[1]);
         });
-    }
+    },
+    
+    locate(success?: Function, error?: Function): void {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                success && success(position.coords.latitude, position.coords.longitude);
+            }, function(e) {
+                error && error(e);
+            });
+        } else {
+            error && error(new Error('Geolocation is not supported by your browser'));
+        }
+    },
 }
