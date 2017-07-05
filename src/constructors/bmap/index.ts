@@ -83,10 +83,7 @@ class Map implements F.Map {
 
     setCenter(latlng: F.LatLng) {
         latlng = <F.LatLng>fixCoord(latlng);
-        this._original.setCenter({
-            lat: latlng[0],
-            lng: latlng[1]
-        });
+        this._original.setCenter(new BMap.Point(latlng[1], latlng[0]));
     }
 
     getCenter(): F.LatLng {

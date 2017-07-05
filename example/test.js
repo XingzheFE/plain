@@ -10,7 +10,7 @@ var path = [
 plain.loadMap('hPKNosYElVbALMK2ySnseejdXN7y8nqT', (e) => {
     console.log('success');
     
-    var map = plain.Map({
+    var map = window.map = plain.Map({
         container: document.getElementById("map"),
         center: [39.910, 116.404],
         zoom: 15
