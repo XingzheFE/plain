@@ -15,7 +15,7 @@ class Map implements F.Map {
     _id: string;
     MAP_TYPE: F.MapType;
     // _fitBound: google.maps.LatLngBounds;
-    
+
     constructor(opt: O.MapOption) {
         let centerPoint: google.maps.LatLng = new google.maps.LatLng(opt.center[0], opt.center[1]);
         let container = typeof opt.container === 'string' ? document.getElementById(opt.container) : opt.container;
@@ -71,11 +71,11 @@ class Map implements F.Map {
     zoomIn() {
         this.setZoom(this.getZoom() + 1);
     }
-    
+
     zoomOut() {
         this.setZoom(this.getZoom() - 1);
     }
-    
+
     fitView(latlngs: F.LatLng[], opt?: O.ViewportOption) {
         let bound = util.getBound(latlngs).map(p => {
             return new google.maps.LatLng(p[0], p[1]);
@@ -90,7 +90,7 @@ class Map implements F.Map {
             lng: latlng[1]
         });
     }
-    
+
     setMapType(type: string) {
         let { MAP_TYPE } = this;
         switch (type) {
@@ -117,7 +117,7 @@ class Map implements F.Map {
         let center = this._original.getCenter();
         return [center.lat(), center.lng()];
     }
-    
+
     panTo(latlng: F.LatLng): void {
         this._original.panTo(new google.maps.LatLng(latlng[0], latlng[1]));
     }
@@ -144,7 +144,7 @@ class Marker implements F.Marker {
             draggable: opt.draggable
         }
     }
-    
+
     setLatLng(latlng: F.LatLng) {
         let point = new google.maps.LatLng(latlng[0], latlng[1]);
         this._original.setPosition(point);
@@ -155,21 +155,21 @@ class Marker implements F.Marker {
         let p =  this._original.getPosition();
         return [p.lat(), p.lng()];
     }
-    
-    // TODO: change draggable property 
+
+    // TODO: change draggable property
 }
 
 @eventBinder
 class Polyline implements F.Polyline {
     _id: string;
     _original: google.maps.Polyline;
- 
+
     constructor(latlngs: F.LatLng[], opt?: O.PolylineOption) {
         let path = latlngs.map(latlng => {
             return new google.maps.LatLng(latlng[0], latlng[1]);
         });
         this._original = new google.maps.Polyline(this.formatOpt(opt, path));
-    }   
+    }
 
     formatOpt (opt: O.PolylineOption = {}, path: google.maps.LatLng[]) {
         util.objectAssign(D.polyline, opt);
@@ -228,15 +228,15 @@ class Icon implements F.Icon {
     setAnchor(size: F.Size) {
 
     }
-    
+
     getImageUrl(): string {
         return '';
     }
-    
+
     getAnchor(): F.Size {
-        return [];        
+        return [];
     }
-    
+
     getSize(): F.Size {
         return [];
     }
@@ -251,7 +251,7 @@ export default class G_Map implements F.Factory {
                 let point;
                 if (e.latLng) {
                     point = [e.latLng.lat(), e.latLng.lng()];
-                }            
+                }
                 return {
                     type: e.ta && e.ta.type,
                     target: this,
@@ -277,10 +277,10 @@ export default class G_Map implements F.Factory {
     Icon(opt: O.IconOption): Icon {
         return new Icon(opt);
     }
-    
+
     // Load map script
     load(key: string, resolve: Function, reject: Function): void {
-        if ((<any>window).google.maps) {
+        if ((<any>window).google && (<any>window).google.maps) {
             resolve && resolve();
             return;
         }
@@ -301,7 +301,7 @@ export default class G_Map implements F.Factory {
 
 /**
  * @function set overlay eventListener
- * @param {Function} constructor 
+ * @param {Function} constructor
  */
 function eventBinder(constructor: Function) {
     // return MapEventListener
@@ -312,7 +312,7 @@ function eventBinder(constructor: Function) {
             eventName: eventName,
             host: this,
             listener: listener,
-            handler: fn 
+            handler: fn
         });
     }
     // require MapEventListener
@@ -320,6 +320,3 @@ function eventBinder(constructor: Function) {
         google.maps.event.removeListener(listener.listener);
     }
 }
-
-
-

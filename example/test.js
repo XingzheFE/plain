@@ -7,9 +7,9 @@ var path = [
 
 
 
-plain.loadMap('hPKNosYElVbALMK2ySnseejdXN7y8nqT', (e) => {
+plain.loadMap(key, (e) => {
     console.log('success');
-    
+
     var map = window.map = plain.Map({
         container: document.getElementById("map"),
         center: [39.910, 116.404],
@@ -49,7 +49,7 @@ plain.loadMap('hPKNosYElVbALMK2ySnseejdXN7y8nqT', (e) => {
 
     // setTimeout(() => {
     //     console.log("remove listener");
-    //     marker.off(listener);            
+    //     marker.off(listener);
     // }, 4000);
 
     map.fitView(path);
