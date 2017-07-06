@@ -710,7 +710,7 @@ var B_Map$1 = (function () {
                 if (e === void 0) { e = {}; }
                 var point;
                 if (e.point) {
-                    point = [e.point.lat, e.point.lng];
+                    point = fixCoord([e.point.lat, e.point.lng], 'output');
                 }
                 return {
                     type: e.type.replace(/^on/g, ''),

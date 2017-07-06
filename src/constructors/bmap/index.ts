@@ -239,7 +239,7 @@ export default class B_Map implements F.Factory {
             formatEvent(e: any = {}): F.Event {
                 let point;
                 if (e.point) {
-                    point = [e.point.lat, e.point.lng];
+                    point = <F.LatLng>fixCoord([e.point.lat, e.point.lng], 'output');
                 }
                 return {
                     type: e.type.replace(/^on/g, ''),

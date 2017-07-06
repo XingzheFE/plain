@@ -330,3 +330,5 @@ function eventBinder(constructor: Function) {
         this._original.off(listener.eventName, listener.handler);
     }
 }
+
+// TODO: fixCoord
