@@ -10,7 +10,7 @@
     1. Marker
     2. Polyline
 2. Map Controls
-    1. Zoom
+    1. zoom
     2. fitView
     3. panTo
 3. Evented
@@ -22,12 +22,12 @@
 # 如何使用
 
 ## 安装
-使用 npm 安装 plain，你也可以在页面中引入构建后的 js 文件。
+使用 npm 安装 plain，你也可以在页面中引入构建后的 `js` 文件。
 
 `npm install plain-js`
 
 ## 创建地图
-创建地图的方式很简单，最直接的方式是在 html 文件中引入地图库的脚本文件以及 plain.min.js
+创建地图的方式很简单，最直接的方式是在 html 文件中引入地图库的脚本文件以及 `plain.min.js`
 ```javascript
 // 首先初始化一个 plain 对象
 var plain = new Plain();
@@ -74,7 +74,7 @@ map.removeLayer(marker);    // 可以从地图中移除之前创建的标记
 ```
 
 ## 添加 Polyline
-向地图中添加折线之前需要先定义一个二维数组，注意：我们默认传入的坐标格式是 `[lat: Number, lng: Number]`
+向地图中添加折线之前需要先定义一个二维数组，注意：我们默认传入的坐标格式是 `[lat: Number, lng: Number]`
 ```javascript
 var path = [
     [39.910, 116.404],
@@ -91,7 +91,7 @@ map.addLayer(polyline);
 ```
 
 ## 事件
-到目前为止，我们已经可以创建一个展示基本信息的地图了，那么接下来就给地图绑定下点击事件的响应方法。
+到目前为止，我们已经可以创建一个展示基本信息的地图了，那么接下来就给地图绑定下点击事件的响应方法。
 plain 提供了一个工具方法格式化传入的事件对象，返回的值格式如下
 ```typescript
 class Event {
@@ -101,7 +101,7 @@ class Event {
     type: string;       // 事件名
 }
 ```
-其中坐标 p 为最初 `plain._v.setCoordType('GCJ02');` 设置的格式，如果没有设置，那么返回的值和原生地图库一致。
+其中坐标 p 为最初 `plain._v.setCoordType('GCJ02');` 设置的格式，如果没有设置，那么返回的值和原生地图库一致。
 ```javascript
 var listener = map.on('rightclick', function (e) {
     console.log(plain.Util.formatEvent.call(this, e));
@@ -109,7 +109,7 @@ var listener = map.on('rightclick', function (e) {
     map.fitView(path);
 });
 ```
-接下来我们要取消事件监听：
+接下来我们要取消事件监听：
 ```javascript
 map.off(listener);
 ```
