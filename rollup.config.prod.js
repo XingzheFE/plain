@@ -15,6 +15,6 @@ export default {
     sourceMap: false,
     moduleName: 'Plain',
     targets: [
-        { dest: 'dist/plain.js', format: 'umd' }
+        { dest: 'dist/plain.min.js', format: 'umd' }
     ]
 };

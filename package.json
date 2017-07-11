@@ -2,7 +2,7 @@
   "name": "plain-js",
   "version": "0.0.6",
   "description": "",
-  "main": "dist/plain.js",
+  "main": "dist/plain.min.js",
   "directories": {
     "test": "test"
   },
