@@ -10,7 +10,7 @@
     1. Marker
     2. Polyline
 2. Map Controls
-    1. zoom
+    1. Zoom
     2. fitView
     3. panTo
 3. Evented
