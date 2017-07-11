@@ -27,17 +27,17 @@
 `npm install plain-js`
 
 ## 创建地图
-创建地图的方式很简单，最直接的方式是在 html 文件中引入地图库的脚本文件以及 `plain.min.js`
+创建地图的方式很简单，最直接的方式是在 html 文件中引入地图库的脚本文件以及 `plain.min.js`
 ```javascript
 // 首先初始化一个 plain 对象
 var plain = new Plain();
 
 // 设置需要使用的坐标系，如果不设置的话所有地图使用默认的坐标系，
 // Google 和 高德地图在大陆使用 GCJ02，百度地图使用 BD09，
-// 为了方便开发建议设置为 GCJ02
+// 为了方便开发建议设置为 GCJ02
 plain._v.setCoordType('GCJ02');
 
-// 告诉 plain 你需要使用 Google 地图，
+// 告诉 plain 你需要使用 Google 地图，
 // 可选的参数有 Google Map 'GMAP'， 高德地图 'AMAP'， 百度地图 'BMAP'
 plain.use('GMAP');
 
@@ -97,7 +97,7 @@ plain 提供了一个工具方法格式化传入的事件对象，返回的值�
 class Event {
     e: any;             // 原始的事件对象
     p: F.LatLng;        // 坐标 [lat: number, lng: number]
-    target: F.Layer;    // 触发事件的对象
+    target: F.Layer;    // 触发事件的对象
     type: string;       // 事件名
 }
 ```
