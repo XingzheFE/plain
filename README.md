@@ -44,7 +44,7 @@ plain.use('GMAP');
 // 创建一个 Google 地图实例
 var map = plain.Map({
     container: "#map",          // DivElement
-    center: [ 39.908012, 116.399348],
+    center: [39.908012, 116.399348],
     zoom: 15
 });
 ```
@@ -63,14 +63,14 @@ var icon = plain.Icon({
     anchor: [12.5, 40]
 });
 
-// Marker configure option
+// Marker configure option
 var markerOpt = {
     icon: icon,
     draggable: true
 };
 var marker2 = plain.Marker([39.910, 116.404], markerOpt);
 map.addLayer(marker2);
-map.removeLayer(marker);    // 可以从地图中移除之前创建的标记
+map.removeLayer(marker);    // 可以从地图中移除之前创建的标记
 ```
 
 ## 添加 Polyline
