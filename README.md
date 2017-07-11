@@ -22,7 +22,7 @@
 # 如何使用
 
 ## 安装
-使用 npm 安装 plain，你也可以在页面中引入构建后的 js 文件。
+使用 npm 安装 plain，你也可以在页面中引入构建后的 js 文件。
 
 `npm install plain-js`
 
@@ -37,7 +37,7 @@ var plain = new Plain();
 // 为了方便开发建议设置为 GCJ02
 plain._v.setCoordType('GCJ02');
 
-// 告诉 plain 你需要使用 Google 地图，
+// 告诉 plain 你需要使用 Google 地图，
 // 可选的参数有 Google Map 'GMAP'， 高德地图 'AMAP'， 百度地图 'BMAP'
 plain.use('GMAP');
 
