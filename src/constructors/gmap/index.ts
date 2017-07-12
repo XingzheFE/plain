@@ -13,6 +13,7 @@ import util from '../../utils';
 class Map implements F.Map {
     _original: google.maps.Map;
     _id: string;
+    _type: {map: string, type: string};
     MAP_TYPE: F.MapType;
     // _fitBound: google.maps.LatLngBounds;
 
@@ -33,6 +34,10 @@ class Map implements F.Map {
             NORMAL: 'NORMAL',
             TERRAIN: 'TERRAIN',
             SATELLITE: 'SATELLITE',
+        };
+        this._type = {
+            map: 'GMAP',
+            type: this.MAP_TYPE.NORMAL
         };
     }
 
@@ -96,18 +101,22 @@ class Map implements F.Map {
         switch (type) {
             case MAP_TYPE.HYBRID: {
                 this._original.setMapTypeId(google.maps.MapTypeId.HYBRID);
+                this._type.type = MAP_TYPE.HYBRID;
                 break;
             }
             case MAP_TYPE.NORMAL: {
                 this._original.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+                this._type.type = MAP_TYPE.NORMAL;
                 break;
             }
             case MAP_TYPE.SATELLITE: {
                 this._original.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+                this._type.type = MAP_TYPE.SATELLITE;
                 break;
             }
             case MAP_TYPE.TERRAIN: {
                 this._original.setMapTypeId(google.maps.MapTypeId.TERRAIN);
+                this._type.type = MAP_TYPE.TERRAIN;
                 break;
             }
         }

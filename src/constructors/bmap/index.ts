@@ -15,6 +15,7 @@ import util from '../../utils';
 class Map implements F.Map {
     _original: BMap.Map;
     _id: string;
+    _type: {map: string, type: string};
     MAP_TYPE: F.MapType;
 
     constructor(opt: O.MapOption) {
@@ -28,6 +29,10 @@ class Map implements F.Map {
             NORMAL: 'NORMAL',
             SATELLITE: 'SATELLITE',
             // TERRAIN: 'TERRAIN',
+        };
+        this._type = {
+            map: 'BMAP',
+            type: this.MAP_TYPE.NORMAL
         };
     }
 
@@ -100,14 +105,17 @@ class Map implements F.Map {
         switch (type) {
             case MAP_TYPE.HYBRID: {
                 this._original.setMapType(BMAP_HYBRID_MAP);
+                this._type.type = MAP_TYPE.HYBRID;
                 break;
             }
             case MAP_TYPE.NORMAL: {
                 this._original.setMapType(BMAP_NORMAL_MAP);
+                this._type.type = MAP_TYPE.NORMAL;
                 break;
             }
             case MAP_TYPE.SATELLITE: {
                 this._original.setMapType(BMAP_SATELLITE_MAP);
+                this._type.type = MAP_TYPE.SATELLITE;
                 break;
             }
             case MAP_TYPE.TERRAIN: {

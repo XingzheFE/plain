@@ -9,13 +9,13 @@ import util from '../../utils';
 // AMap in not defined in this file
 // But you will get this variable on window Object
 // while loaded baidu map script
-// NOTICE: AMap library will cause memory leak !!
 
 @eventBinder
 class Map implements F.Map {
     _original: AMap.Map;
     _id: string;
-    MAP_TYPE: F.MapType;
+    _type: {map: string, type: string};
+    MAP_TYPE: F.MapType;        // tile type
 
     private _boundMarkers: AMap.Marker[];      // For set Viewport
     private _boundIcon: AMap.Icon;             // For set Viewport
@@ -23,9 +23,13 @@ class Map implements F.Map {
     constructor(opt: O.MapOption) {
         this.MAP_TYPE = {
             HYBRID: 'HYBRID',
-            NORMAL: 'NORMAL',
+            NORMAL: 'NORMAL',   // default
             SATELLITE: 'SATELLITE',
             // TERRAIN: 'TERRAIN',
+        };
+        this._type = {
+            map: 'AMAP',
+            type: this.MAP_TYPE.NORMAL
         };
         this._original = new AMap.Map(opt.container, {
             zoom: opt.zoom,
@@ -113,14 +117,17 @@ class Map implements F.Map {
         let { MAP_TYPE } = this;
         switch (type) {
             case MAP_TYPE.HYBRID: {
+                this._type.type = MAP_TYPE.HYBRID;
                 this._original.setLayers([new AMap.TileLayer.Satellite(), new AMap.TileLayer.RoadNet()]);
                 break;
             }
             case MAP_TYPE.NORMAL: {
+                this._type.type = MAP_TYPE.NORMAL;
                 this._original.setLayers([new AMap.TileLayer()]);
                 break;
             }
             case MAP_TYPE.SATELLITE: {
+                this._type.type = MAP_TYPE.SATELLITE;
                 this._original.setLayers([new AMap.TileLayer.Satellite()]);
                 break;
             }

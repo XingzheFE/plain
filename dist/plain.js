@@ -19,6 +19,7 @@ var V = {
         this.coordType = type;
     }
 };
+//# sourceMappingURL=var.js.map
 
 var MapsEventListener = (function () {
     function MapsEventListener(parm) {
@@ -37,6 +38,7 @@ var D = {
         opacity: 0.8,
     }
 };
+//# sourceMappingURL=default.js.map
 
 var x_PI = 3.14159265358979324 * 3000.0 / 180.0;
 var PI = 3.1415926535897932384626;
@@ -131,6 +133,7 @@ var coordtransform = {
     wgs84togcj02: wgs84togcj02,
     gcj02towgs84: gcj02towgs84
 };
+//# sourceMappingURL=coordtransform.js.map
 
 var util = {
     log: function (v) {
@@ -242,6 +245,7 @@ var util = {
         }
     },
 };
+//# sourceMappingURL=utils.js.map
 
 var Map = (function () {
     function Map(opt) {
@@ -249,6 +253,10 @@ var Map = (function () {
             HYBRID: 'HYBRID',
             NORMAL: 'NORMAL',
             SATELLITE: 'SATELLITE',
+        };
+        this._type = {
+            map: 'AMAP',
+            type: this.MAP_TYPE.NORMAL
         };
         this._original = new AMap.Map(opt.container, {
             zoom: opt.zoom,
@@ -327,14 +335,17 @@ var Map = (function () {
         var MAP_TYPE = this.MAP_TYPE;
         switch (type) {
             case MAP_TYPE.HYBRID: {
+                this._type.type = MAP_TYPE.HYBRID;
                 this._original.setLayers([new AMap.TileLayer.Satellite(), new AMap.TileLayer.RoadNet()]);
                 break;
             }
             case MAP_TYPE.NORMAL: {
+                this._type.type = MAP_TYPE.NORMAL;
                 this._original.setLayers([new AMap.TileLayer()]);
                 break;
             }
             case MAP_TYPE.SATELLITE: {
+                this._type.type = MAP_TYPE.SATELLITE;
                 this._original.setLayers([new AMap.TileLayer.Satellite()]);
                 break;
             }
@@ -529,6 +540,10 @@ var Map$1 = (function () {
             NORMAL: 'NORMAL',
             SATELLITE: 'SATELLITE',
         };
+        this._type = {
+            map: 'BMAP',
+            type: this.MAP_TYPE.NORMAL
+        };
     }
     Map.prototype.addLayer = function (layer) {
         if (layer instanceof Array) {
@@ -590,14 +605,17 @@ var Map$1 = (function () {
         switch (type) {
             case MAP_TYPE.HYBRID: {
                 this._original.setMapType(BMAP_HYBRID_MAP);
+                this._type.type = MAP_TYPE.HYBRID;
                 break;
             }
             case MAP_TYPE.NORMAL: {
                 this._original.setMapType(BMAP_NORMAL_MAP);
+                this._type.type = MAP_TYPE.NORMAL;
                 break;
             }
             case MAP_TYPE.SATELLITE: {
                 this._original.setMapType(BMAP_SATELLITE_MAP);
+                this._type.type = MAP_TYPE.SATELLITE;
                 break;
             }
             case MAP_TYPE.TERRAIN: {
@@ -831,6 +849,10 @@ var Map$2 = (function () {
             TERRAIN: 'TERRAIN',
             SATELLITE: 'SATELLITE',
         };
+        this._type = {
+            map: 'GMAP',
+            type: this.MAP_TYPE.NORMAL
+        };
     }
     Map.prototype.addLayer = function (layer) {
         if (layer instanceof Array) {
@@ -885,18 +907,22 @@ var Map$2 = (function () {
         switch (type) {
             case MAP_TYPE.HYBRID: {
                 this._original.setMapTypeId(google.maps.MapTypeId.HYBRID);
+                this._type.type = MAP_TYPE.HYBRID;
                 break;
             }
             case MAP_TYPE.NORMAL: {
                 this._original.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+                this._type.type = MAP_TYPE.NORMAL;
                 break;
             }
             case MAP_TYPE.SATELLITE: {
                 this._original.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+                this._type.type = MAP_TYPE.SATELLITE;
                 break;
             }
             case MAP_TYPE.TERRAIN: {
                 this._original.setMapTypeId(google.maps.MapTypeId.TERRAIN);
+                this._type.type = MAP_TYPE.TERRAIN;
                 break;
             }
         }
