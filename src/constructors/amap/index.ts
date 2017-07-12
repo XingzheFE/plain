@@ -16,10 +16,10 @@ class Map implements F.Map {
     _original: AMap.Map;
     _id: string;
     MAP_TYPE: F.MapType;
-    
+
     private _boundMarkers: AMap.Marker[];      // For set Viewport
     private _boundIcon: AMap.Icon;             // For set Viewport
-    
+
     constructor(opt: O.MapOption) {
         this.MAP_TYPE = {
             HYBRID: 'HYBRID',
@@ -66,13 +66,13 @@ class Map implements F.Map {
     }
 
     zoomIn() {
-        this._original.zoomIn();    
+        this._original.zoomIn();
     }
-    
+
     zoomOut() {
         this._original.zoomOut();
     }
-    
+
     fitView(latlngs: F.LatLng[], opt?: O.ViewportOption) {
         let bound = util.getBound(latlngs);     // length === 2
         if (this._boundMarkers) {
@@ -104,11 +104,11 @@ class Map implements F.Map {
         let center = this._original.getCenter();
         return [center.lat, center.lng];
     }
-    
+
     panTo(latlng: F.LatLng) {
         this._original.panTo(latlng.slice().reverse());
     }
-    
+
     setMapType(type: string) {
         let { MAP_TYPE } = this;
         switch (type) {
@@ -129,6 +129,7 @@ class Map implements F.Map {
                 break;
             }
         }
+        return this;
     }
 }
 
@@ -153,11 +154,11 @@ class Marker implements F.Marker {
         }
         // 19 31
         if (opt.icon && opt.icon.anchor) {
-            option.offset = new AMap.Pixel(-opt.icon.anchor[0], -opt.icon.anchor[1]);  
+            option.offset = new AMap.Pixel(-opt.icon.anchor[0], -opt.icon.anchor[1]);
         }
         return option;
     }
-    
+
     setLatLng(latlng: F.LatLng) {
         this._original.setPosition(latlng.slice().reverse());
         return this;
@@ -173,14 +174,14 @@ class Marker implements F.Marker {
 class Polyline implements F.Polyline {
     _id: string;
     _original: AMap.Polyline;
- 
+
     constructor(latlngs: F.LatLng[], opt?: O.PolylineOption) {
         let path = latlngs.map(latlng => {
             return [latlng[1], latlng[0]];
         });
         let polylineOption = this.formatOpt(opt, path);
         this._original = new AMap.Polyline(polylineOption);
-    }   
+    }
 
     formatOpt (opt: O.PolylineOption = {}, path: number[][]) {
         util.objectAssign(D.polyline, opt);
@@ -211,7 +212,7 @@ class Icon implements F.Icon {
     _id: string;
     _original: AMap.Icon;
     anchor: F.Size;
-    
+
     constructor(opt: O.IconOption) {
         let iconOption = this.formatOpt(opt);
         this._original = new AMap.Icon(iconOption);
@@ -239,15 +240,15 @@ class Icon implements F.Icon {
     setAnchor(size: F.Size) {
 
     }
-    
+
     getImageUrl(): string {
         return '';
     }
-    
+
     getAnchor(): F.Size {
-        return [];        
+        return [];
     }
-    
+
     getSize(): F.Size {
         return [];
     }
@@ -288,7 +289,7 @@ export default class B_Map implements F.Factory {
     Icon(opt: O.IconOption): Icon {
         return new Icon(opt);
     }
-    
+
     // Load map script
     load(key: string, resolve: Function, reject: Function): void {
         if ((<any>window).AMap) {
@@ -312,7 +313,7 @@ export default class B_Map implements F.Factory {
 
 /**
  * @function Set overlay eventListener
- * @param {Function} constructor 
+ * @param {Function} constructor
  */
 function eventBinder(constructor: Function) {
     constructor.prototype.on = function(eventName: string, handler: Function):  F.MapsEventListener {
@@ -322,7 +323,7 @@ function eventBinder(constructor: Function) {
             eventName: eventName,
             host: this,
             listener: listener,
-            handler: fn 
+            handler: fn
         });
     }
     // require MapEventListener

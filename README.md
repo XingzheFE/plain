@@ -1,4 +1,5 @@
 ![plain](./images/plain.png)
+
 ![plain](https://travis-ci.org/XingzheFE/plain.svg?branch=master)
 
 使用相同的代码创建你的 web 地图应用。
@@ -114,7 +115,3 @@ var listener = map.on('rightclick', function (e) {
 map.off(listener);
 ```
 就酱。有疑问和建议请创建 issue 哦
-
-
-
-

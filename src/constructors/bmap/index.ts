@@ -16,7 +16,7 @@ class Map implements F.Map {
     _original: BMap.Map;
     _id: string;
     MAP_TYPE: F.MapType;
-    
+
     constructor(opt: O.MapOption) {
         let center = opt.center ? fixCoord(opt.center) : [0, 0];
         let centerPoint = new BMap.Point(center[1], center[0]);
@@ -62,11 +62,11 @@ class Map implements F.Map {
     getZoom() {
         return this._original.getZoom();
     }
-    
+
     zoomIn() {
         this._original.zoomIn();
     }
-    
+
     zoomOut() {
         this._original.zoomOut();
     }
@@ -90,11 +90,11 @@ class Map implements F.Map {
         let center = this._original.getCenter();
         return [center.lat, center.lng];
     }
-    
+
     panTo(latlng: F.LatLng) {
         this._original.panTo(new BMap.Point(latlng[1], latlng[0]));
     }
-    
+
     setMapType(type: string) {
         let { MAP_TYPE } = this;
         switch (type) {
@@ -115,6 +115,7 @@ class Map implements F.Map {
                 break;
             }
         }
+        return this;
     }
 }
 
@@ -139,7 +140,7 @@ class Marker implements F.Marker {
             enableDragging: opt.draggable
         }
     }
-    
+
     setLatLng(latlng: F.LatLng) {
         latlng = <F.LatLng>fixCoord(latlng);
         let point = new BMap.Point(latlng[1], latlng[0]);
@@ -157,13 +158,13 @@ class Marker implements F.Marker {
 class Polyline implements F.Polyline {
     _id: string;
     _original: BMap.Polyline;
- 
+
     constructor(latlngs: F.LatLng[], opt?: O.PolylineOption) {
         let points = (<F.LatLng[]>fixCoord(latlngs)).map(latlng => {
             return new BMap.Point(latlng[1], latlng[0]);
         });
         this._original = new BMap.Polyline(points, this.formatOpt(opt));
-    }   
+    }
 
     formatOpt (opt: O.PolylineOption = {}) {
         util.objectAssign(D.polyline, opt);
@@ -217,15 +218,15 @@ class Icon implements F.Icon {
     setAnchor(size: F.Size) {
 
     }
-    
+
     getImageUrl(): string {
         return '';
     }
-    
+
     getAnchor(): F.Size {
-        return [];        
+        return [];
     }
-    
+
     getSize(): F.Size {
         return [];
     }
@@ -266,7 +267,7 @@ export default class B_Map implements F.Factory {
     Icon(opt: O.IconOption): Icon {
         return new Icon(opt);
     }
-    
+
     // Load map script
     load(key: string, resolve: Function, reject: Function): void {
         if ((<any>window).BMap) {
@@ -290,7 +291,7 @@ export default class B_Map implements F.Factory {
 
 /**
  * @function Set overlay eventListener
- * @param {Function} constructor 
+ * @param {Function} constructor
  */
 function eventBinder(constructor: Function) {
     constructor.prototype.on = function(eventName: string, handler: Function):  F.MapsEventListener {
@@ -300,7 +301,7 @@ function eventBinder(constructor: Function) {
             eventName: eventName,
             host: this,
             listener: listener,
-            handler: fn 
+            handler: fn
         });
     }
     // require MapEventListener
@@ -346,5 +347,5 @@ function fixCoord (latlngs: F.LatLng[] | F.LatLng, type?: string): F.LatLng[] | 
                 return util.w2b(<F.LatLng[]>latlngs);
             }
         }
-    } 
+    }
 }

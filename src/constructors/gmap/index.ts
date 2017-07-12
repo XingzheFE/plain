@@ -111,6 +111,7 @@ class Map implements F.Map {
                 break;
             }
         }
+        return this;
     }
 
     getCenter(): F.LatLng {
