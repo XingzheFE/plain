@@ -19,7 +19,6 @@ var V = {
         this.coordType = type;
     }
 };
-//# sourceMappingURL=var.js.map
 
 var MapsEventListener = (function () {
     function MapsEventListener(parm) {
@@ -38,7 +37,6 @@ var D = {
         opacity: 0.8,
     }
 };
-//# sourceMappingURL=default.js.map
 
 var x_PI = 3.14159265358979324 * 3000.0 / 180.0;
 var PI = 3.1415926535897932384626;
@@ -133,7 +131,6 @@ var coordtransform = {
     wgs84togcj02: wgs84togcj02,
     gcj02towgs84: gcj02towgs84
 };
-//# sourceMappingURL=coordtransform.js.map
 
 var util = {
     log: function (v) {
@@ -245,7 +242,6 @@ var util = {
         }
     },
 };
-//# sourceMappingURL=utils.js.map
 
 var Map = (function () {
     function Map(opt) {
@@ -474,7 +470,8 @@ var B_Map = (function () {
                     type: e.type.replace(/^on/g, ''),
                     target: this,
                     e: e,
-                    p: point
+                    p: point,
+                    pixel: JSON.parse(JSON.stringify(e.pixel))
                 };
             }
         };
@@ -737,6 +734,7 @@ var B_Map$1 = (function () {
                     target: this,
                     e: e,
                     p: point,
+                    pixel: JSON.parse(JSON.stringify(e.pixel))
                 };
             }
         };
@@ -1052,6 +1050,7 @@ var G_Map = (function () {
                     target: this,
                     e: e,
                     p: point,
+                    pixel: JSON.parse(JSON.stringify(e.pixel))
                 };
             }
         };

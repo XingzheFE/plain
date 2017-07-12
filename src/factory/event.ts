@@ -6,6 +6,7 @@ interface Event {
     target: Layer;
     e: any;
     p: LatLng;
+    pixel: {x: number, y: number}
 }
 
 export default Event;

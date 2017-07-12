@@ -275,7 +275,8 @@ export default class B_Map implements F.Factory {
                     type: e.type.replace(/^on/g, ''),
                     target: this,
                     e: e,
-                    p: point
+                    p: point,
+                    pixel: JSON.parse(JSON.stringify(e.pixel))
                 }
             }
         }

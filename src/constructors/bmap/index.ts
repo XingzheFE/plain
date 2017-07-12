@@ -255,6 +255,7 @@ export default class B_Map implements F.Factory {
                     target: this,
                     e: e,
                     p: point,
+                    pixel: JSON.parse(JSON.stringify(e.pixel))
                 }
             }
         }
