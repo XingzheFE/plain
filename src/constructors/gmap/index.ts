@@ -356,6 +356,7 @@ function createLayerConstructor (isPopup: boolean = false): any {
     let google = window.google;
     if (google && google.maps) {
         let Layer = function (opt?: O.LayerOption) {
+            this._opt = opt;
             this.init();
         }
         Layer.prototype = new google.maps.OverlayView();
@@ -379,6 +380,16 @@ function createLayerConstructor (isPopup: boolean = false): any {
                     this._contentBox.appendChild(this._content);
                 }
                 this._box.appendChild(this._contentBox);
+                if (this._opt && this._opt.closeBtn === true) {
+                    let closeBtn = document.createElement('button');
+                    closeBtn.setAttribute('type', 'button');
+                    closeBtn.classList.add('popup-close');
+                    closeBtn.innerHTML = '×';
+                    closeBtn.addEventListener('click', e => {
+                        this.hide();
+                    });
+                    this._box.appendChild(closeBtn);
+                }
             } else {
                 if (typeof this._content === 'string') {
                     this._box.innerHTML = this._content;

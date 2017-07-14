@@ -13,7 +13,8 @@ export interface MapOption {
 export interface LayerOption {
     latlng?: Array<number>;
     content?: string | Element;
-    class?: string; 
+    class?: string;
+    closeBtn?: boolean;
 }
 
 export interface MarkerOption {

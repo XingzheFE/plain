@@ -25,6 +25,21 @@ export default `
     overflow: hidden;
     transform: translate3d(-50%, 0, 0);
 }
+.popup-box[data-plain-style] .popup-close {
+    position: absolute;
+    display: block;
+    right: 0;
+    top: 0;
+    height: 14px;
+    width: 14px;
+    border: none;
+    color: #666;
+    font-size: 14px;
+    line-height: 14px;
+    cursor: pointer;
+    background: transparent;
+    outline: none;
+}
 .popup-box[data-plain-style] .popup-arrow::after {
     display: block;
     content: '';

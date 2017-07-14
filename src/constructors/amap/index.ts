@@ -143,9 +143,11 @@ class Map implements F.Map {
 class Layer implements F.Layer {
     _original: any;
     _id: string;
+    _opt: object;
     _box?: HTMLDivElement;
     _contentBox?: HTMLDivElement;
     constructor (opt: O.LayerOption) {
+        this._opt = opt;
         this._original = new AMap.Marker({
            position: [0, 0],
            content: 'custom Layer' 
@@ -190,13 +192,23 @@ class Popup extends Layer {
         this._box.setAttribute('data-plain-style', '');
         this._box.setAttribute('style', 'position: absolute;transform:translate3d(-50%, -50%, 0);left: 10px;');
         this._contentBox = document.createElement('div');
-        this._box.innerHTML = `<div class="popup-arrow"></div>`;
+        this._box.innerHTML = `<div class="popup-arrow"></div`;
         this._contentBox.classList.add('popup-content');
         this._box.appendChild(this._contentBox);
         this._original = new AMap.Marker({
            position: [0, 0],
            content: this._box,
         });
+        if (opt && opt.closeBtn === true) {
+            let closeBtn = document.createElement('button');
+            closeBtn.setAttribute('type', 'button');
+            closeBtn.classList.add('popup-close');
+            closeBtn.innerHTML = '×';
+            closeBtn.addEventListener('click', e => {
+                this.hide();
+            });
+            this._box.appendChild(closeBtn);
+        }
     }
     createContent (content: string | Element) {
         if (typeof content === 'string') {

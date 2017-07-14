@@ -58,7 +58,7 @@ plain.loadMap(key, (e) => {
         map.fitView(path);
     });
     document.getElementById("add-popup").addEventListener("click", function (e) {
-        plain.Popup().setContent("<p>1231231</p>").setLatLng([39.910, 116.404]).mount(map);
+        window.popup = plain.Popup({closeBtn: true}).setContent("<p>1231231</p>").setLatLng([39.910, 116.404]).mount(map);
     });
 });
 
