@@ -392,7 +392,6 @@ function createLayerConstructor (isPopup: boolean = false): any {
         }
         Layer.prototype = new BMap.Overlay();
         Layer.prototype.initialize = function (map: BMap.Map) {
-            console.log('init');
             this._map = map;
             this.createContent();
             map.getPanes().markerPane.appendChild(this._box);
@@ -471,11 +470,13 @@ function createLayerConstructor (isPopup: boolean = false): any {
             if (this._box) {
                 this._box.style.display = 'block';
             }
+            return this;
         }
         Layer.prototype.hide = function () {
             if (this._box) {
                 this._box.style.display = 'none';
-            }           
+            }
+            return this;
         }
         return Layer;
     }

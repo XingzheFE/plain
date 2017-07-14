@@ -448,11 +448,13 @@ function createLayerConstructor (isPopup: boolean = false): any {
             if (this._box) {
                 this._box.style.display = 'block';
             }
+            return this;
         }
         Layer.prototype.hide = function () {
             if (this._box) {
                 this._box.style.display = 'none';
-            }           
+            }
+            return this;
         }
         return Layer;
     }
