@@ -140,6 +140,77 @@ class Map implements F.Map {
     }
 }
 
+class Layer implements F.Layer {
+    _original: any;
+    _id: string;
+    _box?: HTMLDivElement;
+    _contentBox?: HTMLDivElement;
+    constructor (opt: O.LayerOption) {
+        this._original = new AMap.Marker({
+           position: [0, 0],
+           content: 'custom Layer' 
+        });
+    }
+    setLatLng (latlng: F.LatLng) {
+        this._original && this._original.setPosition(latlng.slice().reverse());
+        return this;
+    }
+    setContent (content: string | Element = '') {
+        this._original.setContent(content);
+        return this;
+    }
+    mount (map: Map) {
+        this._original.setMap(map._original);
+        return this;
+    }
+    unmount () {
+        this._original.setMap(null);
+        return this;
+    }
+    show () {
+        this._original.show();
+        return this;
+    }
+    hide () {
+        this._original.hide();
+        return this;
+    }
+    remove () {
+        this._box = null;
+        this._contentBox = null;
+        this._original = null;
+    }
+}
+
+class Popup extends Layer {
+    constructor (opt: O.LayerOption) {
+        super(opt);
+        this._box = document.createElement('div');
+        this._box.classList.add('popup-box');
+        this._box.setAttribute('data-plain-style', '');
+        this._box.setAttribute('style', 'position: absolute;transform:translate3d(-50%, -50%, 0);left: 10px;');
+        this._contentBox = document.createElement('div');
+        this._box.innerHTML = `<div class="popup-arrow"></div>`;
+        this._contentBox.classList.add('popup-content');
+        this._box.appendChild(this._contentBox);
+        this._original = new AMap.Marker({
+           position: [0, 0],
+           content: this._box,
+        });
+    }
+    createContent (content: string | Element) {
+        if (typeof content === 'string') {
+            this._contentBox.innerHTML = content;
+        } else {
+            this._contentBox.innerHTML = '';
+            this._contentBox.appendChild(content);
+        }
+    }
+    setContent (content: string | Element) {
+        this.createContent(content);
+        return this;
+    }
+}
 @eventBinder
 class Marker implements F.Marker {
     _id: string;
@@ -286,6 +357,14 @@ export default class B_Map implements F.Factory {
         return new Map(opt);
     }
 
+    Layer(opt: O.LayerOption) {
+        return new Layer(opt);
+    }
+    
+    Popup(opt: O.LayerOption) {
+        return new Popup(opt);
+    }
+    
     Marker(latlng: F.LatLng, opt?: O.MarkerOption): Marker {
         return new Marker(latlng, opt);
     }

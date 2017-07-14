@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>googleMap</title>
+	<style>
+		*{
+			margin:0;
+			padding: 0;
+		}
+		body{
+			padding: 50px;
+			overflow: hidden;
+		}
+		.listBox{
+			width: 20%;
+			height: 800px;
+			float: left;
+		}
+		.listBox li{
+			list-style: none;
+		}
+		.listBox li.active{
+			color:red;
+		}
+		.mapBox{
+			float: right;
+			width: 80%;
+			height: 800px;
+		}
+		#container{
+			width: 100%;
+			height: 100%;
+		}
+		.markIcon{
+			width: 35px;
+			height: 35px;
+			border-radius: 50%;
+			background:rgba(255,0,0,0.3);
+			color: #fff;
+			display: block;
+			line-height: 35px;
+			text-align: center;
+			cursor: pointer;
+		}
+		.infoWidow{
+			width:300px;
+			height: 150px;
+			background-color:#fff;
+			position:absolute;
+			left: -130px;
+			top: -150px;
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div class="listBox">
+		<ul>
+			<li id="list-1">厦门体育中心</li>
+			<li id="list-2">白鹭洲公园</li>
+			<li id="list-3">东方山</li>
+			<li id="list-4">国贸大厦</li>
+		</ul>
+	</div>
+	<div class="mapBox">
+		<div id="container"></div>
+	</div>
+</body>
+<script src="http://ditu.google.cn/maps/api/js" type="text/javascript"></script>
+<script src="http://coolnuanfeng.github.io/assets/js/jquery.min.js"></script>
+<script>
+$(function(){
+
+	var myData = [
+		{
+			lat: 24.486371, 
+			lng: 118.108551,
+			title: '厦门体育中心',
+			pointId : 1
+		},
+		{
+			lat: 24.474017,
+			lng: 118.094328,
+			title: '白鹭洲公园',
+			pointId : 2
+		},
+		{
+			lat: 24.480877,
+			lng: 118.128776,
+			title: '东方山',
+			pointId : 3
+		},
+		{
+			lat: 24.475902,
+			lng: 118.118552,
+			title: '国贸大厦',
+			pointId : 4
+		}
+	];
+
+	
+	//初始化函数
+	function initialize(){
+		var oMap = new google.maps.Map(document.getElementById('container'), {
+	        zoom: 14,
+	        center: {lat: 24.486421, lng: 118.108610}
+	    });
+        var myLatLng = {lat: 24.486421, lng: 118.108610};
+
+        var marker = new google.maps.Marker({
+          position: myLatLng,
+          map: oMap,
+          title: 'Hello World!'
+        });
+		var start,end;
+		var wayPoints = [];
+
+		$.each(myData,function(index,item){
+			if(index == 0){
+                start = new google.maps.LatLng(item.lat, item.lng);
+            }else if(index == myData.length-1){
+                end = new google.maps.LatLng(item.lat, item.lng);
+            }else{
+                wayPoints.push({
+                  location: new google.maps.LatLng(item.lat, item.lng),
+                  stopover: false
+                });
+            }
+			var point = new google.maps.LatLng(item.lat, item.lng); 
+			var customLay = new CustomLayer(point,oMap,item);
+		});
+
+		var directionsService = new google.maps.DirectionsService();
+	    var directionsDisplay = new google.maps.DirectionsRenderer({
+	        map: oMap,
+	        suppressMarkers : true  // 去掉默认marker点
+	    });
+	    directionsService.route({
+	        origin: start,
+	        destination: end,
+	        waypoints: wayPoints,
+	        travelMode: google.maps.DirectionsTravelMode.DRIVING
+	    }, function(response, status) {
+	        if (status === google.maps.DirectionsStatus.OK) {
+	          directionsDisplay.setDirections(response);
+	        }
+	    });
+
+	}
+
+	google.maps.event.addDomListener(window, 'load', initialize);
+
+
+	//自定义覆盖类
+	function CustomLayer(latlng,map,data){
+		this._div = null;
+		this._map = map;
+		this._latlng = latlng;
+		this._data = data;
+		this.setMap(map);
+	}
+
+	CustomLayer.prototype = new google.maps.OverlayView();
+	CustomLayer.prototype.onAdd = function(){
+		var div = document.createElement('div');
+		div.style.position = "absolute";
+		div.id = 'point-'+this._data.pointId;
+		this._div = div;
+		div.innerHTML = '<div class="markIcon" data-id="'+this._data.pointId+'">'+this._data.pointId+'</div><div class="infoWidow"><a href="javascript:;">&times;</a></div>';
+
+		div.addEventListener('click',function(){
+			$('.infoWidow').hide();
+			$(this).find('.infoWidow').show();
+		});
+
+		div.addEventListener('mouseover',function(){
+			var id = $(this).find('.markIcon').attr('data-id');
+			$('.listBox li').removeClass('active');
+			$('#list-'+id).addClass('active');
+		});
+
+		var panes = this.getPanes();
+        panes.overlayImage.appendChild(div);
+	};
+	CustomLayer.prototype.draw = function() {
+	    var point = this.getProjection().fromLatLngToDivPixel(this._latlng);
+	    if (point) {
+	    	this._div.setAttribute('data-top', point.y-17);
+	        this._div.style.left = point.x - 17 + 'px';
+	        this._div.style.top = point.y -17 + 'px';
+	    }
+	};
+
+	CustomLayer.prototype.remove = function() {
+	  if (this._div) {
+	    this._div.parentNode.removeChild(this._div);
+	    this._div = null;
+	  }
+	};
+
+
+	$('#container').on('click','.markIcon',function(){
+		console.log('click');
+	});
+	$('#container').on('mouseover','.markIcon',function(){
+		console.log('mouseover');
+	});
+	$('#container').on('click','.infoWidow a',function(){
+		$(this).parent().hide();
+	});
+
+
+	$('.listBox li').on('mouseover',function(){
+		var id = $(this).attr('id').split('-')[1];
+		var t = $('#point-'+id).attr('data-top');
+		$('#point-'+id).stop().animate({
+			top : '-=30'
+		},300,function() {
+            $(this).stop().animate({'top':t});
+        });
+	});
+
+});
+</script>
+</html>

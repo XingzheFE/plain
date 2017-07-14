@@ -6,6 +6,7 @@ import A_Map from './constructors/amap/index';      // gaode map
 import B_Map from './constructors/bmap/index';      // baidu map
 import G_Map from './constructors/gmap/index';      // google map
 import util from './utils';
+import styleString from './style';
 // Error with import require: can not find module 'object-assign'
 // import objectAssign = require('object-assign');
 
@@ -26,6 +27,9 @@ export default class Plain {
         }
         util.objectAssign(this.Util, util);
         this._v = V;
+        let style = document.createElement('style');
+        style.innerHTML = styleString;
+        document.head.appendChild(style);
     }
 
     // Load the map factory plugin
@@ -59,7 +63,19 @@ export default class Plain {
     Map([opt] : [O.MapOption]) {
         return this.factory.Map(opt);
     }
-
+    
+    // custom layer
+    @tagging()
+    Layer([opt]: [O.LayerOption]) {
+        return this.factory.Layer(opt);
+    }
+    
+    // custom layer
+    @tagging()
+    Popup([opt]: [O.LayerOption]) {
+        return this.factory.Popup(opt);
+    }
+    
     // Create Marker
     @tagging()
     Marker([latlng, opt] : [LatLng, O.MarkerOption]) {

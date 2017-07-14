@@ -8,7 +8,7 @@ import F_Size from './size';
 import F_Event from './event';
 import F_MapType from './mapType';
 import F_MapsEventListener from './mapsEventListener';
-import {  MapOption, MarkerOption, PolylineOption, IconOption } from '../options/mapOptions';
+import {  MapOption, LayerOption, MarkerOption, PolylineOption, IconOption } from '../options/mapOptions';
 
 export default F;
 
@@ -23,6 +23,8 @@ namespace F {
         Util: Util;
         
         Map(opt:  MapOption): Map;
+        Layer(opt: LayerOption): Layer;
+        Popup(opt: LayerOption): Layer;
         Marker(point: LatLng, opt?: MarkerOption): Marker;
         Polyline(points: Array<LatLng>, opt?: PolylineOption): Polyline;
         Icon(opt: IconOption): Icon;
@@ -36,6 +38,7 @@ namespace F {
      */
     export interface Util {
         formatEvent(e: object): F_Event;
+        
     }
 
     export type Map = F_Map;

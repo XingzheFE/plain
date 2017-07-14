@@ -4,6 +4,12 @@
 	(global.Plain = factory());
 }(this, (function () { 'use strict';
 
+function __extends(d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
 function __decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -19,6 +25,7 @@ var V = {
         this.coordType = type;
     }
 };
+//# sourceMappingURL=var.js.map
 
 var MapsEventListener = (function () {
     function MapsEventListener(parm) {
@@ -37,6 +44,7 @@ var D = {
         opacity: 0.8,
     }
 };
+//# sourceMappingURL=default.js.map
 
 var x_PI = 3.14159265358979324 * 3000.0 / 180.0;
 var PI = 3.1415926535897932384626;
@@ -131,6 +139,7 @@ var coordtransform = {
     wgs84togcj02: wgs84togcj02,
     gcj02towgs84: gcj02towgs84
 };
+//# sourceMappingURL=coordtransform.js.map
 
 var util = {
     log: function (v) {
@@ -242,6 +251,7 @@ var util = {
         }
     },
 };
+//# sourceMappingURL=utils.js.map
 
 var Map = (function () {
     function Map(opt) {
@@ -356,6 +366,77 @@ var Map = (function () {
     ], Map);
     return Map;
 }());
+var Layer = (function () {
+    function Layer(opt) {
+        this._original = new AMap.Marker({
+            position: [0, 0],
+            content: 'custom Layer'
+        });
+    }
+    Layer.prototype.setLatLng = function (latlng) {
+        this._original && this._original.setPosition(latlng.slice().reverse());
+        return this;
+    };
+    Layer.prototype.setContent = function (content) {
+        if (content === void 0) { content = ''; }
+        this._original.setContent(content);
+        return this;
+    };
+    Layer.prototype.mount = function (map) {
+        this._original.setMap(map._original);
+        return this;
+    };
+    Layer.prototype.unmount = function () {
+        this._original.setMap(null);
+        return this;
+    };
+    Layer.prototype.show = function () {
+        this._original.show();
+        return this;
+    };
+    Layer.prototype.hide = function () {
+        this._original.hide();
+        return this;
+    };
+    Layer.prototype.remove = function () {
+        this._box = null;
+        this._contentBox = null;
+        this._original = null;
+    };
+    return Layer;
+}());
+var Popup = (function (_super) {
+    __extends(Popup, _super);
+    function Popup(opt) {
+        _super.call(this, opt);
+        this._box = document.createElement('div');
+        this._box.classList.add('popup-box');
+        this._box.setAttribute('data-plain-style', '');
+        this._box.setAttribute('style', 'position: absolute;transform:translate3d(-50%, -50%, 0);left: 10px;');
+        this._contentBox = document.createElement('div');
+        this._box.innerHTML = "<div class=\"popup-arrow\"></div>";
+        this._contentBox.classList.add('popup-content');
+        this._box.appendChild(this._contentBox);
+        this._original = new AMap.Marker({
+            position: [0, 0],
+            content: this._box,
+        });
+    }
+    Popup.prototype.createContent = function (content) {
+        if (typeof content === 'string') {
+            this._contentBox.innerHTML = content;
+        }
+        else {
+            this._contentBox.innerHTML = '';
+            this._contentBox.appendChild(content);
+        }
+    };
+    Popup.prototype.setContent = function (content) {
+        this.createContent(content);
+        return this;
+    };
+    return Popup;
+}(Layer));
 var Marker = (function () {
     function Marker(latlng, opt) {
         var opts = this.formatOpt(opt, latlng);
@@ -478,6 +559,12 @@ var B_Map = (function () {
     }
     B_Map.prototype.Map = function (opt) {
         return new Map(opt);
+    };
+    B_Map.prototype.Layer = function (opt) {
+        return new Layer(opt);
+    };
+    B_Map.prototype.Popup = function (opt) {
+        return new Popup(opt);
     };
     B_Map.prototype.Marker = function (latlng, opt) {
         return new Marker(latlng, opt);
@@ -722,6 +809,8 @@ var Icon$1 = (function () {
 }());
 var B_Map$1 = (function () {
     function B_Map() {
+        this.LayerConstructor = createLayerConstructor();
+        this.PopupConstructor = createLayerConstructor(true);
         this.Util = {
             formatEvent: function (e) {
                 if (e === void 0) { e = {}; }
@@ -742,6 +831,12 @@ var B_Map$1 = (function () {
     B_Map.prototype.Map = function (opt) {
         return new Map$1(opt);
     };
+    B_Map.prototype.Layer = function (opt) {
+        return new this.LayerConstructor(opt);
+    };
+    B_Map.prototype.Popup = function (opt) {
+        return new this.PopupConstructor(opt);
+    };
     B_Map.prototype.Marker = function (latlng, opt) {
         return new Marker$1(latlng, opt);
     };
@@ -756,6 +851,7 @@ var B_Map$1 = (function () {
             resolve && resolve();
             return;
         }
+        var _this = this;
         var callbackName = 'map_init_' + Math.random().toString(16).substr(2);
         var body = document.body;
         var script = document.createElement("SCRIPT");
@@ -766,6 +862,8 @@ var B_Map$1 = (function () {
         body.appendChild(script);
         window[callbackName] = function () {
             resolve && resolve();
+            _this.LayerConstructor = createLayerConstructor();
+            _this.PopupConstructor = createLayerConstructor(true);
             delete window[callbackName];
         };
     };
@@ -825,6 +923,102 @@ function fixCoord(latlngs, type) {
                 return util.w2b(latlngs);
             }
         }
+    }
+}
+function createLayerConstructor(isPopup) {
+    if (isPopup === void 0) { isPopup = false; }
+    var BMap = window.BMap;
+    if (BMap) {
+        var Layer = function (opt) {
+            this._box = document.createElement('div');
+            this._box.setAttribute('data-plain-style', '');
+            this._latlng = this._latlng || new BMap.Point(116.399, 39.910);
+            this._content = this._content || '<h1 style="background:#fff;">custom Layer</h1>';
+            this.createContent();
+        };
+        Layer.prototype = new BMap.Overlay();
+        Layer.prototype.initialize = function (map) {
+            console.log('init');
+            this._map = map;
+            this.createContent();
+            map.getPanes().markerPane.appendChild(this._box);
+            return this._box;
+        };
+        Layer.prototype.createContent = function () {
+            this._box.innerHTML = '';
+            if (isPopup) {
+                this._box.classList.add('popup-box');
+                this._contentBox = document.createElement('div');
+                this._box.innerHTML = "<div class=\"popup-arrow\"></div>";
+                this._contentBox.classList.add('popup-content');
+                if (typeof this._content === 'string') {
+                    this._contentBox.innerHTML = this._content;
+                }
+                else {
+                    this._contentBox.appendChild(this._content);
+                }
+                this._box.appendChild(this._contentBox);
+            }
+            else {
+                if (typeof this._content === 'string') {
+                    this._box.innerHTML = this._content;
+                }
+                else {
+                    this._box.appendChild(this._content);
+                }
+            }
+        };
+        Layer.prototype.draw = function () {
+            if (this._map) {
+                var pixel = this._map.pointToOverlayPixel(this._latlng);
+                this._box.style.position = 'absolute';
+                this._box.style.left = ~~pixel.x + 'px';
+                this._box.style.top = ~~pixel.y + 'px';
+            }
+        };
+        Layer.prototype.remove = function () {
+            this._box.parentNode.removeChild(this._box);
+            this._content = null;
+            this._contentBox = null;
+            this._box = null;
+        };
+        Layer.prototype.setContent = function (content) {
+            this._content = content;
+            var _box = isPopup ? this._contentBox : this._box;
+            if (content instanceof Element) {
+                _box.innerHTML = '';
+                _box.appendChild(content);
+            }
+            else {
+                _box.innerHTML = content;
+            }
+            return this;
+        };
+        Layer.prototype.setLatLng = function (latlng) {
+            if (latlng === void 0) { latlng = [0, 0]; }
+            this._latlng = new BMap.Point(latlng[1], latlng[0]);
+            this.draw();
+            return this;
+        };
+        Layer.prototype.mount = function (target) {
+            target._original.addOverlay(this);
+            return this;
+        };
+        Layer.prototype.unmount = function () {
+            this._map.removeOverlay(this);
+            return this;
+        };
+        Layer.prototype.show = function () {
+            if (this._box) {
+                this._box.style.display = 'block';
+            }
+        };
+        Layer.prototype.hide = function () {
+            if (this._box) {
+                this._box.style.display = 'none';
+            }
+        };
+        return Layer;
     }
 }
 
@@ -1038,6 +1232,8 @@ var Icon$2 = (function () {
 }());
 var G_Map = (function () {
     function G_Map() {
+        this.LayerConstructor = createLayerConstructor$1();
+        this.PopupConstructor = createLayerConstructor$1(true);
         this.Util = {
             formatEvent: function (e) {
                 if (e === void 0) { e = {}; }
@@ -1058,6 +1254,12 @@ var G_Map = (function () {
     G_Map.prototype.Map = function (opt) {
         return new Map$2(opt);
     };
+    G_Map.prototype.Layer = function (opt) {
+        return new this.LayerConstructor(opt);
+    };
+    G_Map.prototype.Popup = function (opt) {
+        return new this.PopupConstructor(opt);
+    };
     G_Map.prototype.Marker = function (latlng, opt) {
         return new Marker$2(latlng, opt);
     };
@@ -1072,6 +1274,7 @@ var G_Map = (function () {
             resolve && resolve();
             return;
         }
+        var _this = this;
         var callbackName = 'map_init_' + Math.random().toString(16).substr(2);
         var body = document.body;
         var script = document.createElement("SCRIPT");
@@ -1082,6 +1285,8 @@ var G_Map = (function () {
         body.appendChild(script);
         window[callbackName] = function () {
             resolve && resolve();
+            _this.LayerConstructor = createLayerConstructor$1();
+            _this.PopupConstructor = createLayerConstructor$1(true);
             delete window[callbackName];
         };
     };
@@ -1102,6 +1307,107 @@ function eventBinder$2(constructor) {
         google.maps.event.removeListener(listener.listener);
     };
 }
+function createLayerConstructor$1(isPopup) {
+    if (isPopup === void 0) { isPopup = false; }
+    var google = window.google;
+    if (google && google.maps) {
+        var Layer = function (opt) {
+            this.init();
+        };
+        Layer.prototype = new google.maps.OverlayView();
+        Layer.prototype.init = function () {
+            this._box = document.createElement('div');
+            this._box.setAttribute('data-plain-style', '');
+            this._latlng = this._latlng || new google.maps.LatLng(0, 0);
+            this._content = this._content || '<h1 style="background:#fff;">custom Layer</h1>';
+            this.createContent();
+        };
+        Layer.prototype.createContent = function () {
+            this._box.innerHTML = '';
+            if (isPopup) {
+                this._box.classList.add('popup-box');
+                this._contentBox = document.createElement('div');
+                this._box.innerHTML = "<div class=\"popup-arrow\"></div>";
+                this._contentBox.classList.add('popup-content');
+                if (typeof this._content === 'string') {
+                    this._contentBox.innerHTML = this._content;
+                }
+                else {
+                    this._contentBox.appendChild(this._content);
+                }
+                this._box.appendChild(this._contentBox);
+            }
+            else {
+                if (typeof this._content === 'string') {
+                    this._box.innerHTML = this._content;
+                }
+                else {
+                    this._box.appendChild(this._content);
+                }
+            }
+        };
+        Layer.prototype.onAdd = function () {
+            var panes = this.getPanes();
+            this.createContent();
+            panes.overlayImage.appendChild(this._box);
+        };
+        Layer.prototype.draw = function () {
+            var project = this.getProjection();
+            if (project) {
+                var pixel = project.fromLatLngToDivPixel(this._latlng);
+                this._box.style.position = 'absolute';
+                this._box.style.left = ~~pixel.x + 'px';
+                this._box.style.top = ~~pixel.y + 'px';
+            }
+        };
+        Layer.prototype.remove = function () {
+            this._box.parentNode.removeChild(this._box);
+            this._content = null;
+            this._contentBox = null;
+            this._box = null;
+        };
+        Layer.prototype.setContent = function (content) {
+            this._content = content;
+            var _box = isPopup ? this._contentBox : this._box;
+            if (content instanceof Element) {
+                _box.innerHTML = '';
+                _box.appendChild(content);
+            }
+            else {
+                _box.innerHTML = content;
+            }
+            return this;
+        };
+        Layer.prototype.setLatLng = function (latlng) {
+            if (latlng === void 0) { latlng = [0, 0]; }
+            this._latlng = new google.maps.LatLng(latlng[0], latlng[1]);
+            this.draw();
+            return this;
+        };
+        Layer.prototype.mount = function (target) {
+            this.init();
+            this.setMap(target._original);
+            return this;
+        };
+        Layer.prototype.unmount = function () {
+            this.setMap(null);
+            return this;
+        };
+        Layer.prototype.show = function () {
+            if (this._box) {
+                this._box.style.display = 'block';
+            }
+        };
+        Layer.prototype.hide = function () {
+            if (this._box) {
+                this._box.style.display = 'none';
+            }
+        };
+        return Layer;
+    }
+}
+
+var styleString = "\n.popup-box[data-plain-style] {\n    z-index: 9;\n    padding: 0 0 14px 0;\n    cursor: arrow;\n    transform: translate3d(-50%, -100%, 0);\n    translate: transform ease 0;\n    animation: fade-in-data-plain-style linear 0.12s;\n}\n.popup-box[data-plain-style] .popup-content {\n    padding: 0.5rem 1rem;\n    min-height: 2rem;\n    min-width: 4rem;\n    color: #222;\n    box-shadow: 0 3px 12px rgba(0,0,0,0.38);\n    background: #fff;\n    border-radius: 4px;\n}\n.popup-box[data-plain-style] .popup-arrow{\n    position: absolute;\n    left: 50%;\n    bottom: 0;\n    height: 14px;\n    width: 28px;\n    overflow: hidden;\n    transform: translate3d(-50%, 0, 0);\n}\n.popup-box[data-plain-style] .popup-arrow::after {\n    display: block;\n    content: '';\n    position: absolute;\n    top: -12px;\n    left: 3px;\n    background: #fff;\n    height: 20px;\n    width: 20px;\n    border-radius: 2px;\n    transform: rotate3d(0, 0, 1, 45deg);\n    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.34);\n}\n@keyframes fade-in-data-plain-style {\n    0% {\n        opacity: 0;\n    }\n    100% {\n        opacity: 1;        \n    }\n}\n";
 
 var Plain = (function () {
     function Plain(factory) {
@@ -1114,6 +1420,9 @@ var Plain = (function () {
         };
         util.objectAssign(this.Util, util);
         this._v = V;
+        var style = document.createElement('style');
+        style.innerHTML = styleString;
+        document.head.appendChild(style);
     }
     Plain.prototype.use = function (factory, key) {
         if (typeof factory === 'string') {
@@ -1143,6 +1452,14 @@ var Plain = (function () {
         var opt = _a[0];
         return this.factory.Map(opt);
     };
+    Plain.prototype.Layer = function (_a) {
+        var opt = _a[0];
+        return this.factory.Layer(opt);
+    };
+    Plain.prototype.Popup = function (_a) {
+        var opt = _a[0];
+        return this.factory.Popup(opt);
+    };
     Plain.prototype.Marker = function (_a) {
         var latlng = _a[0], opt = _a[1];
         return this.factory.Marker(latlng, opt);
@@ -1161,6 +1478,12 @@ var Plain = (function () {
     __decorate([
         tagging()
     ], Plain.prototype, "Map", null);
+    __decorate([
+        tagging()
+    ], Plain.prototype, "Layer", null);
+    __decorate([
+        tagging()
+    ], Plain.prototype, "Popup", null);
     __decorate([
         tagging()
     ], Plain.prototype, "Marker", null);

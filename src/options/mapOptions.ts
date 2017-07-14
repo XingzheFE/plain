@@ -10,6 +10,12 @@ export interface MapOption {
     center?: Array<number>;
 }
 
+export interface LayerOption {
+    latlng?: Array<number>;
+    content?: string | Element;
+    class?: string; 
+}
+
 export interface MarkerOption {
     icon?: F.Icon;
     // offset?: F.Size;

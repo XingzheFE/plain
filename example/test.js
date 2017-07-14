@@ -5,8 +5,6 @@ var path = [
     [39.710, 118]
 ];
 
-
-
 plain.loadMap(key, (e) => {
     console.log('success');
 
@@ -58,6 +56,9 @@ plain.loadMap(key, (e) => {
     });
     document.getElementById("btn-fitview").addEventListener("click", function () {
         map.fitView(path);
+    });
+    document.getElementById("add-popup").addEventListener("click", function (e) {
+        plain.Popup().setContent("<p>1231231</p>").setLatLng([39.910, 116.404]).mount(map);
     });
 });
 

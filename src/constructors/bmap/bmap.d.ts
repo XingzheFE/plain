@@ -25,8 +25,9 @@ declare module BMap {
         addEventListener(event: string, handler: Function): void;
         removeEventListener(event: string, handler: Function): void;
         setMapType(type: string): void;
+        getPanes(): HTMLElement;
     }
-
+    
     export class Marker extends Overlay {
         constructor(point: Point, opts?: MarkerOptions);
         getPosition(): Point;
