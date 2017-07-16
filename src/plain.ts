@@ -13,7 +13,8 @@ import styleString from './style';
 export default class Plain {
     FACTORYS: {[key: string]: F.Factory};
     Util: F.Util;
-    map: object;
+    map: Object;
+    _v: Object;
     factory: F.Factory;  
     
     constructor(factory?: F.Factory | string) {

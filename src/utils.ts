@@ -36,7 +36,7 @@ export default {
     
     // Object property assign
     // TODO: ...obj[]
-    objectAssign (target: {[key: string]: any}, source: {[key: string]: any}): object {
+    objectAssign(target: {[key: string]: any}, source: {[key: string]: any}): object {
         if ((<any>Object).assign) {
             (<any>Object).assign(target, source);
         } else {
@@ -50,7 +50,7 @@ export default {
     },
     
     // GCJ02 to BD09
-    g2b (latlngs: LatLng[]): LatLng[] {
+    g2b(latlngs: LatLng[]): LatLng[] {
         if (!(latlngs[0] instanceof Array)) {
             return coordtransform.gcj02tobd09(latlngs[0], latlngs[1]);
         }
@@ -60,7 +60,7 @@ export default {
     },
     
     // BD09 to GCJ02
-    b2g (latlngs: LatLng[]): LatLng[] {
+    b2g(latlngs: LatLng[]): LatLng[] {
         if (!(latlngs[0] instanceof Array)) {
             return coordtransform.bd09togcj02(latlngs[0], latlngs[1]);
         }
@@ -69,7 +69,7 @@ export default {
         });
     },
     
-    w2g (latlngs: LatLng[]): LatLng[] {
+    w2g(latlngs: LatLng[]): LatLng[] {
         if (!(latlngs[0] instanceof Array)) {
             return coordtransform.wgs84togcj02(latlngs[0], latlngs[1]);
         }
@@ -78,7 +78,7 @@ export default {
         });
     },
     
-    g2w (latlngs: LatLng[]): LatLng[] {
+    g2w(latlngs: LatLng[]): LatLng[] {
         if (!(latlngs[0] instanceof Array)) {
             return coordtransform.gcj02towgs84(latlngs[0], latlngs[1]);
         }
@@ -87,7 +87,7 @@ export default {
         });
     },
     
-    w2b (latlngs: LatLng[]): LatLng[] {
+    w2b(latlngs: LatLng[]): LatLng[] {
         if (!(latlngs[0] instanceof Array)) {
             let coor = coordtransform.wgs84togcj02(latlngs[0], latlngs[1]);
             return coordtransform.gcj02tobd09(coor[0], coor[1]);
@@ -100,7 +100,7 @@ export default {
         });
     },
     
-    b2w (latlngs: LatLng[]): LatLng[] {
+    b2w(latlngs: LatLng[]): LatLng[] {
         if (!(latlngs[0] instanceof Array)) {
             let coor = coordtransform.bd09togcj02(latlngs[0], latlngs[1]);
             return coordtransform.gcj02towgs84(coor[0], coor[1]);
