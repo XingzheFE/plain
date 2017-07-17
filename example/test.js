@@ -4,7 +4,7 @@ var path = [
     [39.909, 117],
     [39.710, 118]
 ];
-
+plain._v.setCoordType('GCJ02');
 plain.loadMap(key, (e) => {
     console.log('success');
 
@@ -31,6 +31,10 @@ plain.loadMap(key, (e) => {
         weight: 2,
         opacity: 0.8
     });
+    var popup = plain.Popup().setContent("<h1>layer</h1>").setLatLng([39, 115]).mount(map);
+    // setTimeout(e => {
+    //     console.log(plain.Popup())    
+    // }, 0)
     map.addLayer([marker, marker2]);
     map.addLayer(polyline);
 
@@ -61,6 +65,10 @@ plain.loadMap(key, (e) => {
         window.popup = plain.Popup({closeBtn: true}).setContent("<p>popup</p>").setLatLng([39.910, 116.404]).mount(map);
         window.layer = plain.Layer({closeBtn: true}).setContent("<p>layer</p>").setLatLng([39.910, 116.404]).mount(map);
     });
+    map.on('rightclick', e => {
+        e = plain.Util.formatEvent.call(this, e);
+        popup.setLatLng(e.p);
+    })
 });
 
 

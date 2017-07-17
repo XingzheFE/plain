@@ -396,20 +396,20 @@ export default class B_Map implements F.Factory {
             resolve && resolve();
             return;
         }
-        let callbackName = 'map_init_' + Math.random().toString(16).substr(2);
-        let body = document.body;
-        let script = document.createElement("SCRIPT");
-        let url = "https://webapi.amap.com/maps?v=1.3&key=" + key + "&callback=" + callbackName;
-        script.setAttribute("src", url);
-        script.setAttribute("defer", "");
-        script.setAttribute("async", "");
+        const callbackName = 'map_init_' + Math.random().toString(16).substr(2);
+        const body = document.body;
+        const script = document.createElement('SCRIPT');
+        const url = `https://webapi.amap.com/maps?v=1.3&key=${key}&callback=${callbackName}`;
+        script.setAttribute('src', url);
+        script.setAttribute('defer', '');
+        script.setAttribute('async', '');
         body.appendChild(script);
         (<any>window)[callbackName] = function () {
-            resolve && resolve();
             delete (<any>window)[callbackName];
-        }
+            resolve && resolve();
+        };
     }
-};
+}
 
 /**
  * @function Set overlay eventListener

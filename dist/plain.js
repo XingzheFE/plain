@@ -595,20 +595,19 @@ var B_Map = (function () {
         }
         var callbackName = 'map_init_' + Math.random().toString(16).substr(2);
         var body = document.body;
-        var script = document.createElement("SCRIPT");
+        var script = document.createElement('SCRIPT');
         var url = "https://webapi.amap.com/maps?v=1.3&key=" + key + "&callback=" + callbackName;
-        script.setAttribute("src", url);
-        script.setAttribute("defer", "");
-        script.setAttribute("async", "");
+        script.setAttribute('src', url);
+        script.setAttribute('defer', '');
+        script.setAttribute('async', '');
         body.appendChild(script);
         window[callbackName] = function () {
-            resolve && resolve();
             delete window[callbackName];
+            resolve && resolve();
         };
     };
     return B_Map;
 }());
-
 function eventBinder(constructor) {
     constructor.prototype.on = function (eventName, handler) {
         var fn = handler.bind(this);
@@ -867,17 +866,17 @@ var B_Map$1 = (function () {
         var _this = this;
         var callbackName = 'map_init_' + Math.random().toString(16).substr(2);
         var body = document.body;
-        var script = document.createElement("SCRIPT");
+        var script = document.createElement('SCRIPT');
         var url = "https://api.map.baidu.com/api?v=2.0&ak=" + key + "&callback=" + callbackName;
-        script.setAttribute("src", url);
-        script.setAttribute("defer", "");
-        script.setAttribute("async", "");
+        script.setAttribute('src', url);
+        script.setAttribute('defer', '');
+        script.setAttribute('async', '');
         body.appendChild(script);
         window[callbackName] = function () {
-            resolve && resolve();
             _this.LayerConstructor = createLayerConstructor();
             _this.PopupConstructor = createLayerConstructor(true);
             delete window[callbackName];
+            resolve && resolve();
         };
     };
     return B_Map;
@@ -946,7 +945,7 @@ function createLayerConstructor(isPopup) {
             this._box = document.createElement('div');
             this._box.setAttribute('data-plain-style', '');
             this._opt = opt;
-            this._latlng = this._latlng || new BMap.Point(116.399, 39.910);
+            this._latlng = this._latlng || new BMap.Point(0, 0);
             this._content = this._content || '<h1 style="background:#fff;">custom Layer</h1>';
             this.createContent();
         };
@@ -1020,6 +1019,7 @@ function createLayerConstructor(isPopup) {
         };
         Layer.prototype.setLatLng = function (latlng) {
             if (latlng === void 0) { latlng = [0, 0]; }
+            latlng = fixCoord(latlng);
             this._latlng = new BMap.Point(latlng[1], latlng[0]);
             this.draw();
             return this;
@@ -1310,10 +1310,10 @@ var G_Map = (function () {
         script.setAttribute('async', '');
         body.appendChild(script);
         window[callbackName] = function () {
-            resolve && resolve();
             _this.LayerConstructor = createLayerConstructor$1();
             _this.PopupConstructor = createLayerConstructor$1(true);
             delete window[callbackName];
+            resolve && resolve();
         };
     };
     return G_Map;

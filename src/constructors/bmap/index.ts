@@ -244,10 +244,10 @@ export default class B_Map implements F.Factory {
     Util: F.Util;
     LayerConstructor: any;
     PopupConstructor: any;
-    
+
     constructor () {
-        this.LayerConstructor = createLayerConstructor();  
-        this.PopupConstructor = createLayerConstructor(true);  
+        this.LayerConstructor = createLayerConstructor();
+        this.PopupConstructor = createLayerConstructor(true);
         this.Util = {
             formatEvent(e: any = {}): F.Event {
                 let point;
@@ -260,23 +260,23 @@ export default class B_Map implements F.Factory {
                     e: e,
                     p: point,
                     pixel: JSON.parse(JSON.stringify(e.pixel))
-                }
+                };
             }
-        }
+        };
     }
 
     Map(opt: O.MapOption): Map {
         return new Map(opt);
     }
-    
+
     Layer(opt: O.LayerOption) {
         return new this.LayerConstructor(opt);
     }
-    
+
     Popup(opt: O.LayerOption) {
         return new this.PopupConstructor(opt);
     }
-    
+
     Marker(latlng: F.LatLng, opt?: O.MarkerOption): Marker {
         return new Marker(latlng, opt);
     }
@@ -295,20 +295,20 @@ export default class B_Map implements F.Factory {
             resolve && resolve();
             return;
         }
-        let _this = this;
-        let callbackName = 'map_init_' + Math.random().toString(16).substr(2);
-        let body = document.body;
-        let script = document.createElement("SCRIPT");
-        let url = "https://api.map.baidu.com/api?v=2.0&ak=" + key + "&callback=" + callbackName;
-        script.setAttribute("src", url);
-        script.setAttribute("defer", "");
-        script.setAttribute("async", "");
+        const _this = this;
+        const callbackName = 'map_init_' + Math.random().toString(16).substr(2);
+        const body = document.body;
+        const script = document.createElement('SCRIPT');
+        const url = `https://api.map.baidu.com/api?v=2.0&ak=${key}&callback=${callbackName}`;
+        script.setAttribute('src', url);
+        script.setAttribute('defer', '');
+        script.setAttribute('async', '');
         body.appendChild(script);
         (<any>window)[callbackName] = function () {
-            resolve && resolve();
-            _this.LayerConstructor = createLayerConstructor();  
-            _this.PopupConstructor = createLayerConstructor(true);  
+            _this.LayerConstructor = createLayerConstructor();
+            _this.PopupConstructor = createLayerConstructor(true);
             delete (<any>window)[callbackName];
+            resolve && resolve();
         }
     }
 };
@@ -386,17 +386,17 @@ function createLayerConstructor (isPopup: boolean = false): any {
             this._box = document.createElement('div');
             this._box.setAttribute('data-plain-style', '');
             this._opt = opt;
-            this._latlng = this._latlng || new BMap.Point(116.399, 39.910);
+            this._latlng = this._latlng || new BMap.Point(0, 0);
             this._content = this._content || '<h1 style="background:#fff;">custom Layer</h1>';
             this.createContent();
-        }
+        };
         Layer.prototype = new BMap.Overlay();
         Layer.prototype.initialize = function (map: BMap.Map) {
             this._map = map;
             this.createContent();
             map.getPanes().markerPane.appendChild(this._box);
             return this._box;
-        }
+        };
         Layer.prototype.createContent = function () {
             this._box.innerHTML = '';
             if (isPopup) {
@@ -411,7 +411,7 @@ function createLayerConstructor (isPopup: boolean = false): any {
                 }
                 this._box.appendChild(this._contentBox);
                 if (this._opt && this._opt.closeBtn === true) {
-                    let closeBtn = document.createElement('button');
+                    const closeBtn = document.createElement('button');
                     closeBtn.setAttribute('type', 'button');
                     closeBtn.classList.add('popup-close');
                     closeBtn.innerHTML = '×';
@@ -430,21 +430,21 @@ function createLayerConstructor (isPopup: boolean = false): any {
         }
         Layer.prototype.draw = function () {
             if (this._map) {
-                let pixel = this._map.pointToOverlayPixel(this._latlng);
+                const pixel = this._map.pointToOverlayPixel(this._latlng);
                 this._box.style.position = 'absolute';
                 this._box.style.left = ~~pixel.x + 'px';
-                this._box.style.top = ~~pixel.y + 'px';    
+                this._box.style.top = ~~pixel.y + 'px';
             }
-        }
+        };
         Layer.prototype.remove = function () {
             this._box.parentNode.removeChild(this._box);
             this._content = null;
             this._contentBox = null;
             this._box = null;
-        }
+        };
         Layer.prototype.setContent = function (content: string | Element) {
             this._content = content;
-            let _box = isPopup ? this._contentBox : this._box;
+            const _box = isPopup ? this._contentBox : this._box;
             if (content instanceof Element) {
                 _box.innerHTML = '';
                 _box.appendChild(content);
@@ -452,32 +452,33 @@ function createLayerConstructor (isPopup: boolean = false): any {
                 _box.innerHTML = content;
             }
             return this;
-        }
+        };
         Layer.prototype.setLatLng = function (latlng: F.LatLng = [0, 0]) {
+            latlng = <F.LatLng>fixCoord(latlng);
             this._latlng = new BMap.Point(latlng[1], latlng[0]);
-            this.draw();      
-            return this;       
-        }
+            this.draw();
+            return this;
+        };
         Layer.prototype.mount = function (target: Map) {
             target._original.addOverlay(this);
             return this;
-        }
+        };
         Layer.prototype.unmount = function () {
             this._map.removeOverlay(this);
             return this;
-        }
+        };
         Layer.prototype.show = function () {
             if (this._box) {
                 this._box.style.display = 'block';
             }
             return this;
-        }
+        };
         Layer.prototype.hide = function () {
             if (this._box) {
                 this._box.style.display = 'none';
             }
             return this;
-        }
+        };
         return Layer;
     }
 }

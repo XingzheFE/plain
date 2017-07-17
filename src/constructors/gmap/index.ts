@@ -256,10 +256,10 @@ export default class G_Map implements F.Factory {
     Util: F.Util;
     LayerConstructor: any;
     PopupConstructor: any;
-    
+
     constructor () {
-        this.LayerConstructor = createLayerConstructor();  
-        this.PopupConstructor = createLayerConstructor(true);  
+        this.LayerConstructor = createLayerConstructor();
+        this.PopupConstructor = createLayerConstructor(true);
         this.Util = {
             formatEvent(e: any = {}): F.Event {
                 let point;
@@ -284,11 +284,11 @@ export default class G_Map implements F.Factory {
     Layer(opt: O.LayerOption) {
         return new this.LayerConstructor(opt);
     }
-    
+
     Popup(opt: O.LayerOption) {
         return new this.PopupConstructor(opt);
     }
-    
+
     Marker(latlng: F.LatLng, opt?: O.MarkerOption): Marker {
         return new Marker(latlng, opt);
     }
@@ -317,11 +317,11 @@ export default class G_Map implements F.Factory {
         script.setAttribute('async', '');
         body.appendChild(script);
         (<any>window)[callbackName] = function () {
-            resolve && resolve();
             _this.LayerConstructor = createLayerConstructor();
-            _this.PopupConstructor = createLayerConstructor(true);  
+            _this.PopupConstructor = createLayerConstructor(true);
             delete (<any>window)[callbackName];
-        }
+            resolve && resolve();
+        };
     }
 }
 
@@ -358,7 +358,7 @@ function createLayerConstructor (isPopup: boolean = false): any {
         let Layer = function (opt?: O.LayerOption) {
             this._opt = opt;
             this.init();
-        }
+        };
         Layer.prototype = new google.maps.OverlayView();
         Layer.prototype.init = function () {
             this._box = document.createElement('div');
@@ -366,7 +366,7 @@ function createLayerConstructor (isPopup: boolean = false): any {
             this._latlng = this._latlng || new google.maps.LatLng(0, 0);
             this._content = this._content || `<h1 style='background:#fff;'>custom Layer</h1>`;
             this.createContent();
-        }
+        };
         Layer.prototype.createContent = function () {
             this._box.innerHTML = '';
             if (isPopup) {
@@ -381,7 +381,7 @@ function createLayerConstructor (isPopup: boolean = false): any {
                 }
                 this._box.appendChild(this._contentBox);
                 if (this._opt && this._opt.closeBtn === true) {
-                    let closeBtn = document.createElement('button');
+                    const closeBtn = document.createElement('button');
                     closeBtn.setAttribute('type', 'button');
                     closeBtn.classList.add('popup-close');
                     closeBtn.innerHTML = '×';
@@ -397,12 +397,12 @@ function createLayerConstructor (isPopup: boolean = false): any {
                     this._box.appendChild(this._content);
                 }
             }
-        }
+        };
         Layer.prototype.onAdd = function () {
-            let panes = this.getPanes();
+            const panes = this.getPanes();
             this.createContent();
             panes.overlayImage.appendChild(this._box);
-        }
+        };
         Layer.prototype.draw = function () {
             let project = this.getProjection();
             // hold the draggable map
@@ -410,15 +410,15 @@ function createLayerConstructor (isPopup: boolean = false): any {
                 let pixel = project.fromLatLngToDivPixel(this._latlng);
                 this._box.style.position = 'absolute';
                 this._box.style.left = ~~pixel.x + 'px';
-                this._box.style.top = ~~pixel.y + 'px';    
+                this._box.style.top = ~~pixel.y + 'px';
             }
-        }
+        };
         Layer.prototype.remove = function () {
             this._box.parentNode.removeChild(this._box);
-            this._content = null;  
-            this._contentBox = null;          
+            this._content = null;
+            this._contentBox = null;
             this._box = null;
-        }
+        };
         Layer.prototype.setContent = function (content: string | Element) {
             this._content = content;
             let _box = isPopup ? this._contentBox : this._box;
@@ -429,33 +429,33 @@ function createLayerConstructor (isPopup: boolean = false): any {
                 _box.innerHTML = content;
             }
             return this;
-        }
+        };
         Layer.prototype.setLatLng = function (latlng: F.LatLng = [0, 0]) {
             this._latlng = new google.maps.LatLng(latlng[0], latlng[1]);
-            this.draw();      
-            return this;       
-        }
+            this.draw();
+            return this;
+        };
         Layer.prototype.mount = function (target: Map) {
             this.init();
             this.setMap(target._original);
             return this;
-        }
+        };
         Layer.prototype.unmount = function () {
             this.setMap(null);
             return this;
-        }
+        };
         Layer.prototype.show = function () {
             if (this._box) {
                 this._box.style.display = 'block';
             }
             return this;
-        }
+        };
         Layer.prototype.hide = function () {
             if (this._box) {
                 this._box.style.display = 'none';
             }
             return this;
-        }
+        };
         return Layer;
     }
 }
