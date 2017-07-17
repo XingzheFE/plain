@@ -150,7 +150,8 @@ class Layer implements F.Layer {
         this._opt = opt;
         this._original = new AMap.Marker({
            position: [0, 0],
-           content: 'custom Layer' 
+           content: 'custom Layer',
+           offset: new AMap.Pixel(0, 0),
         });
     }
     setLatLng (latlng: F.LatLng) {

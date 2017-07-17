@@ -9,7 +9,8 @@
   "scripts": {
     "build": "rollup -c rollup.config.prod.js",
     "dev": "rollup -c -w",
-    "test:unit": "mocha test/unit/"
+    "test:unit": "mocha test/unit/",
+    "lint": "tslint -c tslint.json ./src/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -31,10 +32,12 @@
     "phantom": "^4.0.4",
     "rollup": "^0.43.0",
     "rollup-plugin-license": "^0.4.0",
+    "rollup-plugin-tslint": "^0.1.24",
     "rollup-plugin-typescript": "^0.8.1",
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-watch": "^4.0.0",
-    "should": "^11.2.1"
+    "should": "^11.2.1",
+    "tslint": "^5.5.0"
   },
   "dependencies": {
     "coordtransform2": "^2.1.2"

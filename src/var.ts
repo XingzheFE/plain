@@ -5,4 +5,4 @@ export default {
     setCoordType(type: string): void {
         this.coordType = type;
     }
-}
+};

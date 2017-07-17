@@ -310,11 +310,11 @@ export default class G_Map implements F.Factory {
         let _this = this;
         let callbackName = 'map_init_' + Math.random().toString(16).substr(2);
         let body = document.body;
-        let script = document.createElement("SCRIPT");
-        let url = "https://maps.googleapis.com/maps/api/js?key=" + key + "&callback=" + callbackName;
-        script.setAttribute("src", url);
-        script.setAttribute("defer", "");
-        script.setAttribute("async", "");
+        let script = document.createElement('SCRIPT');
+        let url = 'https://maps.googleapis.com/maps/api/js?key=' + key + '&callback=' + callbackName;
+        script.setAttribute('src', url);
+        script.setAttribute('defer', '');
+        script.setAttribute('async', '');
         body.appendChild(script);
         (<any>window)[callbackName] = function () {
             resolve && resolve();
@@ -364,7 +364,7 @@ function createLayerConstructor (isPopup: boolean = false): any {
             this._box = document.createElement('div');
             this._box.setAttribute('data-plain-style', '');
             this._latlng = this._latlng || new google.maps.LatLng(0, 0);
-            this._content = this._content || '<h1 style="background:#fff;">custom Layer</h1>';
+            this._content = this._content || `<h1 style='background:#fff;'>custom Layer</h1>`;
             this.createContent();
         }
         Layer.prototype.createContent = function () {
@@ -372,7 +372,7 @@ function createLayerConstructor (isPopup: boolean = false): any {
             if (isPopup) {
                 this._box.classList.add('popup-box');
                 this._contentBox = document.createElement('div');
-                this._box.innerHTML = `<div class="popup-arrow"></div>`;
+                this._box.innerHTML = `<div class='popup-arrow'></div>`;
                 this._contentBox.classList.add('popup-content');
                 if (typeof this._content === 'string') {
                     this._contentBox.innerHTML = this._content;

@@ -58,7 +58,7 @@ export default `
         opacity: 0;
     }
     100% {
-        opacity: 1;        
+        opacity: 1;
     }
 }
-`
+`;
