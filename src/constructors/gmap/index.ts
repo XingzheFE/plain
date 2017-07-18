@@ -42,6 +42,7 @@ class Map implements F.Map {
     }
 
     addLayer(layer: F.Layer | Array<F.Layer>) {
+        if (!layer) return;
         if (layer instanceof Array) {
             for (let i = 0; i < layer.length; i++) {
                 layer[i]._original.setMap(this._original);

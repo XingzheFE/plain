@@ -15,9 +15,9 @@ plain.loadMap(key, (e) => {
     });
 
     var icon = plain.Icon({
-        url: 'https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon.png',
-        size: [25, 40],
-        anchor: [12.5, 40]
+        url: 'https://cdn.bi-ci.com/vue_static/origin.svg',
+        size: [32, 50],
+        anchor: [16, 48]
     });
     var markerOpt = {
         icon: icon,

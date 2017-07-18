@@ -37,6 +37,7 @@ class Map implements F.Map {
     }
 
     addLayer(layer: F.Layer | Array<F.Layer>) {
+        if (!layer) return;
         if (layer instanceof Array) {
             for (let i = 0; i < layer.length; i++) {
                 this._original.addOverlay(layer[i]._original);
