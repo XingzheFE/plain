@@ -16,13 +16,12 @@ namespace F {
 
     /**
      * @interface Factory
-     * 
+     *
      * @description Type for map factory plugin
      */
     export interface Factory {
         Util: Util;
-        
-        Map(opt:  MapOption): Map;
+        Map(opt: MapOption): Map;
         Layer(opt: LayerOption): Layer;
         Popup(opt: LayerOption): Layer;
         Marker(point: LatLng, opt?: MarkerOption): Marker;
@@ -33,22 +32,21 @@ namespace F {
 
     /**
      * @interface Util
-     * 
+     *
      * @description Various utility functions
      */
     export interface Util {
         formatEvent(e: object): F_Event;
-        
     }
 
     export type Map = F_Map;
     export type Marker = F_Marker;
-    export type Polyline = F_Polyline;    
+    export type Polyline = F_Polyline;
     export type Icon = F_Icon;
     export type Size = F_Size;
     export type LatLng = F_LatLng;
     export type Layer = F_Layer;
-    export type Event = F_Event;    
+    export type Event = F_Event;
     export type MapType = F_MapType;
-    export type MapsEventListener = F_MapsEventListener;    
+    export type MapsEventListener = F_MapsEventListener;
 }

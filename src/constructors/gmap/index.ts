@@ -18,8 +18,8 @@ class Map implements F.Map {
     // _fitBound: google.maps.LatLngBounds;
 
     constructor(opt: O.MapOption) {
-        let centerPoint: google.maps.LatLng = new google.maps.LatLng(opt.center[0], opt.center[1]);
-        let container = typeof opt.container === 'string' ? document.getElementById(opt.container) : opt.container;
+        const centerPoint: google.maps.LatLng = new google.maps.LatLng(opt.center[0], opt.center[1]);
+        const container = typeof opt.container === 'string' ? document.getElementById(opt.container) : opt.container;
         this._original = new google.maps.Map(container, {
             zoom: opt.zoom,
             center: centerPoint,
@@ -83,10 +83,10 @@ class Map implements F.Map {
     }
 
     fitView(latlngs: F.LatLng[], opt?: O.ViewportOption) {
-        let bound = util.getBound(latlngs).map(p => {
+        const bound = util.getBound(latlngs).map(p => {
             return new google.maps.LatLng(p[0], p[1]);
         });
-        let googleBound = new google.maps.LatLngBounds(bound[0], bound[1]);
+        const googleBound = new google.maps.LatLngBounds(bound[0], bound[1]);
         this._original.fitBounds(googleBound);
     }
 
@@ -98,7 +98,7 @@ class Map implements F.Map {
     }
 
     setMapType(type: string) {
-        let { MAP_TYPE } = this;
+        const { MAP_TYPE } = this;
         switch (type) {
             case MAP_TYPE.HYBRID: {
                 this._original.setMapTypeId(google.maps.MapTypeId.HYBRID);
@@ -125,7 +125,7 @@ class Map implements F.Map {
     }
 
     getCenter(): F.LatLng {
-        let center = this._original.getCenter();
+        const center = this._original.getCenter();
         return [center.lat(), center.lng()];
     }
 
@@ -140,8 +140,8 @@ class Marker implements F.Marker {
     _original: google.maps.Marker;
 
     constructor(latlng: F.LatLng, opt?: O.MarkerOption) {
-        let point = new google.maps.LatLng(latlng[0], latlng[1]);
-        let opts = this.formatOpt(opt, point);
+        const point = new google.maps.LatLng(latlng[0], latlng[1]);
+        const opts = this.formatOpt(opt, point);
         this._original = new google.maps.Marker(opts);
     }
 
@@ -153,21 +153,36 @@ class Marker implements F.Marker {
             raiseOnDrag: opt.raiseOnDrag ? opt.raiseOnDrag : true,
             crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
             draggable: opt.draggable
-        }
+        };
     }
 
     setLatLng(latlng: F.LatLng) {
-        let point = new google.maps.LatLng(latlng[0], latlng[1]);
+        const point = new google.maps.LatLng(latlng[0], latlng[1]);
         this._original.setPosition(point);
         return this;
     }
 
     getLatLng(): F.LatLng {
-        let p =  this._original.getPosition();
+        const p =  this._original.getPosition();
         return [p.lat(), p.lng()];
     }
 
-    // TODO: change draggable property
+    setIcon(icon: Icon): Marker {
+        if (icon && icon._original) {
+            this._original.setIcon(icon._original);
+        }
+        return this;
+    }
+
+    enableDragging(): Marker {
+        this._original && this._original.setDraggable(true);
+        return this;
+    }
+
+    disableDragging(): Marker {
+        this._original && this._original.setDraggable(false);
+        return this;
+    }
 }
 
 @eventBinder
@@ -176,7 +191,7 @@ class Polyline implements F.Polyline {
     _original: google.maps.Polyline;
 
     constructor(latlngs: F.LatLng[], opt?: O.PolylineOption) {
-        let path = latlngs.map(latlng => {
+        const path = latlngs.map(latlng => {
             return new google.maps.LatLng(latlng[0], latlng[1]);
         });
         this._original = new google.maps.Polyline(this.formatOpt(opt, path));
@@ -189,21 +204,43 @@ class Polyline implements F.Polyline {
             strokeColor: D.polyline.color,
             strokeWeight: D.polyline.weight,
             strokeOpacity: D.polyline.opacity
-        }
+        };
     }
 
     setPath(latlngs: F.LatLng[]) {
-        let path = latlngs.map(latlng => {
+        const path = latlngs.map(latlng => {
             return new google.maps.LatLng(latlng[0], latlng[1]);
         });
         this._original.setPath(path);
+        return this;
     }
 
     getPath(): F.LatLng[] {
-        let points: google.maps.MVCArray<google.maps.LatLng> = this._original.getPath();
+        const points: google.maps.MVCArray<google.maps.LatLng> = this._original.getPath();
         return points.getArray().map(item => {
-            return [item.lat(), item.lng()]
+            return [item.lat(), item.lng()];
         });
+    }
+
+    setStrokeColor(color: string = D.polyline.color): Polyline {
+        this._original && this._original.setOptions({
+            strokeColor: color,
+        });
+        return this;
+    }
+
+    setStrokeWeight(weight: number = D.polyline.weight): Polyline {
+        this._original && this._original.setOptions({
+            strokeWeight: weight,
+        });
+        return this;
+    }
+
+    setStrokeOpacity(opacity: number = D.polyline.opacity): Polyline {
+        this._original && this._original.setOptions({
+            strokeOpacity: opacity
+        });
+        return this;
     }
 }
 
@@ -212,7 +249,7 @@ class Icon implements F.Icon {
     _original: google.maps.Icon;
 
     constructor(opt: O.IconOption) {
-        let iconOption = this.formatOpt(opt);
+        const iconOption = this.formatOpt(opt);
         this._original = {
             url: iconOption.url,
             size: iconOption.size,
@@ -225,7 +262,7 @@ class Icon implements F.Icon {
             anchor: opt.anchor ? new google.maps.Point(opt.anchor[0], opt.anchor[1]) : null,
             url: opt.url,
             size: opt.size ? new google.maps.Size(opt.size[0], opt.size[1]) : null,
-        }
+        };
     }
 
     setImageUrl(url: string) {
@@ -308,11 +345,11 @@ export default class G_Map implements F.Factory {
             resolve && resolve();
             return;
         }
-        let _this = this;
-        let callbackName = 'map_init_' + Math.random().toString(16).substr(2);
-        let body = document.body;
-        let script = document.createElement('SCRIPT');
-        let url = 'https://maps.googleapis.com/maps/api/js?key=' + key + '&callback=' + callbackName;
+        const _this = this;
+        const callbackName = 'map_init_' + Math.random().toString(16).substr(2);
+        const body = document.body;
+        const script = document.createElement('SCRIPT');
+        const url = 'https://maps.googleapis.com/maps/api/js?key=' + key + '&callback=' + callbackName;
         script.setAttribute('src', url);
         script.setAttribute('defer', '');
         script.setAttribute('async', '');

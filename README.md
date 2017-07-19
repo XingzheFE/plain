@@ -119,6 +119,13 @@ let layer = plain.Layer()
     .show()
     .hide()
     .unmount();
+let popup = plain.Popup({closeBtn: false})
+    .setContent(document.createElement('button'))
+    .setLatLng([31, 116])
+    .mount(map)
+    .show()
+    .hide()
+    .unmount();
 ```
 
 ## 事件
@@ -144,4 +151,6 @@ let listener = map.on('rightclick', function (e) {
 ```javascript
 map.off(listener);
 ```
-就酱。有疑问和建议请创建 issue 哦
+> 有疑问和建议请创建 issue 哦，(by the way, we need e2e test)
+
+

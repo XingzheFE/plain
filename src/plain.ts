@@ -15,27 +15,27 @@ export default class Plain {
     Util: F.Util;
     map: Object;
     _v: Object;
-    factory: F.Factory;  
-    
+    factory: F.Factory;
+
     constructor(factory?: F.Factory | string) {
-        let that = this;
+        const that = this;
         factory && this.use(factory);
         // Various utility functions
         this.Util = {
             formatEvent(e: any): F.Event {
                 return that.factory.Util.formatEvent.call(this, e);
             }
-        }
+        };
         util.objectAssign(this.Util, util);
         this._v = V;
-        let style = document.createElement('style');
+        const style = document.createElement('style');
         style.innerHTML = styleString;
         document.head.appendChild(style);
     }
 
     // Load the map factory plugin
     use(factory: F.Factory | string, key?: string): Plain {
-        if(typeof factory === 'string') {
+        if (typeof factory === 'string') {
             switch (factory) {
                 case 'BMAP': {
                     this.factory = new B_Map();
@@ -46,7 +46,7 @@ export default class Plain {
                     break;
                 }
                 case 'AMAP': {
-                    this.factory = new A_Map();    
+                    this.factory = new A_Map();
                     break;
                 }
                 case 'LMAP': {
@@ -64,19 +64,19 @@ export default class Plain {
     Map([opt] : [O.MapOption]) {
         return this.factory.Map(opt);
     }
-    
+
     // custom layer
     @tagging()
     Layer([opt]: [O.LayerOption]) {
         return this.factory.Layer(opt);
     }
-    
+
     // custom layer
     @tagging()
     Popup([opt]: [O.LayerOption]) {
         return this.factory.Popup(opt);
     }
-    
+
     // Create Marker
     @tagging()
     Marker([latlng, opt] : [LatLng, O.MarkerOption]) {
@@ -94,7 +94,7 @@ export default class Plain {
     Icon([opt] : [O.IconOption]) {
         return this.factory.Icon(opt);
     }
-    
+
     loadMap(key: string, resolve: Function, reject: Function): void {
         this.factory.load(key, resolve, reject);
     }
@@ -109,7 +109,7 @@ function tagging(): Function {
         descriptor.value= function(...arg: any[]) {
             let value = oldFn.call(this, arg);
             value._id = Math.random().toString(16).substr(2);
-            return value;  
+            return value;
         };
     }
 }

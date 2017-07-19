@@ -25,7 +25,7 @@ declare module BMap {
         addEventListener(event: string, handler: Function): void;
         removeEventListener(event: string, handler: Function): void;
         setMapType(type: string): void;
-        getPanes(): HTMLElement;
+        getPanes(): any;
     }
     
     export class Marker extends Overlay {
@@ -39,7 +39,9 @@ declare module BMap {
         getLabel(): Label;
         setLabel(label: Label): void;
         addEventListener(event: string, handler: Function): void; 
-        removeEventListener(event: string, handler: Function): void;       
+        removeEventListener(event: string, handler: Function): void;
+        disableDragging(): void;
+        enableDragging(): void;      
     }
 
     export class Polyline extends Overlay {
@@ -48,6 +50,9 @@ declare module BMap {
         setPath?(points: Point[]): void;
         addEventListener(event: string, handler: Function): void;
         removeEventListener(event: string, handler: Function): void;
+        setStrokeColor(color: string): void;
+        setStrokeWeight(weight: number): void;
+        setStrokeOpacity(opacity: number): void;
     }
 
     export class Point {

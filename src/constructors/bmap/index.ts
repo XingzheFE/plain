@@ -19,8 +19,8 @@ class Map implements F.Map {
     MAP_TYPE: F.MapType;
 
     constructor(opt: O.MapOption) {
-        let center = opt.center ? fixCoord(opt.center) : [0, 0];
-        let centerPoint = new BMap.Point(center[1], center[0]);
+        const center = opt.center ? fixCoord(opt.center) : [0, 0];
+        const centerPoint = new BMap.Point(center[1], center[0]);
         this._original = new BMap.Map(opt.container);
         this._original.centerAndZoom(centerPoint, opt.zoom || 15);
         this._original.enableScrollWheelZoom();
@@ -78,11 +78,11 @@ class Map implements F.Map {
     }
 
     fitView(latlngs: F.LatLng[], opt?: O.ViewportOption) {
-        let points= latlngs.map(p => {
+        const points = latlngs.map(p => {
             return {
                 lat: p[0],
                 lng: p[1]
-            }
+            };
         });
         this._original.setViewport(points);
     }
@@ -93,7 +93,7 @@ class Map implements F.Map {
     }
 
     getCenter(): F.LatLng {
-        let center = this._original.getCenter();
+        const center = this._original.getCenter();
         return [center.lat, center.lng];
     }
 
@@ -102,7 +102,7 @@ class Map implements F.Map {
     }
 
     setMapType(type: string) {
-        let { MAP_TYPE } = this;
+        const { MAP_TYPE } = this;
         switch (type) {
             case MAP_TYPE.HYBRID: {
                 this._original.setMapType(BMAP_HYBRID_MAP);
@@ -135,8 +135,8 @@ class Marker implements F.Marker {
 
     constructor(latlng: F.LatLng, opt?: O.MarkerOption) {
         latlng = <F.LatLng>fixCoord(latlng);
-        let point = new BMap.Point(latlng[1], latlng[0]);
-        let opts = this.formatOpt(opt);
+        const point = new BMap.Point(latlng[1], latlng[0]);
+        const opts = this.formatOpt(opt);
         this._original = new BMap.Marker(point, opts);
     }
 
@@ -147,19 +147,36 @@ class Marker implements F.Marker {
             raiseOnDrag: opt.raiseOnDrag ? opt.raiseOnDrag : true,
             crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
             enableDragging: opt.draggable
-        }
+        };
     }
 
     setLatLng(latlng: F.LatLng) {
         latlng = <F.LatLng>fixCoord(latlng);
-        let point = new BMap.Point(latlng[1], latlng[0]);
+        const point = new BMap.Point(latlng[1], latlng[0]);
         this._original.setPosition(point);
         return this;
     }
 
     getLatLng(): F.LatLng {
-        let p =  this._original.getPosition();
+        const p =  this._original.getPosition();
         return <F.LatLng>fixCoord([p.lat, p.lng], 'output');
+    }
+
+    setIcon(icon: Icon): Marker {
+        if (icon && icon._original) {
+            this._original.setIcon(icon._original);
+        }
+        return this;
+    }
+
+    enableDragging(): Marker {
+        this._original && this._original.enableDragging();
+        return this;
+    }
+
+    disableDragging(): Marker {
+        this._original && this._original.disableDragging();
+        return this;
     }
 }
 
@@ -169,7 +186,7 @@ class Polyline implements F.Polyline {
     _original: BMap.Polyline;
 
     constructor(latlngs: F.LatLng[], opt?: O.PolylineOption) {
-        let points = (<F.LatLng[]>fixCoord(latlngs)).map(latlng => {
+        const points = (<F.LatLng[]>fixCoord(latlngs)).map(latlng => {
             return new BMap.Point(latlng[1], latlng[0]);
         });
         this._original = new BMap.Polyline(points, this.formatOpt(opt));
@@ -181,21 +198,37 @@ class Polyline implements F.Polyline {
             strokeColor: D.polyline.color,
             strokeWeight: D.polyline.weight,
             strokeOpacity: D.polyline.opacity
-        }
+        };
     }
 
-    setPath(latlngs: F.LatLng[]): void {
-        let points =  (<F.LatLng[]>fixCoord(latlngs)).map(latlng => {
+    setPath(latlngs: F.LatLng[]): Polyline {
+        const points =  (<F.LatLng[]>fixCoord(latlngs)).map(latlng => {
             return new BMap.Point(latlng[1], latlng[0]);
         });
         this._original.setPath(points);
+        return this;
     }
 
     getPath(): F.LatLng[] {
-        let points = this._original.getPath() || [];
+        const points = this._original.getPath() || [];
         return <F.LatLng[]>fixCoord(points.map(item => {
-            return [item.lat, item.lng]
+            return [item.lat, item.lng];
         }), 'output');
+    }
+
+    setStrokeColor(color: string = D.polyline.color): Polyline {
+        this._original && this._original.setStrokeColor(color);
+        return this;
+    }
+
+    setStrokeWeight(weight: number = D.polyline.weight): Polyline {
+        this._original && this._original.setStrokeWeight(weight);
+        return this;
+    }
+
+    setStrokeOpacity(opacity: number = D.polyline.opacity): Polyline {
+        this._original && this._original.setStrokeOpacity(opacity);
+        return this;
     }
 }
 
@@ -204,7 +237,7 @@ class Icon implements F.Icon {
     _original: BMap.Icon;
 
     constructor(opt: O.IconOption) {
-        let iconOption = this.formatOpt(opt);
+        const iconOption = this.formatOpt(opt);
         this._original = new BMap.Icon(iconOption.url, iconOption.size, iconOption);
     }
 
@@ -213,7 +246,7 @@ class Icon implements F.Icon {
             anchor: opt.anchor ? new BMap.Size(opt.anchor[0], opt.anchor[1]) : null,
             url: opt.url,
             size: opt.size ? new BMap.Size(opt.size[0], opt.size[1]) : null,
-        }
+        };
     }
 
     setImageUrl(url: string) {
@@ -310,29 +343,29 @@ export default class B_Map implements F.Factory {
             _this.PopupConstructor = createLayerConstructor(true);
             delete (<any>window)[callbackName];
             resolve && resolve();
-        }
+        };
     }
-};
+}
 
 /**
  * @function Set overlay eventListener
  * @param {Function} constructor
  */
 function eventBinder(constructor: Function) {
-    constructor.prototype.on = function(eventName: string, handler: Function):  F.MapsEventListener {
-        let fn: Function = handler.bind(this);
-        let listener = this._original.addEventListener(eventName, fn);
+    constructor.prototype.on = function(eventName: string, handler: Function): F.MapsEventListener {
+        const fn: Function = handler.bind(this);
+        const listener = this._original.addEventListener(eventName, fn);
         return new F_MapsEventListener({
             eventName: eventName,
             host: this,
             listener: listener,
             handler: fn
         });
-    }
+    };
     // require MapEventListener
     constructor.prototype.off = function(listener: F.MapsEventListener) {
         this._original.removeEventListener(listener.eventName, listener.handler);
-    }
+    };
 }
 
 function fixCoord (latlngs: F.LatLng[] | F.LatLng, type?: string): F.LatLng[] | F.LatLng {
@@ -381,9 +414,9 @@ function fixCoord (latlngs: F.LatLng[] | F.LatLng, type?: string): F.LatLng[] | 
  * @param {Boolean} isPopup Return a popup custructor if this is true
  */
 function createLayerConstructor (isPopup: boolean = false): any {
-    let BMap = window.BMap;
+    const BMap = window.BMap;
     if (BMap) {
-        let Layer = function (opt?: O.LayerOption) {
+        const Layer = function (opt?: O.LayerOption) {
             this._box = document.createElement('div');
             this._box.setAttribute('data-plain-style', '');
             this._opt = opt;

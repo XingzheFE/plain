@@ -79,7 +79,7 @@ class Map implements F.Map {
     }
 
     fitView(latlngs: F.LatLng[], opt?: O.ViewportOption) {
-        let bound = util.getBound(latlngs);     // length === 2
+        const bound = util.getBound(latlngs);     // length === 2
         if (this._boundMarkers) {
             bound.map((p, i, arr) => {
                 this._boundMarkers[i].setPosition([p[1], p[0]]);
@@ -106,7 +106,7 @@ class Map implements F.Map {
     }
 
     getCenter(): F.LatLng {
-        let center = this._original.getCenter();
+        const center = this._original.getCenter();
         return [center.lat, center.lng];
     }
 
@@ -115,7 +115,7 @@ class Map implements F.Map {
     }
 
     setMapType(type: string) {
-        let { MAP_TYPE } = this;
+        const { MAP_TYPE } = this;
         switch (type) {
             case MAP_TYPE.HYBRID: {
                 this._type.type = MAP_TYPE.HYBRID;
@@ -202,7 +202,7 @@ class Popup extends Layer {
            content: this._box,
         });
         if (opt && opt.closeBtn === true) {
-            let closeBtn = document.createElement('button');
+            const closeBtn = document.createElement('button');
             closeBtn.setAttribute('type', 'button');
             closeBtn.classList.add('popup-close');
             closeBtn.innerHTML = '×';
@@ -231,19 +231,19 @@ class Marker implements F.Marker {
     _original: AMap.Marker;
 
     constructor(latlng: F.LatLng, opt?: O.MarkerOption) {
-        let opts: AMap.MarkerOptions = this.formatOpt(opt, latlng);
+        const opts: AMap.MarkerOptions = this.formatOpt(opt, latlng);
         this._original = new AMap.Marker(opts);
     }
 
     formatOpt (opt: O.MarkerOption = {}, latlng: F.LatLng): object {
-        let option = {
+        const option = {
             map: null,
             position: [latlng[1], latlng[0]],
             icon: opt.icon ? opt.icon._original : null,
             raiseOnDrag: opt.raiseOnDrag ? opt.raiseOnDrag : true,
             crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
             draggable: opt.draggable
-        }
+        };
         // 19 31
         if (opt.icon && opt.icon.anchor) {
             option.offset = new AMap.Pixel(-opt.icon.anchor[0], -opt.icon.anchor[1]);
@@ -257,8 +257,25 @@ class Marker implements F.Marker {
     }
 
     getLatLng(): F.LatLng {
-        let p =  this._original.getPosition();
+        const p =  this._original.getPosition();
         return [p.lat, p.lng];
+    }
+
+    setIcon(icon: Icon): Marker {
+        if (icon && icon._original) {
+            this._original.setIcon(icon._original);
+        }
+        return this;
+    }
+
+    enableDragging(): Marker {
+        this._original && this._original.setDraggable(true);
+        return this;
+    }
+
+    disableDragging(): Marker {
+        this._original && this._original.setDraggable(false);
+        return this;
     }
 }
 
@@ -268,10 +285,10 @@ class Polyline implements F.Polyline {
     _original: AMap.Polyline;
 
     constructor(latlngs: F.LatLng[], opt?: O.PolylineOption) {
-        let path = latlngs.map(latlng => {
+        const path = latlngs.map(latlng => {
             return [latlng[1], latlng[0]];
         });
-        let polylineOption = this.formatOpt(opt, path);
+        const polylineOption = this.formatOpt(opt, path);
         this._original = new AMap.Polyline(polylineOption);
     }
 
@@ -282,21 +299,43 @@ class Polyline implements F.Polyline {
             strokeColor: D.polyline.color,
             strokeWeight: D.polyline.weight,
             strokeOpacity: D.polyline.opacity
-        }
+        };
     }
 
-    setPath(latlngs: F.LatLng[]) {
-        let points = latlngs.map(latlng => {
+    setPath(latlngs: F.LatLng[]): Polyline {
+        const points = latlngs.map(latlng => {
             return [latlng[1], latlng[0]];
         });
         this._original.setPath(points);
+        return this;
     }
 
     getPath(): F.LatLng[] {
-        let points = this._original.getPath() || [];
+        const points = this._original.getPath() || [];
         return points.map(item => {
-            return [item.lat, item.lng]
+            return [item.lat, item.lng];
         });
+    }
+
+    setStrokeColor(color: string = D.polyline.color): Polyline {
+        this._original && this._original.setOptions({
+            strokeColor: color,
+        });
+        return this;
+    }
+
+    setStrokeWeight(weight: number = D.polyline.weight): Polyline {
+        this._original && this._original.setOptions({
+            strokeWeight: weight,
+        });
+        return this;
+    }
+
+    setStrokeOpacity(opacity: number = D.polyline.opacity): Polyline {
+        this._original && this._original.setOptions({
+            strokeOpacity: opacity
+        });
+        return this;
     }
 }
 
@@ -306,19 +345,19 @@ class Icon implements F.Icon {
     anchor: F.Size;
 
     constructor(opt: O.IconOption) {
-        let iconOption = this.formatOpt(opt);
+        const iconOption = this.formatOpt(opt);
         this._original = new AMap.Icon(iconOption);
         this.anchor = opt.anchor;
     }
 
     formatOpt(opt: O.IconOption = {}) {
-        let image = opt.url;
-        let size = opt.size ? new AMap.Size(opt.size[0], opt.size[1]) : null;
+        const image = opt.url;
+        const size = opt.size ? new AMap.Size(opt.size[0], opt.size[1]) : null;
         return {
             image: image,
             size: size,
             imageSize: size,
-        }
+        };
     }
 
     setImageUrl(url: string) {
@@ -362,9 +401,9 @@ export default class B_Map implements F.Factory {
                     e: e,
                     p: point,
                     pixel: JSON.parse(JSON.stringify(e.pixel))
-                }
+                };
             }
-        }
+        };
     }
 
     Map(opt: O.MapOption): Map {
@@ -374,11 +413,11 @@ export default class B_Map implements F.Factory {
     Layer(opt: O.LayerOption) {
         return new Layer(opt);
     }
-    
+
     Popup(opt: O.LayerOption) {
         return new Popup(opt);
     }
-    
+
     Marker(latlng: F.LatLng, opt?: O.MarkerOption): Marker {
         return new Marker(latlng, opt);
     }
@@ -417,20 +456,20 @@ export default class B_Map implements F.Factory {
  * @param {Function} constructor
  */
 function eventBinder(constructor: Function) {
-    constructor.prototype.on = function(eventName: string, handler: Function):  F.MapsEventListener {
-        let fn: Function = handler.bind(this);
-        let listener = this._original.on(eventName, fn);
+    constructor.prototype.on = function(eventName: string, handler: Function): F.MapsEventListener {
+        const fn: Function = handler.bind(this);
+        const listener = this._original.on(eventName, fn);
         return new F_MapsEventListener({
             eventName: eventName,
             host: this,
             listener: listener,
             handler: fn
         });
-    }
+    };
     // require MapEventListener
     constructor.prototype.off = function(listener: F.MapsEventListener) {
         this._original.off(listener.eventName, listener.handler);
-    }
+    };
 }
 
 // TODO: fixCoord

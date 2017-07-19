@@ -1,4 +1,4 @@
-import F from "../factory/index";
+import F from '../factory/index';
 
 export interface PlainOption {
     key: string;
@@ -28,7 +28,7 @@ export interface MarkerOption {
 export interface PolylineOption {
     color?: string;
     weight?: number;
-    opacity?: number; 
+    opacity?: number;
 }
 
 export interface IconOption {
