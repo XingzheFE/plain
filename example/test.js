@@ -15,9 +15,9 @@ plain.loadMap(key, (e) => {
     });
 
     var icon = plain.Icon({
-        url: 'https://cdn.bi-ci.com/vue_static/origin.svg',
-        size: [32, 50],
-        anchor: [16, 48]
+        url: 'https://cdn.bi-ci.com/static/commonimg/favicon/favicon32.png',
+        size: [32, 32],
+        anchor: [16, 32]
     });
     var markerOpt = {
         icon: icon,
@@ -65,7 +65,7 @@ plain.loadMap(key, (e) => {
         window.popup = plain.Popup({
             closeBtn: true,
             zIndex: 9999,
-            offset: [-30, 0]
+            offset: [-40, 0]
         }).setContent("<p>popup</p>").setLatLng([39.910, 116.404]).mount(map);
         window.layer = plain.Layer({closeBtn: true}).setContent("<p>layer</p>").setLatLng([39.910, 116.404]).mount(map);
     });

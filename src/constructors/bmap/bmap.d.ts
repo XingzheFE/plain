@@ -67,7 +67,7 @@ declare module BMap {
 
     export class Icon {
         constructor(url: string, size: Size, opts: IconOptions);
-
+        setImageSize(size: Size): void;
     }
     export class MapType {
         constructor(name: string, layers: TileLayer| Array<TileLayer>, options: MapTypeOptions);

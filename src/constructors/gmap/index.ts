@@ -254,14 +254,17 @@ class Icon implements F.Icon {
             url: iconOption.url,
             size: iconOption.size,
             anchor: iconOption.anchor,
+            scaledSize: iconOption.scaledSize,
         };
     }
 
     formatOpt(opt: O.IconOption = {}) {
+        let imageSize = opt.size ? new google.maps.Size(opt.size[0], opt.size[1]) : null;
         return {
             anchor: opt.anchor ? new google.maps.Point(opt.anchor[0], opt.anchor[1]) : null,
             url: opt.url,
-            size: opt.size ? new google.maps.Size(opt.size[0], opt.size[1], 'px', 'px') : null,
+            scaledSize: new google.maps.Size(100, 100, '%', '%'),
+            size: imageSize,            // marker size
         };
     }
 

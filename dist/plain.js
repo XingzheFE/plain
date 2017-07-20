@@ -874,6 +874,7 @@ var Icon$1 = (function () {
     function Icon(opt) {
         var iconOption = this.formatOpt(opt);
         this._original = new BMap.Icon(iconOption.url, iconOption.size, iconOption);
+        this._original.setImageSize(iconOption.size);
     }
     Icon.prototype.formatOpt = function (opt) {
         if (opt === void 0) { opt = {}; }
@@ -1358,14 +1359,17 @@ var Icon$2 = (function () {
             url: iconOption.url,
             size: iconOption.size,
             anchor: iconOption.anchor,
+            scaledSize: iconOption.scaledSize,
         };
     }
     Icon.prototype.formatOpt = function (opt) {
         if (opt === void 0) { opt = {}; }
+        var imageSize = opt.size ? new google.maps.Size(opt.size[0], opt.size[1]) : null;
         return {
             anchor: opt.anchor ? new google.maps.Point(opt.anchor[0], opt.anchor[1]) : null,
             url: opt.url,
-            size: opt.size ? new google.maps.Size(opt.size[0], opt.size[1], 'px', 'px') : null,
+            scaledSize: new google.maps.Size(100, 100, '%', '%'),
+            size: imageSize,
         };
     };
     Icon.prototype.setImageUrl = function (url) {

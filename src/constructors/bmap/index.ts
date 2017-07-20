@@ -239,6 +239,7 @@ class Icon implements F.Icon {
     constructor(opt: O.IconOption) {
         const iconOption = this.formatOpt(opt);
         this._original = new BMap.Icon(iconOption.url, iconOption.size, iconOption);
+        this._original.setImageSize(iconOption.size);
     }
 
     formatOpt(opt: O.IconOption = {}) {
