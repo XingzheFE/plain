@@ -11,10 +11,19 @@ export interface MapOption {
 }
 
 export interface LayerOption {
+    // latlng?: Array<number>;
+    content?: string | Element;
+    // class?: string;
+    // closeBtn?: boolean;
+}
+
+export interface PopupOption {
     latlng?: Array<number>;
     content?: string | Element;
     class?: string;
     closeBtn?: boolean;
+    offset?: Array<number>;
+    zIndex?: number;
 }
 
 export interface MarkerOption {

@@ -62,7 +62,11 @@ plain.loadMap(key, (e) => {
         map.fitView(path);
     });
     document.getElementById("add-popup").addEventListener("click", function (e) {
-        window.popup = plain.Popup({closeBtn: true}).setContent("<p>popup</p>").setLatLng([39.910, 116.404]).mount(map);
+        window.popup = plain.Popup({
+            closeBtn: true,
+            zIndex: 9999,
+            offset: [-30, 0]
+        }).setContent("<p>popup</p>").setLatLng([39.910, 116.404]).mount(map);
         window.layer = plain.Layer({closeBtn: true}).setContent("<p>layer</p>").setLatLng([39.910, 116.404]).mount(map);
     });
     map.on('rightclick', e => {

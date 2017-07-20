@@ -30,15 +30,18 @@ export default `
     display: block;
     right: 0;
     top: 0;
-    height: 14px;
-    width: 14px;
+    height: 20px;
+    width: 20px;
     border: none;
-    color: #666;
-    font-size: 14px;
+    color: #888;
+    font-size: 20px;
     line-height: 14px;
     cursor: pointer;
     background: transparent;
     outline: none;
+}
+.popup-box[data-plain-style] .popup-close:hover {
+    color: #666;
 }
 .popup-box[data-plain-style] .popup-arrow::after {
     display: block;

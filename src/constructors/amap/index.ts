@@ -187,12 +187,12 @@ class Layer implements F.Layer {
 }
 
 class Popup extends Layer {
-    constructor (opt: O.LayerOption) {
+    constructor (opt: O.PopupOption) {
         super(opt);
         this._box = document.createElement('div');
         this._box.classList.add('popup-box');
         this._box.setAttribute('data-plain-style', '');
-        this._box.setAttribute('style', 'position: absolute;transform:translate3d(-50%, -50%, 0);left: 10px;');
+        this._box.setAttribute('style', this.getStyle(opt));
         this._contentBox = document.createElement('div');
         this._box.innerHTML = `<div class="popup-arrow"></div`;
         this._contentBox.classList.add('popup-content');
@@ -211,6 +211,16 @@ class Popup extends Layer {
             });
             this._box.appendChild(closeBtn);
         }
+    }
+    getStyle(opt: O.PopupOption = {}) {
+        let style = 'position: absolute;transform:translate3d(-50%, -50%, 0);left: 10px;';
+        if (opt.zIndex && typeof opt.zIndex === 'number') {
+            style += `z-index:${opt.zIndex};`;
+        }
+        if (opt.offset && opt.offset instanceof Array && opt.offset.length === 2) {
+            style += `margin: ${opt.offset[0]}px ${opt.offset[1]}px;`;
+        }
+        return style;
     }
     createContent (content: string | Element) {
         if (typeof content === 'string') {

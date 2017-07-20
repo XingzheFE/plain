@@ -417,7 +417,7 @@ var Popup = (function (_super) {
         this._box = document.createElement('div');
         this._box.classList.add('popup-box');
         this._box.setAttribute('data-plain-style', '');
-        this._box.setAttribute('style', 'position: absolute;transform:translate3d(-50%, -50%, 0);left: 10px;');
+        this._box.setAttribute('style', this.getStyle(opt));
         this._contentBox = document.createElement('div');
         this._box.innerHTML = "<div class=\"popup-arrow\"></div";
         this._contentBox.classList.add('popup-content');
@@ -437,6 +437,17 @@ var Popup = (function (_super) {
             this._box.appendChild(closeBtn);
         }
     }
+    Popup.prototype.getStyle = function (opt) {
+        if (opt === void 0) { opt = {}; }
+        var style = 'position: absolute;transform:translate3d(-50%, -50%, 0);left: 10px;';
+        if (opt.zIndex && typeof opt.zIndex === 'number') {
+            style += "z-index:" + opt.zIndex + ";";
+        }
+        if (opt.offset && opt.offset instanceof Array && opt.offset.length === 2) {
+            style += "margin: " + opt.offset[0] + "px " + opt.offset[1] + "px;";
+        }
+        return style;
+    };
     Popup.prototype.createContent = function (content) {
         if (typeof content === 'string') {
             this._contentBox.innerHTML = content;
@@ -1025,6 +1036,17 @@ function createLayerConstructor(isPopup) {
             map.getPanes().markerPane.appendChild(this._box);
             return this._box;
         };
+        Layer.prototype.getStyle = function (o) {
+            var opt = o || this._opt || {};
+            var style = '';
+            if (opt.zIndex && typeof opt.zIndex === 'number') {
+                style += "z-index:" + opt.zIndex + ";";
+            }
+            if (opt.offset && opt.offset instanceof Array && opt.offset.length === 2) {
+                style += "margin: " + opt.offset[0] + "px " + opt.offset[1] + "px;";
+            }
+            return style;
+        };
         Layer.prototype.createContent = function () {
             var _this = this;
             this._box.innerHTML = '';
@@ -1063,9 +1085,9 @@ function createLayerConstructor(isPopup) {
         Layer.prototype.draw = function () {
             if (this._map) {
                 var pixel = this._map.pointToOverlayPixel(this._latlng);
-                this._box.style.position = 'absolute';
-                this._box.style.left = ~~pixel.x + 'px';
-                this._box.style.top = ~~pixel.y + 'px';
+                var style = "position: absolute; left: " + ~~pixel.x + "px; top: " + ~~pixel.y + "px;";
+                style += this.getStyle(this._opt);
+                this._box.style = style;
             }
         };
         Layer.prototype.remove = function () {
@@ -1343,7 +1365,7 @@ var Icon$2 = (function () {
         return {
             anchor: opt.anchor ? new google.maps.Point(opt.anchor[0], opt.anchor[1]) : null,
             url: opt.url,
-            size: opt.size ? new google.maps.Size(opt.size[0], opt.size[1]) : null,
+            size: opt.size ? new google.maps.Size(opt.size[0], opt.size[1], 'px', 'px') : null,
         };
     };
     Icon.prototype.setImageUrl = function (url) {
@@ -1456,6 +1478,17 @@ function createLayerConstructor$1(isPopup) {
             this._content = this._content || "<h1 style='background:#fff;'>custom Layer</h1>";
             this.createContent();
         };
+        Layer.prototype.getStyle = function (o) {
+            var opt = o || this._opt || {};
+            var style = '';
+            if (opt.zIndex && typeof opt.zIndex === 'number') {
+                style += "z-index:" + opt.zIndex + ";";
+            }
+            if (opt.offset && opt.offset instanceof Array && opt.offset.length === 2) {
+                style += "margin: " + opt.offset[0] + "px " + opt.offset[1] + "px;";
+            }
+            return style;
+        };
         Layer.prototype.createContent = function () {
             var _this = this;
             this._box.innerHTML = '';
@@ -1500,9 +1533,9 @@ function createLayerConstructor$1(isPopup) {
             var project = this.getProjection();
             if (project) {
                 var pixel = project.fromLatLngToDivPixel(this._latlng);
-                this._box.style.position = 'absolute';
-                this._box.style.left = ~~pixel.x + 'px';
-                this._box.style.top = ~~pixel.y + 'px';
+                var style = "position: absolute; left: " + ~~pixel.x + "px; top: " + ~~pixel.y + "px;";
+                style += this.getStyle(this._opt);
+                this._box.style = style;
             }
         };
         Layer.prototype.remove = function () {
@@ -1554,7 +1587,7 @@ function createLayerConstructor$1(isPopup) {
     }
 }
 
-var styleString = "\n.popup-box[data-plain-style] {\n    z-index: 9;\n    padding: 0 0 14px 0;\n    cursor: arrow;\n    transform: translate3d(-50%, -100%, 0);\n    translate: transform ease 0;\n    animation: fade-in-data-plain-style linear 0.12s;\n}\n.popup-box[data-plain-style] .popup-content {\n    padding: 0.5rem 1rem;\n    min-height: 2rem;\n    min-width: 4rem;\n    color: #222;\n    box-shadow: 0 3px 12px rgba(0,0,0,0.38);\n    background: #fff;\n    border-radius: 4px;\n}\n.popup-box[data-plain-style] .popup-arrow{\n    position: absolute;\n    left: 50%;\n    bottom: 0;\n    height: 14px;\n    width: 28px;\n    overflow: hidden;\n    transform: translate3d(-50%, 0, 0);\n}\n.popup-box[data-plain-style] .popup-close {\n    position: absolute;\n    display: block;\n    right: 0;\n    top: 0;\n    height: 14px;\n    width: 14px;\n    border: none;\n    color: #666;\n    font-size: 14px;\n    line-height: 14px;\n    cursor: pointer;\n    background: transparent;\n    outline: none;\n}\n.popup-box[data-plain-style] .popup-arrow::after {\n    display: block;\n    content: '';\n    position: absolute;\n    top: -12px;\n    left: 3px;\n    background: #fff;\n    height: 20px;\n    width: 20px;\n    border-radius: 2px;\n    transform: rotate3d(0, 0, 1, 45deg);\n    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.34);\n}\n@keyframes fade-in-data-plain-style {\n    0% {\n        opacity: 0;\n    }\n    100% {\n        opacity: 1;\n    }\n}\n";
+var styleString = "\n.popup-box[data-plain-style] {\n    z-index: 9;\n    padding: 0 0 14px 0;\n    cursor: arrow;\n    transform: translate3d(-50%, -100%, 0);\n    translate: transform ease 0;\n    animation: fade-in-data-plain-style linear 0.12s;\n}\n.popup-box[data-plain-style] .popup-content {\n    padding: 0.5rem 1rem;\n    min-height: 2rem;\n    min-width: 4rem;\n    color: #222;\n    box-shadow: 0 3px 12px rgba(0,0,0,0.38);\n    background: #fff;\n    border-radius: 4px;\n}\n.popup-box[data-plain-style] .popup-arrow{\n    position: absolute;\n    left: 50%;\n    bottom: 0;\n    height: 14px;\n    width: 28px;\n    overflow: hidden;\n    transform: translate3d(-50%, 0, 0);\n}\n.popup-box[data-plain-style] .popup-close {\n    position: absolute;\n    display: block;\n    right: 0;\n    top: 0;\n    height: 20px;\n    width: 20px;\n    border: none;\n    color: #888;\n    font-size: 20px;\n    line-height: 14px;\n    cursor: pointer;\n    background: transparent;\n    outline: none;\n}\n.popup-box[data-plain-style] .popup-close:hover {\n    color: #666;\n}\n.popup-box[data-plain-style] .popup-arrow::after {\n    display: block;\n    content: '';\n    position: absolute;\n    top: -12px;\n    left: 3px;\n    background: #fff;\n    height: 20px;\n    width: 20px;\n    border-radius: 2px;\n    transform: rotate3d(0, 0, 1, 45deg);\n    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.34);\n}\n@keyframes fade-in-data-plain-style {\n    0% {\n        opacity: 0;\n    }\n    100% {\n        opacity: 1;\n    }\n}\n";
 //# sourceMappingURL=style.js.map
 
 var Plain = (function () {

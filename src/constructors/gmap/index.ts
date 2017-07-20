@@ -261,7 +261,7 @@ class Icon implements F.Icon {
         return {
             anchor: opt.anchor ? new google.maps.Point(opt.anchor[0], opt.anchor[1]) : null,
             url: opt.url,
-            size: opt.size ? new google.maps.Size(opt.size[0], opt.size[1]) : null,
+            size: opt.size ? new google.maps.Size(opt.size[0], opt.size[1], 'px', 'px') : null,
         };
     }
 
@@ -405,6 +405,17 @@ function createLayerConstructor (isPopup: boolean = false): any {
             this._content = this._content || `<h1 style='background:#fff;'>custom Layer</h1>`;
             this.createContent();
         };
+        Layer.prototype.getStyle = function(o: O.PopupOption) {
+            let opt = o || this._opt || {};
+            let style = '';
+            if (opt.zIndex && typeof opt.zIndex === 'number') {
+                style += `z-index:${opt.zIndex};`;
+            }
+            if (opt.offset && opt.offset instanceof Array && opt.offset.length === 2) {
+                style += `margin: ${opt.offset[0]}px ${opt.offset[1]}px;`;
+            }
+            return style;
+        };
         Layer.prototype.createContent = function () {
             this._box.innerHTML = '';
             if (isPopup) {
@@ -446,9 +457,9 @@ function createLayerConstructor (isPopup: boolean = false): any {
             // hold the draggable map
             if (project) {
                 let pixel = project.fromLatLngToDivPixel(this._latlng);
-                this._box.style.position = 'absolute';
-                this._box.style.left = ~~pixel.x + 'px';
-                this._box.style.top = ~~pixel.y + 'px';
+                let style = `position: absolute; left: ${~~pixel.x}px; top: ${~~pixel.y}px;`;
+                style += this.getStyle(this._opt);
+                this._box.style = style;
             }
         };
         Layer.prototype.remove = function () {

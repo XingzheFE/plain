@@ -431,6 +431,17 @@ function createLayerConstructor (isPopup: boolean = false): any {
             map.getPanes().markerPane.appendChild(this._box);
             return this._box;
         };
+        Layer.prototype.getStyle = function(o: O.PopupOption) {
+            let opt = o || this._opt || {};
+            let style = '';
+            if (opt.zIndex && typeof opt.zIndex === 'number') {
+                style += `z-index:${opt.zIndex};`;
+            }
+            if (opt.offset && opt.offset instanceof Array && opt.offset.length === 2) {
+                style += `margin: ${opt.offset[0]}px ${opt.offset[1]}px;`;
+            }
+            return style;
+        };
         Layer.prototype.createContent = function () {
             this._box.innerHTML = '';
             if (isPopup) {
@@ -461,13 +472,13 @@ function createLayerConstructor (isPopup: boolean = false): any {
                     this._box.appendChild(this._content);
                 }
             }
-        }
+        };
         Layer.prototype.draw = function () {
             if (this._map) {
                 const pixel = this._map.pointToOverlayPixel(this._latlng);
-                this._box.style.position = 'absolute';
-                this._box.style.left = ~~pixel.x + 'px';
-                this._box.style.top = ~~pixel.y + 'px';
+                let style = `position: absolute; left: ${~~pixel.x}px; top: ${~~pixel.y}px;`;
+                style += this.getStyle(this._opt);
+                this._box.style = style;
             }
         };
         Layer.prototype.remove = function () {
