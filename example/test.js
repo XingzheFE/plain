@@ -41,6 +41,13 @@ plain.loadMap(key, (e) => {
     var listener = marker.on('click', function eventHandler (e) {
         console.log(plain.Util.formatEvent.call(this, e));
     });
+    var btn = document.createElement('button');
+    btn.innerHTML = "popup button";
+    plain.Popup({
+        closeBtn: true,
+        zIndex: 9999,
+        offset: [-40, 0]
+    }).setContent(btn).setLatLng([39.910, 116.404]).mount(map).hide();
     marker.on('dragend', function (e) {
         let event = plain.Util.formatEvent.call(this, e);
         let point = event.target.getLatLng();

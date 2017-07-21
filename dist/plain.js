@@ -141,126 +141,151 @@ var coordtransform = {
 };
 //# sourceMappingURL=coordtransform.js.map
 
-var util = {
-    log: function (v) {
-        if (v instanceof Error) {
-            console.error(v);
+function log(v) {
+    if (v instanceof Error) {
+        console.error(v);
+    }
+    else if (V.DEBUG) {
+        console.log("[" + V.name + "] ", v);
+    }
+}
+function getBound(latlngs) {
+    var rectangle;
+    var minLat = latlngs[0][0], minLng = latlngs[0][1], maxLat = minLat, maxLng = minLng;
+    latlngs.map(function (latlng) {
+        if (latlng[0] < minLat) {
+            minLat = latlng[0];
         }
-        else if (V.DEBUG) {
-            console.log("[" + V.name + "] ", v);
+        else if (latlng[0] > maxLat) {
+            maxLat = latlng[0];
         }
-    },
-    getBound: function (latlngs) {
-        var rectangle;
-        var minLat = latlngs[0][0], minLng = latlngs[0][1], maxLat = minLat, maxLng = minLng;
-        latlngs.map(function (latlng) {
-            if (latlng[0] < minLat) {
-                minLat = latlng[0];
-            }
-            else if (latlng[0] > maxLat) {
-                maxLat = latlng[0];
-            }
-            if (latlng[1] < minLng) {
-                minLng = latlng[1];
-            }
-            else if (latlng[1] > maxLng) {
-                maxLng = latlng[1];
-            }
-        });
-        return [[minLat, minLng], [maxLat, maxLng]];
-    },
-    objectAssign: function (target, source) {
-        if (Object.assign) {
-            Object.assign(target, source);
+        if (latlng[1] < minLng) {
+            minLng = latlng[1];
         }
-        else {
-            for (var key in source) {
-                if (source.hasOwnProperty(key)) {
-                    target[key] = source[key];
-                }
+        else if (latlng[1] > maxLng) {
+            maxLng = latlng[1];
+        }
+    });
+    return [[minLat, minLng], [maxLat, maxLng]];
+}
+function objectAssign(target, source) {
+    if (Object.assign) {
+        Object.assign(target, source);
+    }
+    else {
+        for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+                target[key] = source[key];
             }
         }
-        return target;
-    },
-    g2b: function (latlngs) {
-        if (!(latlngs[0] instanceof Array)) {
-            return coordtransform.gcj02tobd09(latlngs[0], latlngs[1]);
-        }
-        return latlngs.map(function (latlng) {
-            return coordtransform.gcj02tobd09(latlng[0], latlng[1]);
-        });
-    },
-    b2g: function (latlngs) {
-        if (!(latlngs[0] instanceof Array)) {
-            return coordtransform.bd09togcj02(latlngs[0], latlngs[1]);
-        }
-        return latlngs.map(function (latlng) {
-            return coordtransform.bd09togcj02(latlng[0], latlng[1]);
-        });
-    },
-    w2g: function (latlngs) {
-        if (!(latlngs[0] instanceof Array)) {
-            return coordtransform.wgs84togcj02(latlngs[0], latlngs[1]);
-        }
-        return latlngs.map(function (latlng) {
-            return coordtransform.wgs84togcj02(latlng[0], latlng[1]);
-        });
-    },
-    g2w: function (latlngs) {
-        if (!(latlngs[0] instanceof Array)) {
-            return coordtransform.gcj02towgs84(latlngs[0], latlngs[1]);
-        }
-        return latlngs.map(function (latlng) {
-            return coordtransform.gcj02towgs84(latlng[0], latlng[1]);
-        });
-    },
-    w2b: function (latlngs) {
-        if (!(latlngs[0] instanceof Array)) {
-            var coor = coordtransform.wgs84togcj02(latlngs[0], latlngs[1]);
-            return coordtransform.gcj02tobd09(coor[0], coor[1]);
-        }
-        var coords = latlngs.map(function (latlng) {
-            return coordtransform.wgs84togcj02(latlng[0], latlng[1]);
-        });
-        return coords.map(function (latlng) {
-            return coordtransform.gcj02tobd09(latlng[0], latlng[1]);
-        });
-    },
-    b2w: function (latlngs) {
-        if (!(latlngs[0] instanceof Array)) {
-            var coor = coordtransform.bd09togcj02(latlngs[0], latlngs[1]);
-            return coordtransform.gcj02towgs84(coor[0], coor[1]);
-        }
-        var coords = latlngs.map(function (latlng) {
-            return coordtransform.bd09togcj02(latlng[0], latlng[1]);
-        });
-        return coords.map(function (latlng) {
-            return coordtransform.gcj02towgs84(latlng[0], latlng[1]);
-        });
-    },
-    locate: function (success, error) {
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                success && success(position.coords.latitude, position.coords.longitude);
-            }, function (e) {
-                error && error(e);
-            });
-        }
-        else {
-            error && error(new Error('Geolocation is not supported by your browser'));
-        }
-    },
-    stopPropagation: function (el, eventNameList) {
-        if (eventNameList === void 0) { eventNameList = ['click', 'dblclick']; }
-        eventNameList.map(function (eventName) {
-            el.addEventListener(eventName, function (e) {
-                e.stopPropagation && e.stopPropagation();
-                e.stopImmediatePropagation && e.stopImmediatePropagation();
-            });
+    }
+    return target;
+}
+function g2b(latlngs) {
+    if (!(latlngs[0] instanceof Array)) {
+        return coordtransform.gcj02tobd09(latlngs[0], latlngs[1]);
+    }
+    return latlngs.map(function (latlng) {
+        return coordtransform.gcj02tobd09(latlng[0], latlng[1]);
+    });
+}
+function b2g(latlngs) {
+    if (!(latlngs[0] instanceof Array)) {
+        return coordtransform.bd09togcj02(latlngs[0], latlngs[1]);
+    }
+    return latlngs.map(function (latlng) {
+        return coordtransform.bd09togcj02(latlng[0], latlng[1]);
+    });
+}
+function w2g(latlngs) {
+    if (!(latlngs[0] instanceof Array)) {
+        return coordtransform.wgs84togcj02(latlngs[0], latlngs[1]);
+    }
+    return latlngs.map(function (latlng) {
+        return coordtransform.wgs84togcj02(latlng[0], latlng[1]);
+    });
+}
+function g2w(latlngs) {
+    if (!(latlngs[0] instanceof Array)) {
+        return coordtransform.gcj02towgs84(latlngs[0], latlngs[1]);
+    }
+    return latlngs.map(function (latlng) {
+        return coordtransform.gcj02towgs84(latlng[0], latlng[1]);
+    });
+}
+function w2b(latlngs) {
+    if (!(latlngs[0] instanceof Array)) {
+        var coor = coordtransform.wgs84togcj02(latlngs[0], latlngs[1]);
+        return coordtransform.gcj02tobd09(coor[0], coor[1]);
+    }
+    var coords = latlngs.map(function (latlng) {
+        return coordtransform.wgs84togcj02(latlng[0], latlng[1]);
+    });
+    return coords.map(function (latlng) {
+        return coordtransform.gcj02tobd09(latlng[0], latlng[1]);
+    });
+}
+function b2w(latlngs) {
+    if (!(latlngs[0] instanceof Array)) {
+        var coor = coordtransform.bd09togcj02(latlngs[0], latlngs[1]);
+        return coordtransform.gcj02towgs84(coor[0], coor[1]);
+    }
+    var coords = latlngs.map(function (latlng) {
+        return coordtransform.bd09togcj02(latlng[0], latlng[1]);
+    });
+    return coords.map(function (latlng) {
+        return coordtransform.gcj02towgs84(latlng[0], latlng[1]);
+    });
+}
+function locate(success, error) {
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            success && success(position.coords.latitude, position.coords.longitude);
+        }, function (e) {
+            error && error(e);
         });
     }
-};
+    else {
+        error && error(new Error('Geolocation is not supported by your browser'));
+    }
+}
+function stopPropagation(el, eventNameList) {
+    if (eventNameList === void 0) { eventNameList = ['click', 'dblclick']; }
+    eventNameList.map(function (eventName) {
+        el.addEventListener(eventName, function (e) {
+            e.stopPropagation && e.stopPropagation();
+            e.stopImmediatePropagation && e.stopImmediatePropagation();
+        });
+    });
+}
+function setStyle(el, style) {
+    style.split(';').map(function (s) {
+        var attr = s.split(':');
+        el.style[trim(attr[0])] = trim(attr[1]);
+    });
+}
+function trim(str) {
+    if (str === void 0) { str = ''; }
+    return str.replace(/^\s+|\s+$/g, '');
+}
 //# sourceMappingURL=utils.js.map
+
+
+var util = Object.freeze({
+	log: log,
+	getBound: getBound,
+	objectAssign: objectAssign,
+	g2b: g2b,
+	b2g: b2g,
+	w2g: w2g,
+	g2w: g2w,
+	w2b: w2b,
+	b2w: b2w,
+	locate: locate,
+	stopPropagation: stopPropagation,
+	setStyle: setStyle,
+	trim: trim
+});
 
 var Map = (function () {
     function Map(opt) {
@@ -317,7 +342,7 @@ var Map = (function () {
     };
     Map.prototype.fitView = function (latlngs, opt) {
         var _this = this;
-        var bound = util.getBound(latlngs);
+        var bound = getBound(latlngs);
         if (this._boundMarkers) {
             bound.map(function (p, i, arr) {
                 _this._boundMarkers[i].setPosition([p[1], p[0]]);
@@ -433,7 +458,7 @@ var Popup = (function (_super) {
         this._box.innerHTML = "<div class=\"popup-arrow\"></div";
         this._contentBox.classList.add('popup-content');
         this._box.appendChild(this._contentBox);
-        util.stopPropagation(this._box, ['mouseup', 'mousedown']);
+        stopPropagation(this._box, ['mouseup', 'mousedown']);
         this._original = new AMap.Marker({
             bubble: false,
             position: [0, 0],
@@ -533,7 +558,7 @@ var Polyline = (function () {
     }
     Polyline.prototype.formatOpt = function (opt, path) {
         if (opt === void 0) { opt = {}; }
-        util.objectAssign(D.polyline, opt);
+        objectAssign(D.polyline, opt);
         return {
             path: path,
             strokeColor: D.polyline.color,
@@ -843,7 +868,7 @@ var Polyline$1 = (function () {
     }
     Polyline.prototype.formatOpt = function (opt) {
         if (opt === void 0) { opt = {}; }
-        util.objectAssign(D.polyline, opt);
+        objectAssign(D.polyline, opt);
         return {
             strokeColor: D.polyline.color,
             strokeWeight: D.polyline.weight,
@@ -1001,13 +1026,13 @@ function fixCoord(latlngs, type) {
                 return latlngs;
             }
             case ('GCJ02'): {
-                return util.b2g(latlngs);
+                return b2g(latlngs);
             }
             case ('BD09'): {
                 return latlngs;
             }
             case ('WGS84'): {
-                return util.b2w(latlngs);
+                return b2w(latlngs);
             }
         }
     }
@@ -1020,13 +1045,13 @@ function fixCoord(latlngs, type) {
                 return latlngs;
             }
             case ('GCJ02'): {
-                return util.g2b(latlngs);
+                return g2b(latlngs);
             }
             case ('BD09'): {
                 return latlngs;
             }
             case ('WGS84'): {
-                return util.w2b(latlngs);
+                return w2b(latlngs);
             }
         }
     }
@@ -1065,7 +1090,7 @@ function createLayerConstructor(isPopup) {
             var _this = this;
             this._box.innerHTML = '';
             if (isPopup) {
-                util.stopPropagation(this._box);
+                stopPropagation(this._box);
                 this._box.classList.add('popup-box');
                 this._contentBox = document.createElement('div');
                 this._box.innerHTML = "<div class=\"popup-arrow\"></div>";
@@ -1102,7 +1127,7 @@ function createLayerConstructor(isPopup) {
                 var pixel = this._map.pointToOverlayPixel(this._latlng);
                 var style = "position: absolute; left: " + ~~pixel.x + "px; top: " + ~~pixel.y + "px;";
                 style += this.getStyle(this._opt);
-                this._box.style = style;
+                setStyle(this._box, style);
             }
         };
         Layer.prototype.remove = function () {
@@ -1216,7 +1241,7 @@ var Map$2 = (function () {
         this.setZoom(this.getZoom() - 1);
     };
     Map.prototype.fitView = function (latlngs, opt) {
-        var bound = util.getBound(latlngs).map(function (p) {
+        var bound = getBound(latlngs).map(function (p) {
             return new google.maps.LatLng(p[0], p[1]);
         });
         var googleBound = new google.maps.LatLngBounds(bound[0], bound[1]);
@@ -1319,7 +1344,7 @@ var Polyline$2 = (function () {
     }
     Polyline.prototype.formatOpt = function (opt, path) {
         if (opt === void 0) { opt = {}; }
-        util.objectAssign(D.polyline, opt);
+        objectAssign(D.polyline, opt);
         return {
             path: path,
             strokeColor: D.polyline.color,
@@ -1511,7 +1536,7 @@ function createLayerConstructor$1(isPopup) {
             var _this = this;
             this._box.innerHTML = '';
             if (isPopup) {
-                util.stopPropagation(this._box);
+                stopPropagation(this._box);
                 this._box.classList.add('popup-box');
                 this._contentBox = document.createElement('div');
                 this._box.innerHTML = "<div class='popup-arrow'></div>";
@@ -1554,7 +1579,7 @@ function createLayerConstructor$1(isPopup) {
                 var pixel = project.fromLatLngToDivPixel(this._latlng);
                 var style = "position: absolute; left: " + ~~pixel.x + "px; top: " + ~~pixel.y + "px;";
                 style += this.getStyle(this._opt);
-                this._box.style = style;
+                setStyle(this._box, style);
             }
         };
         Layer.prototype.remove = function () {
@@ -1618,7 +1643,7 @@ var Plain = (function () {
                 return that.factory.Util.formatEvent.call(this, e);
             }
         };
-        util.objectAssign(this.Util, util);
+        objectAssign(this.Util, util);
         this._v = V;
         var style = document.createElement('style');
         style.innerHTML = styleString;

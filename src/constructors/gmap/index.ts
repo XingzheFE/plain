@@ -3,7 +3,7 @@ import F from '../../factory/index';
 import F_MapsEventListener from '../../factory/mapsEventListener';
 import * as O from '../../options/mapOptions';
 import D from '../../options/default';
-import util from '../../utils';
+import * as util from '../../utils';
 
 // google.maps in not defined in this file
 // But you will get this variable on window Object
@@ -463,7 +463,7 @@ function createLayerConstructor (isPopup: boolean = false): any {
                 let pixel = project.fromLatLngToDivPixel(this._latlng);
                 let style = `position: absolute; left: ${~~pixel.x}px; top: ${~~pixel.y}px;`;
                 style += this.getStyle(this._opt);
-                this._box.style = style;
+                util.setStyle(this._box, style);
             }
         };
         Layer.prototype.remove = function () {

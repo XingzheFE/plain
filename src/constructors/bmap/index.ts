@@ -5,7 +5,7 @@ import F from '../../factory/index';
 import F_MapsEventListener from '../../factory/mapsEventListener';
 import * as O from '../../options/mapOptions';
 import D from '../../options/default';
-import util from '../../utils';
+import * as util from '../../utils';
 
 // BMap in not defined in this file
 // But you will get this variable on window Object
@@ -480,7 +480,7 @@ function createLayerConstructor (isPopup: boolean = false): any {
                 const pixel = this._map.pointToOverlayPixel(this._latlng);
                 let style = `position: absolute; left: ${~~pixel.x}px; top: ${~~pixel.y}px;`;
                 style += this.getStyle(this._opt);
-                this._box.style = style;
+                util.setStyle(this._box, style);
             }
         };
         Layer.prototype.remove = function () {

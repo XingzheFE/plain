@@ -5,7 +5,7 @@ import O from './options/mapOptions';
 import A_Map from './constructors/amap/index';      // gaode map
 import B_Map from './constructors/bmap/index';      // baidu map
 import G_Map from './constructors/gmap/index';      // google map
-import util from './utils';
+import * as util from './utils';
 import styleString from './style';
 // Error with import require: can not find module 'object-assign'
 // import objectAssign = require('object-assign');
