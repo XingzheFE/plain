@@ -6,6 +6,8 @@ export default `
     transform: translate3d(-50%, -100%, 0);
     translate: transform ease 0;
     animation: fade-in-data-plain-style linear 0.12s;
+    pointer-events: auto !important;
+    cursor: auto;
 }
 .popup-box[data-plain-style] .popup-content {
     padding: 0.5rem 1rem;

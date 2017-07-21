@@ -250,6 +250,15 @@ var util = {
             error && error(new Error('Geolocation is not supported by your browser'));
         }
     },
+    stopPropagation: function (el, eventNameList) {
+        if (eventNameList === void 0) { eventNameList = ['click', 'dblclick']; }
+        eventNameList.map(function (eventName) {
+            el.addEventListener(eventName, function (e) {
+                e.stopPropagation && e.stopPropagation();
+                e.stopImmediatePropagation && e.stopImmediatePropagation();
+            });
+        });
+    }
 };
 //# sourceMappingURL=utils.js.map
 
@@ -372,6 +381,8 @@ var Layer = (function () {
     function Layer(opt) {
         this._opt = opt;
         this._original = new AMap.Marker({
+            bubble: false,
+            clickable: false,
             position: [0, 0],
             content: 'custom Layer',
             offset: new AMap.Pixel(0, 0),
@@ -422,7 +433,9 @@ var Popup = (function (_super) {
         this._box.innerHTML = "<div class=\"popup-arrow\"></div";
         this._contentBox.classList.add('popup-content');
         this._box.appendChild(this._contentBox);
+        util.stopPropagation(this._box, ['mouseup', 'mousedown']);
         this._original = new AMap.Marker({
+            bubble: false,
             position: [0, 0],
             content: this._box,
         });
@@ -439,12 +452,12 @@ var Popup = (function (_super) {
     }
     Popup.prototype.getStyle = function (opt) {
         if (opt === void 0) { opt = {}; }
-        var style = 'position: absolute;transform:translate3d(-50%, -50%, 0);left: 10px;';
+        var style = 'position: absolute;left: 10px;';
         if (opt.zIndex && typeof opt.zIndex === 'number') {
             style += "z-index:" + opt.zIndex + ";";
         }
         if (opt.offset && opt.offset instanceof Array && opt.offset.length === 2) {
-            style += "margin: " + opt.offset[0] + "px " + opt.offset[1] + "px;";
+            style += "margin: " + (opt.offset[0] + 30) + "px " + opt.offset[1] + "px;";
         }
         return style;
     };
@@ -1052,6 +1065,7 @@ function createLayerConstructor(isPopup) {
             var _this = this;
             this._box.innerHTML = '';
             if (isPopup) {
+                util.stopPropagation(this._box);
                 this._box.classList.add('popup-box');
                 this._contentBox = document.createElement('div');
                 this._box.innerHTML = "<div class=\"popup-arrow\"></div>";
@@ -1497,6 +1511,7 @@ function createLayerConstructor$1(isPopup) {
             var _this = this;
             this._box.innerHTML = '';
             if (isPopup) {
+                util.stopPropagation(this._box);
                 this._box.classList.add('popup-box');
                 this._contentBox = document.createElement('div');
                 this._box.innerHTML = "<div class='popup-arrow'></div>";
@@ -1591,7 +1606,7 @@ function createLayerConstructor$1(isPopup) {
     }
 }
 
-var styleString = "\n.popup-box[data-plain-style] {\n    z-index: 9;\n    padding: 0 0 14px 0;\n    cursor: arrow;\n    transform: translate3d(-50%, -100%, 0);\n    translate: transform ease 0;\n    animation: fade-in-data-plain-style linear 0.12s;\n}\n.popup-box[data-plain-style] .popup-content {\n    padding: 0.5rem 1rem;\n    min-height: 2rem;\n    min-width: 4rem;\n    color: #222;\n    box-shadow: 0 3px 12px rgba(0,0,0,0.38);\n    background: #fff;\n    border-radius: 4px;\n}\n.popup-box[data-plain-style] .popup-arrow{\n    position: absolute;\n    left: 50%;\n    bottom: 0;\n    height: 14px;\n    width: 28px;\n    overflow: hidden;\n    transform: translate3d(-50%, 0, 0);\n}\n.popup-box[data-plain-style] .popup-close {\n    position: absolute;\n    display: block;\n    right: 0;\n    top: 0;\n    height: 20px;\n    width: 20px;\n    border: none;\n    color: #888;\n    font-size: 20px;\n    line-height: 14px;\n    cursor: pointer;\n    background: transparent;\n    outline: none;\n}\n.popup-box[data-plain-style] .popup-close:hover {\n    color: #666;\n}\n.popup-box[data-plain-style] .popup-arrow::after {\n    display: block;\n    content: '';\n    position: absolute;\n    top: -12px;\n    left: 3px;\n    background: #fff;\n    height: 20px;\n    width: 20px;\n    border-radius: 2px;\n    transform: rotate3d(0, 0, 1, 45deg);\n    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.34);\n}\n@keyframes fade-in-data-plain-style {\n    0% {\n        opacity: 0;\n    }\n    100% {\n        opacity: 1;\n    }\n}\n";
+var styleString = "\n.popup-box[data-plain-style] {\n    z-index: 9;\n    padding: 0 0 14px 0;\n    cursor: arrow;\n    transform: translate3d(-50%, -100%, 0);\n    translate: transform ease 0;\n    animation: fade-in-data-plain-style linear 0.12s;\n    pointer-events: auto !important;\n    cursor: auto;\n}\n.popup-box[data-plain-style] .popup-content {\n    padding: 0.5rem 1rem;\n    min-height: 2rem;\n    min-width: 4rem;\n    color: #222;\n    box-shadow: 0 3px 12px rgba(0,0,0,0.38);\n    background: #fff;\n    border-radius: 4px;\n}\n.popup-box[data-plain-style] .popup-arrow{\n    position: absolute;\n    left: 50%;\n    bottom: 0;\n    height: 14px;\n    width: 28px;\n    overflow: hidden;\n    transform: translate3d(-50%, 0, 0);\n}\n.popup-box[data-plain-style] .popup-close {\n    position: absolute;\n    display: block;\n    right: 0;\n    top: 0;\n    height: 20px;\n    width: 20px;\n    border: none;\n    color: #888;\n    font-size: 20px;\n    line-height: 14px;\n    cursor: pointer;\n    background: transparent;\n    outline: none;\n}\n.popup-box[data-plain-style] .popup-close:hover {\n    color: #666;\n}\n.popup-box[data-plain-style] .popup-arrow::after {\n    display: block;\n    content: '';\n    position: absolute;\n    top: -12px;\n    left: 3px;\n    background: #fff;\n    height: 20px;\n    width: 20px;\n    border-radius: 2px;\n    transform: rotate3d(0, 0, 1, 45deg);\n    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.34);\n}\n@keyframes fade-in-data-plain-style {\n    0% {\n        opacity: 0;\n    }\n    100% {\n        opacity: 1;\n    }\n}\n";
 //# sourceMappingURL=style.js.map
 
 var Plain = (function () {

@@ -150,9 +150,11 @@ class Layer implements F.Layer {
     constructor (opt: O.LayerOption) {
         this._opt = opt;
         this._original = new AMap.Marker({
-           position: [0, 0],
-           content: 'custom Layer',
-           offset: new AMap.Pixel(0, 0),
+            bubble: false,
+            clickable: false,
+            position: [0, 0],
+            content: 'custom Layer',
+            offset: new AMap.Pixel(0, 0),
         });
     }
     setLatLng (latlng: F.LatLng) {
@@ -197,9 +199,11 @@ class Popup extends Layer {
         this._box.innerHTML = `<div class="popup-arrow"></div`;
         this._contentBox.classList.add('popup-content');
         this._box.appendChild(this._contentBox);
+        util.stopPropagation(this._box, ['mouseup', 'mousedown']);
         this._original = new AMap.Marker({
-           position: [0, 0],
-           content: this._box,
+            bubble: false,
+            position: [0, 0],
+            content: this._box,
         });
         if (opt && opt.closeBtn === true) {
             const closeBtn = document.createElement('button');
@@ -213,12 +217,12 @@ class Popup extends Layer {
         }
     }
     getStyle(opt: O.PopupOption = {}) {
-        let style = 'position: absolute;transform:translate3d(-50%, -50%, 0);left: 10px;';
+        let style = 'position: absolute;left: 10px;';
         if (opt.zIndex && typeof opt.zIndex === 'number') {
             style += `z-index:${opt.zIndex};`;
         }
         if (opt.offset && opt.offset instanceof Array && opt.offset.length === 2) {
-            style += `margin: ${opt.offset[0]}px ${opt.offset[1]}px;`;
+            style += `margin: ${opt.offset[0] + 30}px ${opt.offset[1]}px;`;
         }
         return style;
     }

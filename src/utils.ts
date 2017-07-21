@@ -7,11 +7,11 @@ export default {
     log(v: any): void {
         if (v instanceof Error) {
             console.error(v);
-        } else if(variable.DEBUG) {
+        } else if (variable.DEBUG) {
             console.log(`[${variable.name}] `, v);
         }
     },
-    
+
     // Return a rectangle that cover all points
     getBound(latlngs: LatLng[]): LatLng[] {
         let rectangle;
@@ -33,7 +33,7 @@ export default {
         });
         return [[minLat, minLng], [maxLat, maxLng]];
     },
-    
+
     // Object property assign
     // TODO: ...obj[]
     objectAssign(target: {[key: string]: any}, source: {[key: string]: any}): object {
@@ -48,7 +48,7 @@ export default {
         }
         return target;
     },
-    
+
     // GCJ02 to BD09
     g2b(latlngs: LatLng[]): LatLng[] {
         if (!(latlngs[0] instanceof Array)) {
@@ -58,7 +58,7 @@ export default {
             return coordtransform.gcj02tobd09(latlng[0], latlng[1]);
         });
     },
-    
+
     // BD09 to GCJ02
     b2g(latlngs: LatLng[]): LatLng[] {
         if (!(latlngs[0] instanceof Array)) {
@@ -68,7 +68,7 @@ export default {
             return coordtransform.bd09togcj02(latlng[0], latlng[1]);
         });
     },
-    
+
     w2g(latlngs: LatLng[]): LatLng[] {
         if (!(latlngs[0] instanceof Array)) {
             return coordtransform.wgs84togcj02(latlngs[0], latlngs[1]);
@@ -77,7 +77,7 @@ export default {
             return coordtransform.wgs84togcj02(latlng[0], latlng[1]);
         });
     },
-    
+
     g2w(latlngs: LatLng[]): LatLng[] {
         if (!(latlngs[0] instanceof Array)) {
             return coordtransform.gcj02towgs84(latlngs[0], latlngs[1]);
@@ -86,7 +86,7 @@ export default {
             return coordtransform.gcj02towgs84(latlng[0], latlng[1]);
         });
     },
-    
+
     w2b(latlngs: LatLng[]): LatLng[] {
         if (!(latlngs[0] instanceof Array)) {
             let coor = coordtransform.wgs84togcj02(latlngs[0], latlngs[1]);
@@ -99,7 +99,7 @@ export default {
             return coordtransform.gcj02tobd09(latlng[0], latlng[1]);
         });
     },
-    
+
     b2w(latlngs: LatLng[]): LatLng[] {
         if (!(latlngs[0] instanceof Array)) {
             let coor = coordtransform.bd09togcj02(latlngs[0], latlngs[1]);
@@ -112,7 +112,7 @@ export default {
             return coordtransform.gcj02towgs84(latlng[0], latlng[1]);
         });
     },
-    
+
     locate(success?: Function, error?: Function): void {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function(position) {
@@ -124,4 +124,13 @@ export default {
             error && error(new Error('Geolocation is not supported by your browser'));
         }
     },
-}
+
+    stopPropagation(el: Element, eventNameList: string[] = ['click', 'dblclick']) {
+        eventNameList.map(eventName => {
+            el.addEventListener(eventName, e => {
+                e.stopPropagation && e.stopPropagation();
+                e.stopImmediatePropagation && e.stopImmediatePropagation();
+            });
+        });
+    }
+};
