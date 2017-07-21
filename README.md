@@ -1,13 +1,14 @@
-![plain](./images/plain.png)
+Create your map application with same code, get rid of different Map library API ✨.
+使用相同的代码创建你的 web 地图应用。
 
+![plain](./images/plain.png)
 ![plain](https://travis-ci.org/XingzheFE/plain.svg?branch=master)
 ![plain](https://img.shields.io/npm/dt/plain-js.svg)
 
-使用相同的代码创建你的 web 地图应用。
+Doc: [EN](./README.en.md) | [CN](./README.md)
 
 ![example](./images/example.png)
 
-[TOC]
 
 # 特性
 1. Layers
