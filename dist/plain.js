@@ -1090,7 +1090,7 @@ function createLayerConstructor(isPopup) {
             var _this = this;
             this._box.innerHTML = '';
             if (isPopup) {
-                stopPropagation(this._box);
+                stopPropagation(this._box, ['click', 'dblclick', 'mousedown']);
                 this._box.classList.add('popup-box');
                 this._contentBox = document.createElement('div');
                 this._box.innerHTML = "<div class=\"popup-arrow\"></div>";

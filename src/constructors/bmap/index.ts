@@ -446,7 +446,7 @@ function createLayerConstructor (isPopup: boolean = false): any {
         Layer.prototype.createContent = function () {
             this._box.innerHTML = '';
             if (isPopup) {
-                util.stopPropagation(this._box);
+                util.stopPropagation(this._box, ['click', 'dblclick', 'mousedown']);
                 this._box.classList.add('popup-box');
                 this._contentBox = document.createElement('div');
                 this._box.innerHTML = `<div class="popup-arrow"></div>`;

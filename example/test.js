@@ -73,7 +73,7 @@ plain.loadMap(key, (e) => {
             closeBtn: true,
             zIndex: 9999,
             offset: [-40, 0]
-        }).setContent("<p>popup</p>").setLatLng([39.910, 116.404]).mount(map);
+        }).setContent("<p>popup</p><input type='text' value='123'>").setLatLng([39.910, 116.404]).mount(map);
         window.layer = plain.Layer({closeBtn: true}).setContent("<p>layer</p>").setLatLng([39.910, 116.404]).mount(map);
     });
     map.on('rightclick', e => {
