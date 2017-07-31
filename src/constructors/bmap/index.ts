@@ -178,6 +178,19 @@ class Marker implements F.Marker {
         this._original && this._original.disableDragging();
         return this;
     }
+
+    setLabel (str: string = '', labelOpts: O.LabelOption): Marker {
+        let label = new BMap.Label(str);
+        let defaultOpt = {
+            border: 'none',
+            background: 'transparent',
+            zIndex: 1,
+        };
+        label.setStyle(util.objectAssign(defaultOpt, labelOpts));
+        label.setZIndex(defaultOpt.zIndex);
+        this._original && this._original.setLabel(label);
+        return this;
+    }
 }
 
 @eventBinder

@@ -183,6 +183,15 @@ class Marker implements F.Marker {
         this._original && this._original.setDraggable(false);
         return this;
     }
+
+    setLabel(str: string, opts: O.LabelOption): Marker {
+        let defaultOption = {
+            text: str || '',
+        };
+        util.objectAssign(defaultOption, opts);
+        this._original && this._original.setLabel(defaultOption);
+        return this;
+    }
 }
 
 @eventBinder
@@ -313,9 +322,9 @@ export default class G_Map implements F.Factory {
                     e: e,
                     p: point,
                     pixel: JSON.parse(JSON.stringify(e.pixel))
-                }
+                };
             }
-        }
+        };
     }
 
     Map(opt: O.MapOption): Map {
@@ -372,7 +381,7 @@ export default class G_Map implements F.Factory {
  */
 function eventBinder(constructor: Function) {
     // return MapEventListener
-    constructor.prototype.on = function(eventName: string, handler: Function):  F.MapsEventListener {
+    constructor.prototype.on = function(eventName: string, handler: Function): F.MapsEventListener {
         let fn: Function = handler.bind(this);
         let listener: google.maps.MapsEventListener = this._original.addListener(eventName, fn);
         return new F_MapsEventListener({
@@ -381,11 +390,11 @@ function eventBinder(constructor: Function) {
             listener: listener,
             handler: fn
         });
-    }
+    };
     // require MapEventListener
     constructor.prototype.off = function(listener: F.MapsEventListener) {
         google.maps.event.removeListener(listener.listener);
-    }
+    };
 }
 
 // TODO: In TS Class

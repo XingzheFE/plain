@@ -7,7 +7,7 @@ export default class MapsEventListener {
     host: Layer;           // Plain.Layer
     handler: Function;    // Event handler
     listener: any;        // Original MapsEventListener(eg: google.maps.event)
-    
+
     constructor(parm: O.EventListenerOptions) {
         this.eventName = parm.eventName;
         this.host = parm.host;

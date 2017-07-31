@@ -81,7 +81,7 @@ declare module BMap {
     }
 
     export class Label {
-        constructor(content: string, opts: LabelOptions);
+        constructor(content: string, opts?: LabelOptions);
         setStyle(style: object): void;
         setContent(content: string): void;
         getContent(): string;
@@ -91,6 +91,7 @@ declare module BMap {
         getOffset(): Size;
         setTitle(title: string): void;
         getTitle(): string;
+        setZIndex(index: number): void;
     }
 
     export class LocalSearch {

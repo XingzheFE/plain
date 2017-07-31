@@ -9,6 +9,8 @@ interface Marker extends Layer {
     setIcon(icon: Icon): Marker;
     enableDragging(): Marker;
     disableDragging(): Marker;
+    // TDDO: Fixed marker.setLabel method, labelOpts useless in AMap
+    setLabel(str: string, labelOpts: O.LabelOption): Marker;
 }
 
 export default Marker;

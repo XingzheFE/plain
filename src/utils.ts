@@ -114,7 +114,7 @@ export function b2w(latlngs: LatLng[]): LatLng[] {
 
 // Map location
 export function locate(success?: Function, error?: Function): void {
-    if ("geolocation" in navigator) {
+    if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(function(position) {
             success && success(position.coords.latitude, position.coords.longitude);
         }, function(e) {

@@ -291,6 +291,13 @@ class Marker implements F.Marker {
         this._original && this._original.setDraggable(false);
         return this;
     }
+
+    setLabel(str: string = '', opts: O.LabelOption): Marker {
+        this._original.setLabel({
+            content: str
+        });
+        return this;
+    }
 }
 
 @eventBinder

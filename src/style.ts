@@ -66,4 +66,13 @@ export default `
         opacity: 1;
     }
 }
+
+/**
+ *  BMAP */
+/**
+ *  AMAP */
+.amap-marker-label {
+    border: none;
+    background: transparent;
+}
 `;

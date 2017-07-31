@@ -25,7 +25,12 @@ plain.loadMap(key, (e) => {
     };
 
     var marker = plain.Marker([39.910, 116.404], markerOpt);
-    var marker2 = plain.Marker([39.910, 116.39], markerOpt);
+    var marker2 = plain.Marker([39.910, 116.39], markerOpt).setLabel('12', {
+        zIndex: 1,
+        color: '#444',
+        fontSize: '20px'
+    });
+    
     var polyline = plain.Polyline(path, {
         color: "#f00",
         weight: 2,

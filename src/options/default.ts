@@ -4,4 +4,4 @@ export default {
         weight: 3,
         opacity: 0.8,
     }
-}
+};

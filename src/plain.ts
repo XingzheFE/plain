@@ -61,7 +61,7 @@ export default class Plain {
 
     // Create Map
     @tagging()
-    Map([opt] : [O.MapOption]) {
+    Map([opt]: [O.MapOption]) {
         return this.factory.Map(opt);
     }
 
@@ -79,19 +79,19 @@ export default class Plain {
 
     // Create Marker
     @tagging()
-    Marker([latlng, opt] : [LatLng, O.MarkerOption]) {
+    Marker([latlng, opt]: [LatLng, O.MarkerOption]) {
         return this.factory.Marker(latlng, opt);
     }
 
     // Create Polyline
     @tagging()
-    Polyline([latlngs, opt] : [LatLng[], O.PolylineOption]) {
+    Polyline([latlngs, opt]: [LatLng[], O.PolylineOption]) {
         return this.factory.Polyline(latlngs, opt);
     }
 
     // Create Icon
     @tagging()
-    Icon([opt] : [O.IconOption]) {
+    Icon([opt]: [O.IconOption]) {
         return this.factory.Icon(opt);
     }
 
@@ -106,11 +106,11 @@ export default class Plain {
 function tagging(): Function {
     return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         let oldFn = descriptor.value;
-        descriptor.value= function(...arg: any[]) {
+        descriptor.value = function(...arg: any[]) {
             let value = oldFn.call(this, arg);
             value._id = Math.random().toString(16).substr(2);
             return value;
         };
-    }
+    };
 }
 

@@ -56,3 +56,10 @@ export interface EventListenerOptions {
     handler?: Function;         // one of them must be set (handler | listener) 
     listener?: any;
 }
+
+export interface LabelOption {
+    color?: string;
+    fontFamily?: string;
+    fontSize?: string;
+    fontWeight?: string;
+}
