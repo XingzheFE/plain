@@ -141,13 +141,14 @@ class Marker implements F.Marker {
     }
 
     formatOpt (opt: O.MarkerOption = {}) {
-        return {
+        let o = {
             icon: opt.icon ? opt.icon._original : null,
             // offset: opt.offset ? new BMap.Size(opt.offset[0], opt.offset[1]) : null,
             raiseOnDrag: opt.raiseOnDrag ? opt.raiseOnDrag : true,
             crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
             enableDragging: opt.draggable
         };
+        return util.objectAssign(util.clone(opt), o);
     }
 
     setLatLng(latlng: F.LatLng) {

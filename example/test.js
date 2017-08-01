@@ -17,15 +17,16 @@ plain.loadMap(key, (e) => {
     var icon = plain.Icon({
         url: 'https://cdn.bi-ci.com/static/commonimg/favicon/favicon32.png',
         size: [32, 32],
-        anchor: [16, 32]
+        anchor: [16, 32],
+        labelOrigin: [16, 10]
     });
     var markerOpt = {
         icon: icon,
-        draggable: true
+        draggable: true,
     };
 
     var marker = plain.Marker([39.910, 116.404], markerOpt);
-    var marker2 = plain.Marker([39.910, 116.39], markerOpt).setLabel('12', {
+    var marker2 = plain.Marker([39.910, 116.39], markerOpt).setLabel('12123', {
         zIndex: 1,
         color: '#444',
         fontSize: '20px'

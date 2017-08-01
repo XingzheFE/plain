@@ -148,3 +148,12 @@ export function setStyle(el: HTMLElement, style: string) {
 export function trim(str: string = ''): string {
     return str.replace(/^\s+|\s+$/g, '');
 }
+
+// A simple way for cloning object
+export function clone(target: object): object {
+    if (typeof target === 'object') {
+        return JSON.parse(JSON.stringify(target));
+    } else {
+        return target;
+    }
+}

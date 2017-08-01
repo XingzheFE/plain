@@ -146,7 +146,7 @@ class Marker implements F.Marker {
     }
 
     formatOpt (opt: O.MarkerOption = {}, p: google.maps.LatLng) {
-        return {
+        let o = {
             icon: opt.icon ? opt.icon._original : null,
             position: p,
             // offset: opt.offset ? new google.maps.Size(opt.offset[0], opt.offset[1]) : null,
@@ -154,6 +154,7 @@ class Marker implements F.Marker {
             crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
             draggable: opt.draggable
         };
+        return util.objectAssign(util.clone(opt), o);
     }
 
     setLatLng(latlng: F.LatLng) {
@@ -264,17 +265,21 @@ class Icon implements F.Icon {
             size: iconOption.size,
             anchor: iconOption.anchor,
             scaledSize: iconOption.scaledSize,
+            labelOrigin: new google.maps.Point(16, 10)
         };
     }
 
     formatOpt(opt: O.IconOption = {}) {
         let imageSize = opt.size ? new google.maps.Size(opt.size[0], opt.size[1]) : null;
-        return {
+        let labelOrigin = opt.labelOrigin ? new google.maps.Point(opt.labelOrigin[0], opt.labelOrigin[1]) : null;
+        let o = {
             anchor: opt.anchor ? new google.maps.Point(opt.anchor[0], opt.anchor[1]) : null,
             url: opt.url,
             scaledSize: new google.maps.Size(100, 100, '%', '%'),
             size: imageSize,            // marker size
+            labelOrigin: labelOrigin,
         };
+        return util.objectAssign(util.clone(opt), o);
     }
 
     setImageUrl(url: string) {

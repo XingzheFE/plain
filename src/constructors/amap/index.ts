@@ -262,7 +262,7 @@ class Marker implements F.Marker {
         if (opt.icon && opt.icon.anchor) {
             option.offset = new AMap.Pixel(-opt.icon.anchor[0], -opt.icon.anchor[1]);
         }
-        return option;
+        return util.objectAssign(util.clone(opt), option);
     }
 
     setLatLng(latlng: F.LatLng) {
