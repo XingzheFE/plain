@@ -44,6 +44,7 @@ export interface IconOption {
     url?: string;
     size?: Array<number>;
     anchor?: Array<number>;
+    labelOrigin?: Array<number>;
 }
 
 export interface ViewportOption {

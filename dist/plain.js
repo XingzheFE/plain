@@ -1438,7 +1438,7 @@ var Icon$2 = (function () {
             size: iconOption.size,
             anchor: iconOption.anchor,
             scaledSize: iconOption.scaledSize,
-            labelOrigin: new google.maps.Point(16, 10)
+            labelOrigin: iconOption.labelOrigin
         };
     }
     Icon.prototype.formatOpt = function (opt) {

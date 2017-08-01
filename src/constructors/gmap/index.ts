@@ -145,7 +145,7 @@ class Marker implements F.Marker {
         this._original = new google.maps.Marker(opts);
     }
 
-    formatOpt (opt: O.MarkerOption = {}, p: google.maps.LatLng) {
+    formatOpt (opt: O.MarkerOption = {}, p: google.maps.LatLng): google.maps.MarkerOptions {
         let o = {
             icon: opt.icon ? opt.icon._original : null,
             position: p,
@@ -265,11 +265,11 @@ class Icon implements F.Icon {
             size: iconOption.size,
             anchor: iconOption.anchor,
             scaledSize: iconOption.scaledSize,
-            labelOrigin: new google.maps.Point(16, 10)
+            labelOrigin: iconOption.labelOrigin
         };
     }
 
-    formatOpt(opt: O.IconOption = {}) {
+    formatOpt(opt: O.IconOption = {}): google.maps.Icon {
         let imageSize = opt.size ? new google.maps.Size(opt.size[0], opt.size[1]) : null;
         let labelOrigin = opt.labelOrigin ? new google.maps.Point(opt.labelOrigin[0], opt.labelOrigin[1]) : null;
         let o = {
