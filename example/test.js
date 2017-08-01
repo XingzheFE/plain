@@ -25,8 +25,8 @@ plain.loadMap(key, (e) => {
         draggable: true,
     };
 
-    var marker = plain.Marker([39.910, 116.404], markerOpt);
-    var marker2 = plain.Marker([39.910, 116.39], markerOpt).setLabel('12123', {
+    var marker = plain.Marker([39.920, 116.404], markerOpt);
+    var marker2 = plain.Marker([39.910, 116.404], markerOpt).setLabel('12123', {
         zIndex: 1,
         color: '#444',
         fontSize: '20px'

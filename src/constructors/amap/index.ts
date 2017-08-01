@@ -200,10 +200,12 @@ class Popup extends Layer {
         this._contentBox.classList.add('popup-content');
         this._box.appendChild(this._contentBox);
         util.stopPropagation(this._box, ['mouseup', 'mousedown']);
+
         this._original = new AMap.Marker({
             bubble: false,
             position: [0, 0],
             content: this._box,
+            zIndex: opt && opt.zIndex ? opt.zIndex : 999,
         });
         if (opt && opt.closeBtn === true) {
             const closeBtn = document.createElement('button');

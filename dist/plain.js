@@ -472,6 +472,7 @@ var Popup = (function (_super) {
             bubble: false,
             position: [0, 0],
             content: this._box,
+            zIndex: opt && opt.zIndex ? opt.zIndex : 999,
         });
         if (opt && opt.closeBtn === true) {
             var closeBtn = document.createElement('button');
