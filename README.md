@@ -28,9 +28,9 @@ Doc: [EN](./README.en.md) | [CN](./README.md)
 # 如何使用
 
 ## 安装
-使用 npm 安装 plain，你也可以在页面中引入构建后的 `js` 文件。
+使用 `npm` 安装 `plain-js`，你也可以在页面中引入构建后的 `js` 文件。
 
-`npm install plain-js`
+`$ npm install plain-js`
 
 ## 创建地图
 创建地图的方式很简单，最直接的方式是在 html 文件中引入地图库的脚本文件以及 `plain.min.js`
