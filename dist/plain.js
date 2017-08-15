@@ -783,7 +783,7 @@ var Map$1 = (function () {
         this._original.zoomOut();
     };
     Map.prototype.fitView = function (latlngs, opt) {
-        var points = latlngs.map(function (p) {
+        var points = fixCoord(latlngs).map(function (p) {
             return {
                 lat: p[0],
                 lng: p[1]

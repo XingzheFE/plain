@@ -1,6 +1,6 @@
 Create your map application with same code, get rid of different Map library API ✨.
 
-![plain](./images/plain.png)
+![plain](./images/logo.png)
 ![plain](https://travis-ci.org/XingzheFE/plain.svg?branch=master)
 ![plain](https://img.shields.io/npm/dt/plain-js.svg)
 
