@@ -78,7 +78,7 @@ class Map implements F.Map {
     }
 
     fitView(latlngs: F.LatLng[], opt?: O.ViewportOption) {
-        const points = latlngs.map(p => {
+        const points = (<F.LatLng[]>fixCoord(latlngs)).map(p => {
             return {
                 lat: p[0],
                 lng: p[1]

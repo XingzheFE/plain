@@ -1,7 +1,7 @@
 Create your map application with same code, get rid of different Map library API ✨.
 使用相同的代码创建你的 web 地图应用。
 
-![plain](./images/plain.png)
+![plain](./images/logo.png)
 ![plain](https://travis-ci.org/XingzheFE/plain.svg?branch=master)
 ![plain](https://img.shields.io/npm/dt/plain-js.svg)
 
@@ -28,9 +28,9 @@ Doc: [EN](./README.en.md) | [CN](./README.md)
 # 如何使用
 
 ## 安装
-使用 npm 安装 plain，你也可以在页面中引入构建后的 `js` 文件。
+使用 `npm` 安装 `plain-js`，你也可以在页面中引入构建后的 `js` 文件。
 
-`npm install plain-js`
+`$ npm install plain-js`
 
 ## 创建地图
 创建地图的方式很简单，最直接的方式是在 html 文件中引入地图库的脚本文件以及 `plain.min.js`

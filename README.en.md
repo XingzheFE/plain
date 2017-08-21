@@ -1,7 +1,6 @@
 Create your map application with same code, get rid of different Map library API ✨.
-使用相同的代码创建你的 web 地图应用。
 
-![plain](./images/plain.png)
+![plain](./images/logo.png)
 ![plain](https://travis-ci.org/XingzheFE/plain.svg?branch=master)
 ![plain](https://img.shields.io/npm/dt/plain-js.svg)
 
@@ -27,7 +26,7 @@ Doc: [EN](./README.en.md) | [CN](./README.md)
 # How to use plain?
 
 ## Install
-Install plain via `npm`, you also could load 'plain.min.js' in html file.
+Install `plain-js` via `npm`, you also could load `plain.min.js` in html file.
 
 `$ npm install plain-js`
 
@@ -39,12 +38,12 @@ let plain = new Plain();
 
 // Set the default coordinate system, 
 // if not, all the map will using the default coordinate system: 
-// Google and 高德 using GCJ02 in mainland of China, baidu map using BD09.
+// Google and Gaode using GCJ02 in mainland of China, baidu map using BD09.
 // we suggest 'GCJ02'.
 plain._v.setCoordType('GCJ02');
 
 // Tell plain which map you want use，
-// eg: Google Map 'GMAP'， 高德地图 'AMAP'， 百度地图 'BMAP'
+// eg: Google Map 'GMAP'， GaodeMap 'AMAP'， BaiduMap 'BMAP'
 plain.use('GMAP');
 
 // Create a Google map object
