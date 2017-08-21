@@ -31,7 +31,12 @@ plain.loadMap(key, (e) => {
         color: '#444',
         fontSize: '20px'
     });
-    
+    window.marker2 = marker2;
+    marker2.setLabel('label 2', {
+        color: '#fff',
+        fontSize: '20px',
+    });
+    console.log(marker2);
     var polyline = plain.Polyline(path, {
         color: "#f00",
         weight: 2,

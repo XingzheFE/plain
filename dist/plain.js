@@ -874,15 +874,22 @@ var Marker$1 = (function () {
     };
     Marker.prototype.setLabel = function (str, labelOpts) {
         if (str === void 0) { str = ''; }
-        var label = new BMap.Label(str);
+        var label = this._label;
         var defaultOpt = {
             border: 'none',
             background: 'transparent',
             zIndex: 1,
         };
+        if (label) {
+            label.setContent(str);
+        }
+        else {
+            label = new BMap.Label(str);
+            this._original && this._original.setLabel(label);
+            this._label = label;
+        }
         label.setStyle(objectAssign(defaultOpt, labelOpts));
         label.setZIndex(defaultOpt.zIndex);
-        this._original && this._original.setLabel(label);
         return this;
     };
     Marker = __decorate([
