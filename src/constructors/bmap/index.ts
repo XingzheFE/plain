@@ -192,7 +192,6 @@ class Marker implements F.Marker {
         } else {
             label = new BMap.Label(str);
             this._original && this._original.setLabel(label);
-            this._label = label;
         }
         label.setStyle(util.objectAssign(defaultOpt, labelOpts));
         label.setZIndex(defaultOpt.zIndex);
