@@ -132,7 +132,6 @@ class Map implements F.Map {
 class Marker implements F.Marker {
     _id: string;
     _original: BMap.Marker;
-    _label: BMap.Label;
 
     constructor(latlng: F.LatLng, opt?: O.MarkerOption) {
         latlng = <F.LatLng>fixCoord(latlng);
@@ -182,7 +181,7 @@ class Marker implements F.Marker {
     }
 
     setLabel (str: string = '', labelOpts: O.LabelOption): Marker {
-        let label = this._label;
+        let label = this._original.getLabel();
         let defaultOpt = {
             border: 'none',
             background: 'transparent',

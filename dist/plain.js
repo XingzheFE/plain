@@ -874,7 +874,7 @@ var Marker$1 = (function () {
     };
     Marker.prototype.setLabel = function (str, labelOpts) {
         if (str === void 0) { str = ''; }
-        var label = this._label;
+        var label = this._original.getLabel();
         var defaultOpt = {
             border: 'none',
             background: 'transparent',
