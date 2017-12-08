@@ -366,7 +366,7 @@ export default class G_Map implements F.Factory {
         const callbackName = 'map_init_' + Math.random().toString(16).substr(2);
         const body = document.body;
         const script = document.createElement('SCRIPT');
-        const url = 'https://ditu.google.cn/maps/api/js?key=' + key + '&callback=' + callbackName;
+        const url = 'http://ditu.google.cn/maps/api/js?key=' + key + '&callback=' + callbackName;
         script.setAttribute('src', url);
         script.setAttribute('defer', '');
         script.setAttribute('async', '');
