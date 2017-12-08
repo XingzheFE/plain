@@ -886,7 +886,6 @@ var Marker$1 = (function () {
         else {
             label = new BMap.Label(str);
             this._original && this._original.setLabel(label);
-            this._label = label;
         }
         label.setStyle(objectAssign(defaultOpt, labelOpts));
         label.setZIndex(defaultOpt.zIndex);
@@ -1527,7 +1526,7 @@ var G_Map = (function () {
         var callbackName = 'map_init_' + Math.random().toString(16).substr(2);
         var body = document.body;
         var script = document.createElement('SCRIPT');
-        var url = 'https://maps.googleapis.com/maps/api/js?key=' + key + '&callback=' + callbackName;
+        var url = 'https://ditu.google.cn/maps/api/js?key=' + key + '&callback=' + callbackName;
         script.setAttribute('src', url);
         script.setAttribute('defer', '');
         script.setAttribute('async', '');
