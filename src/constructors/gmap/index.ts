@@ -275,7 +275,7 @@ class Icon implements F.Icon {
         let o = {
             anchor: opt.anchor ? new google.maps.Point(opt.anchor[0], opt.anchor[1]) : null,
             url: opt.url,
-            scaledSize: new google.maps.Size(100, 100, '%', '%'),
+            scaledSize: imageSize,
             size: imageSize,            // marker size
             labelOrigin: labelOrigin,
         };

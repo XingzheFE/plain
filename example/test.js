@@ -15,7 +15,7 @@ plain.loadMap(key, (e) => {
     });
 
     var icon = plain.Icon({
-        url: 'https://cdn.bi-ci.com/static/commonimg/favicon/favicon32.png',
+        url: 'https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon.png',
         size: [32, 32],
         anchor: [16, 32],
         labelOrigin: [16, 10]
@@ -26,11 +26,12 @@ plain.loadMap(key, (e) => {
     };
 
     var marker = plain.Marker([39.920, 116.404], markerOpt);
-    var marker2 = plain.Marker([39.910, 116.404], markerOpt).setLabel('12123', {
+    var marker2 = plain.Marker([39.810, 116.404], markerOpt).setLabel('12123', {
         zIndex: 1,
         color: '#444',
         fontSize: '20px'
-    });
+    }).disableDragging();
+    
     window.marker2 = marker2;
     marker2.setLabel('label 2', {
         color: '#fff',
