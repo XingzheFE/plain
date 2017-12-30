@@ -10,7 +10,8 @@
     "build": "rollup -c rollup.config.prod.js",
     "dev": "rollup -c -w",
     "test:unit": "mocha test/unit/",
-    "lint": "tslint -c tslint.json ./src/**/*.ts"
+    "lint": "tslint -c tslint.json ./src/**/*.ts",
+    "test:e2e": "nightwatch -c nightwatch.config.js"
   },
   "repository": {
     "type": "git",
@@ -26,16 +27,16 @@
     "@types/googlemaps": "^3.26.14",
     "@types/leaflet": "^1.0.63",
     "@types/node": "^8.0.4",
+    "chromedriver": "^2.33.2",
     "karma": "^1.7.0",
-    "karma-phantomjs-launcher": "^1.0.4",
-    "mocha": "^3.4.2",
-    "phantom": "^4.0.4",
+    "nightwatch": "^0.9.19",
     "rollup": "^0.43.0",
     "rollup-plugin-license": "^0.4.0",
     "rollup-plugin-tslint": "^0.1.24",
     "rollup-plugin-typescript": "^0.8.1",
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-watch": "^4.0.0",
+    "selenium-server": "^3.8.1",
     "should": "^11.2.1",
     "tslint": "^5.5.0"
   },
