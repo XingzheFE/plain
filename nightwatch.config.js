@@ -1,3 +1,4 @@
+var path = require('path')
 module.exports = {
     "src_folders": [
         "test/e2e"
@@ -10,6 +11,7 @@ module.exports = {
     "selenium": {
         "start_process": true,
         "server_path": require('selenium-server').path,
+        "host" : "127.0.0.1",
         "log_path": "",
         "port": 4444,
         "cli_args": {
@@ -18,7 +20,7 @@ module.exports = {
     },
     "test_settings": {
         "default": {
-            "launch_url": "http://localhost",
+            "launch_url": "http://www.baidu.com",//'file://' + path.resolve(__dirname, './example'), //"http://localhost:3339",
             "selenium_port": 4444,
             "selenium_host": "localhost",
             "silent": true,
@@ -27,7 +29,7 @@ module.exports = {
                 "path": ""
             },
             "desiredCapabilities": {
-                "browserName": "firefox",
+                "browserName": "chrome",
                 "marionette": true
             }
         },
