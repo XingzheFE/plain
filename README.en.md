@@ -36,8 +36,8 @@ It is simple, use following code after install `plain`:
 // create a plain Object
 let plain = new Plain();
 
-// Set the default coordinate system, 
-// if not, all the map will using the default coordinate system: 
+// Set the default coordinate system,
+// if not, all the map will using the default coordinate system:
 // Google and Gaode using GCJ02 in mainland of China, baidu map using BD09.
 // we suggest 'GCJ02'.
 plain._v.setCoordType('GCJ02');
@@ -64,7 +64,7 @@ plain.loadMap(key, () => {
         zoom: 15
     });
 }, err => {
-    // TODO:    
+    // TODO:
 };
 
 ```
@@ -72,7 +72,7 @@ plain.loadMap(key, () => {
 ## Add Marker
 ```javascript
 let marker = plain.Marker([39.910, 116.404]);
-map.addLayer(marker);   // or <Array>Marker 
+map.addLayer(marker);   // or <Array>Marker
 ```
 Wanna create a special Marker ? Just set second param:
 ```javascript
@@ -96,7 +96,7 @@ map.removeLayer(marker);
 ```
 
 ## Add Polyline
-There is a path Object before create Polyline, array item should be a array like this: `[lat: Number, lng: Number]`
+There is a path Object before create Polyline, array item should be an array like this: `[lat: Number, lng: Number]`
 ```javascript
 let path = [
     [39.910, 116.404],

@@ -1,9 +1,15 @@
 Create your map application with same code, get rid of different Map library API ✨.
 使用相同的代码创建你的 web 地图应用。
 
-![plain](./images/logo.png)
-![plain](https://travis-ci.org/XingzheFE/plain.svg?branch=master)
-![plain](https://img.shields.io/npm/dt/plain-js.svg)
+<a href="https://github.com/XingzheFE/plain">
+    <img src="https://raw.githubusercontent.com/XingzheFE/plain/HEAD/images/logo.png" alt="">
+</a>
+<a href="https://travis-ci.org/XingzheFE/plain">
+    <img src="https://travis-ci.org/XingzheFE/plain.svg?branch=master" alt="">
+</a>
+<a href="https://www.npmjs.com/package/plain-js">
+    <img src="https://img.shields.io/npm/dt/plain-js.svg" alt="">
+</a>
 
 Doc: [EN](./README.en.md) | [CN](./README.md)
 
@@ -65,7 +71,7 @@ plain.loadMap(key, () => {
         zoom: 15
     });
 }, err => {
-    // TODO:    
+    // TODO:
 };
 
 ```
