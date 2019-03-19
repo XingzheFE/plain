@@ -1,3 +1,8 @@
+docs/
+example/
+images/
+src/
+test/
 .DS_Store
 .idea
 node_modules/
