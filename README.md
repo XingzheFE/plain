@@ -1,5 +1,4 @@
-Create your map application with same code, get rid of different Map library API ✨.
-使用相同的代码创建你的 web 地图应用。
+
 
 <a href="https://github.com/XingzheFE/plain">
     <img src="https://raw.githubusercontent.com/XingzheFE/plain/HEAD/images/logo.png" alt="">
@@ -11,7 +10,10 @@ Create your map application with same code, get rid of different Map library API
     <img src="https://img.shields.io/npm/dt/plain-js.svg" alt="">
 </a>
 
-Doc: [EN](./README.en.md) | [CN](./README.md)
+> Create your map application with same code, get rid of different Map library API ✨.
+使用相同的代码创建你的 web 地图应用。
+
+[English](./README.en.md) | [简体中文](./README.md)
 
 ![example](./images/example.png)
 
@@ -36,7 +38,7 @@ Doc: [EN](./README.en.md) | [CN](./README.md)
 ## 安装
 使用 `npm` 安装 `plain-js`，你也可以在页面中引入构建后的 `js` 文件。
 
-`$ npm install plain-js`
+`$ npm install plain-js --save`
 
 ## 创建地图
 创建地图的方式很简单，最直接的方式是在 html 文件中引入地图库的脚本文件以及 `plain.min.js`
@@ -47,11 +49,11 @@ let plain = new Plain();
 // 设置需要使用的坐标系，如果不设置的话所有地图使用默认的坐标系，
 // Google 和 高德地图在大陆使用 GCJ02，百度地图使用 BD09，
 // 为了方便开发建议设置为 GCJ02
-plain._v.setCoordType('GCJ02');
+plain._v.setCoordType("GCJ02");
 
 // 告诉 plain 你需要使用 Google 地图，
-// 可选的参数有 Google Map 'GMAP'， 高德地图 'AMAP'， 百度地图 'BMAP'
-plain.use('GMAP');
+// 可选的参数有 Google Map "GMAP"， 高德地图 "AMAP"， 百度地图 "BMAP"
+plain.use("GMAP");
 
 // 创建一个 Google 地图实例
 let map = plain.Map({
@@ -62,7 +64,7 @@ let map = plain.Map({
 ```
 或者使用回调的方式创建
 ```javascript
-let plain = new Plain().use('GMAP');
+let plain = new Plain().use("GMAP");
 let key = "[your access key]";
 plain.loadMap(key, () => {
     let map = window.map = plain.Map({
@@ -85,7 +87,7 @@ map.addLayer(marker);   // 也可传入一个数组
 ```javascript
 // 自定义 icon
 let icon = plain.Icon({
-    url: 'https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon.png',
+    url: "https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon.png",
     size: [25, 40],
     anchor: [12.5, 40]
 });
@@ -120,14 +122,14 @@ map.addLayer(polyline);
 ## 自定义覆盖物及 Popup
 ```javascript
 let layer = plain.Layer()
-    .setContent('text or Element')
+    .setContent("text or Element")
     .setLatLng([31, 116])
     .mount(map)
     .show()
     .hide()
     .unmount();
 let popup = plain.Popup({closeBtn: false})
-    .setContent(document.createElement('button'))
+    .setContent(document.createElement("button"))
     .setLatLng([31, 116])
     .mount(map)
     .show()
@@ -146,9 +148,9 @@ class Event {
     type: string;       // 事件名
 }
 ```
-其中坐标 p 为最初 `plain._v.setCoordType('GCJ02');` 设置的格式，如果没有设置，那么返回的值和原生地图库一致。
+其中坐标 p 为最初 `plain._v.setCoordType("GCJ02");` 设置的格式，如果没有设置，那么返回的值和原生地图库一致。
 ```javascript
-let listener = map.on('rightclick', function (e) {
+let listener = map.on("rightclick", function (e) {
     console.log(plain.Util.formatEvent.call(this, e));
     // 顺便校正下地图窗口
     map.fitView(path);
