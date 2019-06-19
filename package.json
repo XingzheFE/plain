@@ -1,6 +1,6 @@
 {
   "name": "plain-js",
-  "version": "0.1.12",
+  "version": "1.0.0",
   "description": "",
   "main": "dist/plain.min.js",
   "directories": {
