@@ -140,10 +140,10 @@ class Marker implements F.Marker {
         this._original = new BMap.Marker(point, opts);
     }
 
-    formatOpt (opt: O.MarkerOption = {}) {
+    formatOpt (opt: O.MarkerOption = {}): BMap.MarkerOptions {
         let o = {
             icon: opt.icon ? opt.icon._original : null,
-            // offset: opt.offset ? new BMap.Size(opt.offset[0], opt.offset[1]) : null,
+            offset: opt.offset ? new BMap.Size(opt.offset[0], opt.offset[1]) : null,
             raiseOnDrag: opt.raiseOnDrag ? opt.raiseOnDrag : true,
             crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
             enableDragging: opt.draggable
@@ -254,6 +254,9 @@ class Polyline implements F.Polyline {
 class Icon implements F.Icon {
     _id: string;
     _original: BMap.Icon;
+    anchor: F.Size;
+    size: F.Size;
+    imageUrl: string;
 
     constructor(opt: O.IconOption) {
         const iconOption = this.formatOpt(opt);

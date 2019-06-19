@@ -1,4 +1,4 @@
-declare module BMap {
+declare namespace BMap {
     export class Overlay {
         initialize(map: Map): HTMLElement;
         isVisible(): boolean;
@@ -27,7 +27,7 @@ declare module BMap {
         setMapType(type: string): void;
         getPanes(): any;
     }
-    
+
     export class Marker extends Overlay {
         constructor(point: Point, opts?: MarkerOptions);
         getPosition(): Point;
@@ -38,10 +38,10 @@ declare module BMap {
         setOffset(offset: Size): void;
         getLabel(): Label;
         setLabel(label: Label): void;
-        addEventListener(event: string, handler: Function): void; 
+        addEventListener(event: string, handler: Function): void;
         removeEventListener(event: string, handler: Function): void;
         disableDragging(): void;
-        enableDragging(): void;      
+        enableDragging(): void;
     }
 
     export class Polyline extends Overlay {
@@ -99,9 +99,9 @@ declare module BMap {
         search(keyword: string | string[], opt?: Object): void;
         searchInBounds(keyword: String | Array<String>, bounds?: Bounds, option?: Object): void;getResults(): LocalResult| Array<LocalResult>;
         clearResults(): void;
-        setSearchCompleteCallback(cb: Function): void;	
+        setSearchCompleteCallback(cb: Function): void;
     }
-    
+
     export class LocalResult {
         keyword: string;
         center: LocalResultPoi;
@@ -118,7 +118,7 @@ declare module BMap {
         getPageIndex(): number;
         getCityList(): Object[];
     }
-    
+
     export interface LocalResultPoi {
         title?: string;
         point?: Point;
@@ -133,19 +133,19 @@ declare module BMap {
         tags?: string[];
         detailUrl?: string;
     }
-    
+
     export interface PoiType {
-        
+
     }
-    
+
     export interface Bounds {
-        
+
     }
-    
+
     export interface LocalSearchOptions {
-        
+
     }
-    
+
     export class TileLayer {}
 
     export class Projection {}
@@ -190,7 +190,7 @@ declare module BMap {
         infoWindowAnchor?: Size;
         printImageUrl?: string;
     }
-    
+
     export interface LabelOptions {
         offset?: Size;
         position?: Point;

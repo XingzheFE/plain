@@ -1,7 +1,7 @@
 import V from './var';
 import F from './factory/index';
 import LatLng from './factory/latlng';
-import O from './options/mapOptions';
+import * as O from './options/mapOptions';
 import A_Map from './constructors/amap/index';      // gaode map
 import B_Map from './constructors/bmap/index';      // baidu map
 import G_Map from './constructors/gmap/index';      // google map
@@ -14,7 +14,7 @@ export default class Plain {
     FACTORYS: {[key: string]: F.Factory};
     Util: F.Util;
     map: Object;
-    _v: Object;
+    _v: any;
     factory: F.Factory;
 
     constructor(factory?: F.Factory | string) {
@@ -28,9 +28,15 @@ export default class Plain {
         };
         util.objectAssign(this.Util, util);
         this._v = V;
-        const style = document.createElement('style');
-        style.innerHTML = styleString;
-        document.head.appendChild(style);
+        if (typeof document != 'undefined') {
+            const style = document.createElement('style');
+            style.innerHTML = styleString;
+            document.head.appendChild(style);
+        }
+    }
+
+    setCoordType(type: string): void {
+        this._v.setCoordType(type);
     }
 
     // Load the map factory plugin

@@ -145,13 +145,13 @@ class Marker implements F.Marker {
         this._original = new google.maps.Marker(opts);
     }
 
-    formatOpt (opt: O.MarkerOption = {}, p: google.maps.LatLng): google.maps.MarkerOptions {
-        let o = {
+    formatOpt (opt: O.MarkerOption = {}, p: google.maps.LatLng | google.maps.LatLngLiteral): google.maps.MarkerOptions {
+        let o: google.maps.MarkerOptions = {
             icon: opt.icon ? opt.icon._original : null,
             position: p,
             // offset: opt.offset ? new google.maps.Size(opt.offset[0], opt.offset[1]) : null,
-            raiseOnDrag: opt.raiseOnDrag ? opt.raiseOnDrag : true,
-            crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
+            // raiseOnDrag: opt.raiseOnDrag ? opt.raiseOnDrag : true,
+            // crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
             draggable: opt.draggable
         };
         return util.objectAssign(util.clone(opt), o);
@@ -257,6 +257,9 @@ class Polyline implements F.Polyline {
 class Icon implements F.Icon {
     _id: string;
     _original: google.maps.Icon;
+    anchor: F.Size;
+    size: F.Size;
+    imageUrl: string;
 
     constructor(opt: O.IconOption) {
         const iconOption = this.formatOpt(opt);

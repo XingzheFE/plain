@@ -196,7 +196,7 @@ class Popup extends Layer {
         this._box.setAttribute('data-plain-style', '');
         this._box.setAttribute('style', this.getStyle(opt));
         this._contentBox = document.createElement('div');
-        this._box.innerHTML = `<div class="popup-arrow"></div`;
+        this._box.innerHTML = `<div class="popup-arrow"></div>`;
         this._contentBox.classList.add('popup-content');
         this._box.appendChild(this._contentBox);
         util.stopPropagation(this._box, ['mouseup', 'mousedown']);
@@ -251,14 +251,15 @@ class Marker implements F.Marker {
         this._original = new AMap.Marker(opts);
     }
 
-    formatOpt (opt: O.MarkerOption = {}, latlng: F.LatLng): object {
-        const option = {
+    formatOpt (opt: O.MarkerOption = {}, latlng: F.LatLng): AMap.MarkerOptions {
+        const option: AMap.MarkerOptions = {
             map: null,
             position: [latlng[1], latlng[0]],
             icon: opt.icon ? opt.icon._original : null,
             raiseOnDrag: opt.raiseOnDrag ? opt.raiseOnDrag : true,
             crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
-            draggable: opt.draggable
+            draggable: opt.draggable,
+            offset: null
         };
         // 19 31
         if (opt.icon && opt.icon.anchor) {
@@ -366,6 +367,8 @@ class Icon implements F.Icon {
     _id: string;
     _original: AMap.Icon;
     anchor: F.Size;
+    size: F.Size;
+    imageUrl: string;
 
     constructor(opt: O.IconOption) {
         const iconOption = this.formatOpt(opt);

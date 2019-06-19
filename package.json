@@ -40,7 +40,7 @@
     "@types/googlemaps": "^3.26.14",
     "@types/leaflet": "^1.0.63",
     "@types/node": "^8.0.4",
-    "chromedriver": "^2.33.2",
+    "chromedriver": "^75.0.0",
     "growl": "^1.10.5",
     "http-server": "^0.10.0",
     "karma": "^4.0.1",

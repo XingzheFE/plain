@@ -5,9 +5,9 @@ export interface PlainOption {
 }
 
 export interface MapOption {
-    container: string | Element;
+    container: string | HTMLDivElement;
     zoom?: number;
-    center?: Array<number>;
+    center?: F.LatLng;
 }
 
 export interface LayerOption {
@@ -28,7 +28,7 @@ export interface PopupOption {
 
 export interface MarkerOption {
     icon?: F.Icon;
-    // offset?: F.Size;
+    offset?: F.Size;
     draggable?: boolean;
     crossOnDrag?: boolean;
     raiseOnDrag?: boolean;
@@ -54,7 +54,7 @@ export interface ViewportOption {
 export interface EventListenerOptions {
     eventName: string;
     host: F.Layer;
-    handler?: Function;         // one of them must be set (handler | listener) 
+    handler?: Function;         // one of them must be set (handler | listener)
     listener?: any;
 }
 

@@ -1,17 +1,16 @@
-
-
 <a href="https://github.com/XingzheFE/plain">
     <img src="https://raw.githubusercontent.com/XingzheFE/plain/HEAD/images/logo.png" alt="">
 </a>
-<a href="https://travis-ci.org/XingzheFE/plain">
-    <img src="https://travis-ci.org/XingzheFE/plain.svg?branch=master" alt="">
-</a>
-<a href="https://www.npmjs.com/package/plain-js">
-    <img src="https://img.shields.io/npm/dt/plain-js.svg" alt="">
-</a>
+<p>
+    <a href="https://travis-ci.org/XingzheFE/plain">
+        <img src="https://travis-ci.org/XingzheFE/plain.svg?branch=master" alt="">
+    </a>
+    <a href="https://www.npmjs.com/package/plain-js">
+        <img src="https://img.shields.io/npm/dt/plain-js.svg" alt="">
+    </a>
+</p>
 
-> Create your map application with same code, get rid of different Map library API ✨.
-使用相同的代码创建你的 web 地图应用。
+> 使用相同的代码创建你的 web 地图应用。 ✨.
 
 [English](./README.en.md) | [简体中文](./README.md)
 
@@ -49,7 +48,7 @@ let plain = new Plain();
 // 设置需要使用的坐标系，如果不设置的话所有地图使用默认的坐标系，
 // Google 和 高德地图在大陆使用 GCJ02，百度地图使用 BD09，
 // 为了方便开发建议设置为 GCJ02
-plain._v.setCoordType("GCJ02");
+plain.setCoordType("GCJ02");
 
 // 告诉 plain 你需要使用 Google 地图，
 // 可选的参数有 Google Map "GMAP"， 高德地图 "AMAP"， 百度地图 "BMAP"
@@ -162,4 +161,6 @@ map.off(listener);
 ```
 > 有疑问和建议请创建 issue 哦，(by the way, we need e2e test)
 
+## License
 
+plain is [MIT](./LICENSE) licensed.

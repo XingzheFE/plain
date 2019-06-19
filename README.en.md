@@ -1,12 +1,21 @@
-Create your map application with same code, get rid of different Map library API ✨.
+<a href="https://github.com/XingzheFE/plain">
+    <img src="https://raw.githubusercontent.com/XingzheFE/plain/HEAD/images/logo.png" alt="">
+</a>
+<p>
+    <a href="https://travis-ci.org/XingzheFE/plain">
+        <img src="https://travis-ci.org/XingzheFE/plain.svg?branch=master" alt="">
+    </a>
+    <a href="https://www.npmjs.com/package/plain-js">
+        <img src="https://img.shields.io/npm/dt/plain-js.svg" alt="">
+    </a>
+</p>
 
-![plain](./images/logo.png)
-![plain](https://travis-ci.org/XingzheFE/plain.svg?branch=master)
-![plain](https://img.shields.io/npm/dt/plain-js.svg)
+> Create your map application with same code, get rid of different Map library API ✨.
 
-Doc: [EN](./README.en.md) | [CN](./README.md)
+[English](./README.en.md) | [简体中文](./README.md)
 
 ![example](./images/example.png)
+
 
 # Features
 1. Layers
@@ -40,7 +49,7 @@ let plain = new Plain();
 // if not, all the map will using the default coordinate system:
 // Google and Gaode using GCJ02 in mainland of China, baidu map using BD09.
 // we suggest 'GCJ02'.
-plain._v.setCoordType('GCJ02');
+plain.setCoordType('GCJ02');
 
 // Tell plain which map you want use，
 // eg: Google Map 'GMAP'， GaodeMap 'AMAP'， BaiduMap 'BMAP'
@@ -163,4 +172,6 @@ map.off(listener);
 ```
 > Create any issue if you'd like to (by the way, we need e2e test)
 
+## License
 
+plain is [MIT](./LICENSE) licensed.

@@ -9,9 +9,9 @@ declare namespace AMap {
         on(eventName: string, handler: Function, context: object): EventListener;
         off(eventName: string, handler: Function, context: object): void;
         setExtData(ext: any): void;
-        getExtData(): any; 
+        getExtData(): any;
     }
-    
+
     /****** Pixel ******/
     export class Pixel {
         constructor(x: number, y: number);
@@ -20,7 +20,7 @@ declare namespace AMap {
         equals(point: Pixel): boolean;
         toString(): string;
     }
-    
+
     /****** Size *******/
     export class Size {
         constructor(width: number, height: number);
@@ -28,7 +28,7 @@ declare namespace AMap {
         getHeight(): number;
         toString(): string;
     }
-    
+
     /****** LngLat ******/
     export class LngLat {
         lat: number;
@@ -41,7 +41,7 @@ declare namespace AMap {
         equals(lnglat: LngLat): boolean;
         toString(): string;
     }
-    
+
     /******* Bounds ********/
     export class Bounds {
         constructor(southWest: LngLat, northEast: LngLat);
@@ -51,7 +51,7 @@ declare namespace AMap {
         getNorthEast(): LngLat;
         toString(): string;
     }
-    
+
     /****** Map *******/
     export class Map {
         constructor(container: string | Element, opts: MapOptions);
@@ -126,19 +126,19 @@ declare namespace AMap {
         features?: any[];
         mapStyle?: string;
     }
-    
+
     /******** View2D ********/
     export class View2D {
         constructor(opt: View2DOptions);
     }
-    
+
     export interface View2DOptions {
         center?: LngLat;
         rotation?: number;
         zoom?: number;
         crs?: string;
     }
-    
+
     /******* event *******/
     export class event {
         addDomListener(instance: Element, eventName: string, handler: Function, context: object): EventListener;
@@ -146,22 +146,22 @@ declare namespace AMap {
         removeListener(listener: EventListener): void;
         trigger(instance: any, eventName: string, extArgs: any): void;
     }
-    
+
     export interface EventListener {
         // TODO: No description
     }
-    
+
     export interface MapsEvent {
         lnglat?: LngLat;
         pixel?: Pixel;
         type?: string;
         target?: object;
     }
-    
+
     /****** TileLayer *******/
     export class TileLayer {
         RoadNet: RoadNet;
-        Satellite: Satellite;        
+        Satellite: Satellite;
         constructor(tileOpt: TileLayerOptions);
         setOpacity(alpha: number): void;
         show(): void;
@@ -173,14 +173,14 @@ declare namespace AMap {
         setzIndex(index: number): void;
         setMap(map: Map): void;
     }
-    
+
     export class RoadNet {
-        
+
     }
     export class Satellite {
-        
+
     }
-    
+
     export interface TileLayerOptions {
         map?: Map;
         titleSize?: number;
@@ -192,7 +192,7 @@ declare namespace AMap {
         zooms?: number[];
         detectRetina?: boolean;
     }
-    
+
     /******* Marker *******/
     export class Marker extends Overlayer {
         constructor(opt: MarkerOptions);
@@ -229,9 +229,9 @@ declare namespace AMap {
         getShadow(): Icon;
         setShape(shape: MarkerShape): void;
         getShape(): MarkerShape;
-        
+
     }
-    
+
     export interface MarkerOptions {
         map?: Map;
         position?: LngLat | number[];
@@ -255,23 +255,23 @@ declare namespace AMap {
         extData?: any;
         label?: {content: string | Element, offset: number[]};
     }
-    
+
     export class MarkerShape {
         constructor(opt: MarkerShapeOptions);
     }
-    
+
     export interface MarkerShapeOptions {
-        coords?: number[],
-        type?: string
+        coords?: number[];
+        type?: string;
     }
-    
+
     /******* Icon ********/
     export class Icon {
         constructor(opt: IconOptions);
         getImageSize(): Size;
         setImageSize(size: Size): void;
     }
-    
+
     export interface IconOptions {
         // You'd better set size to new AMap.Size(19, 31)
         // Because AMap.Icon can not set offset
@@ -279,7 +279,7 @@ declare namespace AMap {
         imageOffset?: Pixel;
         image?: string;
     }
-    
+
     /******* Polyline ********/
     export class Polyline extends Overlayer {
         constructor(opt: PolylineOptions);
@@ -291,6 +291,6 @@ declare namespace AMap {
         getBounds(): Bounds;
     }
     export interface PolylineOptions {
-        
+
     }
 }

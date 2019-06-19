@@ -3,7 +3,7 @@ var p = {
     lat: 39.908012,
     lng: 116.399348,
 }
-plain._v.setCoordType('GCJ02');
+plain.setCoordType('GCJ02');
 var path = [
     [39.910, 116.404],
     [39.910, 116.5],
@@ -15,9 +15,9 @@ let gmap = setMap('gmap', 'GMAP');
 let amap = setMap('amap', 'AMAP');
 
 document.getElementById('btn-fitview').addEventListener('click', e => {
-    bmap.fitView(path); 
-    amap.fitView(path); 
-    gmap.fitView(path); 
+    bmap.fitView(path);
+    amap.fitView(path);
+    gmap.fitView(path);
 });
 
 function setMap (container, type) {

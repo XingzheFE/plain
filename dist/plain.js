@@ -461,7 +461,7 @@ var Popup = (function (_super) {
         this._box.setAttribute('data-plain-style', '');
         this._box.setAttribute('style', this.getStyle(opt));
         this._contentBox = document.createElement('div');
-        this._box.innerHTML = "<div class=\"popup-arrow\"></div";
+        this._box.innerHTML = "<div class=\"popup-arrow\"></div>";
         this._contentBox.classList.add('popup-content');
         this._box.appendChild(this._contentBox);
         stopPropagation(this._box, ['mouseup', 'mousedown']);
@@ -521,7 +521,8 @@ var Marker = (function () {
             icon: opt.icon ? opt.icon._original : null,
             raiseOnDrag: opt.raiseOnDrag ? opt.raiseOnDrag : true,
             crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
-            draggable: opt.draggable
+            draggable: opt.draggable,
+            offset: null
         };
         if (opt.icon && opt.icon.anchor) {
             option.offset = new AMap.Pixel(-opt.icon.anchor[0], -opt.icon.anchor[1]);
@@ -839,6 +840,7 @@ var Marker$1 = (function () {
         if (opt === void 0) { opt = {}; }
         var o = {
             icon: opt.icon ? opt.icon._original : null,
+            offset: opt.offset ? new BMap.Size(opt.offset[0], opt.offset[1]) : null,
             raiseOnDrag: opt.raiseOnDrag ? opt.raiseOnDrag : true,
             crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
             enableDragging: opt.draggable
@@ -1336,8 +1338,6 @@ var Marker$2 = (function () {
         var o = {
             icon: opt.icon ? opt.icon._original : null,
             position: p,
-            raiseOnDrag: opt.raiseOnDrag ? opt.raiseOnDrag : true,
-            crossOnDrag: opt.crossOnDrag ? opt.crossOnDrag : true,
             draggable: opt.draggable
         };
         return objectAssign(clone(opt), o);
@@ -1691,10 +1691,15 @@ var Plain = (function () {
         };
         objectAssign(this.Util, util);
         this._v = V;
-        var style = document.createElement('style');
-        style.innerHTML = styleString;
-        document.head.appendChild(style);
+        if (typeof document != 'undefined') {
+            var style = document.createElement('style');
+            style.innerHTML = styleString;
+            document.head.appendChild(style);
+        }
     }
+    Plain.prototype.setCoordType = function (type) {
+        this._v.setCoordType(type);
+    };
     Plain.prototype.use = function (factory, key) {
         if (typeof factory === 'string') {
             switch (factory) {

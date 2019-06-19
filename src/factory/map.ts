@@ -7,8 +7,8 @@ interface Map extends Layer {
     _original: object;          // original map object, create in constructor method
     _type: object;              // map type, not tile type
     MAP_TYPE: MapType;
-    addLayer<T>(layer: T | Array<T>): T | Array<T>;
-    removeLayer<T>(layer: T | Array<T>): void;
+    addLayer(layer: Layer | Array<Layer>): void;
+    removeLayer(layer: Layer | Array<Layer>): void;
     clearLayers(): void;
     setZoom(zoom: number): void;
     getZoom(): void;

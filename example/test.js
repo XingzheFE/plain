@@ -4,7 +4,7 @@ var path = [
     [39.909, 117],
     [39.710, 118]
 ];
-plain._v.setCoordType('GCJ02');
+plain.setCoordType('GCJ02');
 plain.loadMap(key, (e) => {
     console.log('success');
 
@@ -31,7 +31,7 @@ plain.loadMap(key, (e) => {
         color: '#444',
         fontSize: '20px'
     }).disableDragging();
-    
+
     window.marker2 = marker2;
     marker2.setLabel('label 2', {
         color: '#fff',
@@ -45,7 +45,7 @@ plain.loadMap(key, (e) => {
     });
     var popup = plain.Popup().setContent("<h1>layer</h1>").setLatLng([39, 115]).mount(map);
     // setTimeout(e => {
-    //     console.log(plain.Popup())    
+    //     console.log(plain.Popup())
     // }, 0)
     map.addLayer([marker, marker2]);
     map.addLayer(polyline);
