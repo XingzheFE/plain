@@ -1,16 +1,22 @@
 <a href="https://github.com/XingzheFE/plain">
     <img src="https://raw.githubusercontent.com/XingzheFE/plain/HEAD/images/logo.png" alt="">
+    <br/>
 </a>
+Create your map application with same code, get rid of different Map library API ✨.
 <p>
+    <a href="https://www.npmjs.com/package/plain-js">
+        <img src="https://img.shields.io/npm/v/plain-js.svg">
+    </a>
     <a href="https://travis-ci.org/XingzheFE/plain">
         <img src="https://travis-ci.org/XingzheFE/plain.svg?branch=master" alt="">
     </a>
     <a href="https://www.npmjs.com/package/plain-js">
         <img src="https://img.shields.io/npm/dt/plain-js.svg" alt="">
     </a>
+    <a href="/Dafrok/vue-baidu-map/blob/master">
+        <img src="https://img.shields.io/github/license/XingzheFE/plain.svg">
+    </a>
 </p>
-
-> Create your map application with same code, get rid of different Map library API ✨.
 
 [English](./README.en.md) | [简体中文](./README.md)
 
@@ -157,7 +163,7 @@ class Event {
     type: string;       // event name
 }
 ```
-`p` should be a coordinate which use same coordinate system with `plain._v.setCoordType('GCJ02');`.
+`p` should be a coordinate which use same coordinate system with `plain.setCoordType('GCJ02');`.
 
 ```javascript
 let listener = map.on('rightclick', function (e) {

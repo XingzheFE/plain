@@ -1,16 +1,22 @@
 <a href="https://github.com/XingzheFE/plain">
     <img src="https://raw.githubusercontent.com/XingzheFE/plain/HEAD/images/logo.png" alt="">
+    <br/>
 </a>
+使用同一套代码创建你的 web 地图应用。 ✨
 <p>
+    <a href="https://www.npmjs.com/package/plain-js">
+        <img src="https://img.shields.io/npm/v/plain-js.svg">
+    </a>
     <a href="https://travis-ci.org/XingzheFE/plain">
         <img src="https://travis-ci.org/XingzheFE/plain.svg?branch=master" alt="">
     </a>
     <a href="https://www.npmjs.com/package/plain-js">
         <img src="https://img.shields.io/npm/dt/plain-js.svg" alt="">
     </a>
+    <a href="/Dafrok/vue-baidu-map/blob/master">
+        <img src="https://img.shields.io/github/license/XingzheFE/plain.svg">
+    </a>
 </p>
-
-> 使用相同的代码创建你的 web 地图应用。 ✨.
 
 [English](./README.en.md) | [简体中文](./README.md)
 
@@ -147,7 +153,7 @@ class Event {
     type: string;       // 事件名
 }
 ```
-其中坐标 p 为最初 `plain._v.setCoordType("GCJ02");` 设置的格式，如果没有设置，那么返回的值和原生地图库一致。
+其中坐标 p 为最初 `plain.setCoordType("GCJ02");` 设置的格式，如果没有设置，那么返回的值和原生地图库一致。
 ```javascript
 let listener = map.on("rightclick", function (e) {
     console.log(plain.Util.formatEvent.call(this, e));

@@ -16,8 +16,8 @@ plain.loadMap(key, (e) => {
 
     var icon = plain.Icon({
         url: 'https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon.png',
-        size: [32, 32],
-        anchor: [16, 32],
+        size: [32, 40],
+        anchor: [16, 40],
         labelOrigin: [16, 10]
     });
     var markerOpt = {
@@ -43,7 +43,7 @@ plain.loadMap(key, (e) => {
         weight: 2,
         opacity: 0.8
     });
-    var popup = plain.Popup().setContent("<h1>layer</h1>").setLatLng([39, 115]).mount(map);
+    var popup = plain.Popup().setContent("<h1>layer</h1>").setLatLng([39.920, 116.404]).mount(map);
     // setTimeout(e => {
     //     console.log(plain.Popup())
     // }, 0)

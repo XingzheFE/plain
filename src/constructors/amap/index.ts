@@ -206,6 +206,7 @@ class Popup extends Layer {
             position: [0, 0],
             content: this._box,
             zIndex: opt && opt.zIndex ? opt.zIndex : 999,
+            offset: new AMap.Pixel(0, 0)
         });
         if (opt && opt.closeBtn === true) {
             const closeBtn = document.createElement('button');
@@ -219,7 +220,7 @@ class Popup extends Layer {
         }
     }
     getStyle(opt: O.PopupOption = {}) {
-        let style = 'position: absolute;left: 10px;';
+        let style = 'position: absolute;left: 0;';
         if (opt.zIndex && typeof opt.zIndex === 'number') {
             style += `z-index:${opt.zIndex};`;
         }
@@ -297,7 +298,9 @@ class Marker implements F.Marker {
 
     setLabel(str: string = '', opts: O.LabelOption): Marker {
         this._original.setLabel({
-            content: str
+            content: `<div
+                style="color: ${opts.color}; font-size: ${opts.fontSize}; font-family: ${opts.fontFamily}; font-weight: ${opts.fontWeight}"
+            >${str}</div>`
         });
         return this;
     }
@@ -465,7 +468,7 @@ export default class B_Map implements F.Factory {
         const callbackName = 'map_init_' + Math.random().toString(16).substr(2);
         const body = document.body;
         const script = document.createElement('SCRIPT');
-        const url = `https://webapi.amap.com/maps?v=1.3&key=${key}&callback=${callbackName}`;
+        const url = `https://webapi.amap.com/maps?v=1.4.15&key=${key}&callback=${callbackName}`;
         script.setAttribute('src', url);
         script.setAttribute('defer', '');
         script.setAttribute('async', '');
