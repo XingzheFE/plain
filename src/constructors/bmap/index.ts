@@ -7,6 +7,10 @@ import * as O from '../../options/mapOptions';
 import D from '../../options/default';
 import * as util from '../../utils';
 
+declare var BMAP_HYBRID_MAP: any;
+declare var BMAP_NORMAL_MAP: any;
+declare var BMAP_SATELLITE_MAP: any;
+
 // BMap in not defined in this file
 // But you will get this variable on window Object
 // while loaded baidu map script
@@ -20,7 +24,7 @@ class Map implements F.Map {
 
     constructor(opt: O.MapOption) {
         const center = opt.center ? fixCoord(opt.center) : [0, 0];
-        const centerPoint = new BMap.Point(center[1], center[0]);
+        const centerPoint = new BMap.Point(<number>center[1], <number>center[0]);
         this._original = new BMap.Map(opt.container);
         this._original.centerAndZoom(centerPoint, opt.zoom || 15);
         this._original.enableScrollWheelZoom();

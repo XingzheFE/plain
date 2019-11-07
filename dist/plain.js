@@ -25,7 +25,6 @@ var V = {
         this.coordType = type;
     }
 };
-//# sourceMappingURL=var.js.map
 
 var MapsEventListener = (function () {
     function MapsEventListener(parm) {
@@ -44,7 +43,6 @@ var D = {
         opacity: 0.8,
     }
 };
-//# sourceMappingURL=default.js.map
 
 var x_PI = 3.14159265358979324 * 3000.0 / 180.0;
 var PI = 3.1415926535897932384626;
@@ -139,7 +137,6 @@ var coordtransform = {
     wgs84togcj02: wgs84togcj02,
     gcj02towgs84: gcj02towgs84
 };
-//# sourceMappingURL=coordtransform.js.map
 
 function log(v) {
     if (v instanceof Error) {
@@ -276,7 +273,7 @@ function clone(target) {
         return target;
     }
 }
-//# sourceMappingURL=utils.js.map
+
 
 
 var util = Object.freeze({
@@ -558,7 +555,7 @@ var Marker = (function () {
     Marker.prototype.setLabel = function (str, opts) {
         if (str === void 0) { str = ''; }
         this._original.setLabel({
-            content: "<div\n                style=\"color: " + opts.color + "; font-size: " + opts.fontSize + "; font-family: " + opts.fontFamily + "; font-weight: " + opts.fontWeight + "\" \n            >" + str + "</div>"
+            content: "<div\n                style=\"color: " + opts.color + "; font-size: " + opts.fontSize + "; font-family: " + opts.fontFamily + "; font-weight: " + opts.fontWeight + "\"\n            >" + str + "</div>"
         });
         return this;
     };
@@ -1683,7 +1680,6 @@ function createLayerConstructor$1(isPopup) {
 }
 
 var styleString = "\n.popup-box[data-plain-style] {\n    z-index: 9;\n    padding: 0 0 14px 0;\n    cursor: arrow;\n    transform: translate3d(-50%, -100%, 0);\n    translate: transform ease 0;\n    animation: fade-in-data-plain-style linear 0.12s;\n    pointer-events: auto !important;\n    cursor: auto;\n}\n.popup-box[data-plain-style] .popup-content {\n    padding: 0.5rem 1rem;\n    min-height: 2rem;\n    min-width: 4rem;\n    color: #222;\n    box-shadow: 0 3px 12px rgba(0,0,0,0.38);\n    background: #fff;\n    border-radius: 4px;\n}\n.popup-box[data-plain-style] .popup-arrow{\n    position: absolute;\n    left: 50%;\n    bottom: 0;\n    height: 14px;\n    width: 28px;\n    overflow: hidden;\n    transform: translate3d(-50%, 0, 0);\n}\n.popup-box[data-plain-style] .popup-close {\n    position: absolute;\n    display: block;\n    right: 0;\n    top: 0;\n    height: 20px;\n    width: 20px;\n    border: none;\n    color: #888;\n    font-size: 20px;\n    line-height: 14px;\n    cursor: pointer;\n    background: transparent;\n    outline: none;\n}\n.popup-box[data-plain-style] .popup-close:hover {\n    color: #666;\n}\n.popup-box[data-plain-style] .popup-arrow::after {\n    display: block;\n    content: '';\n    position: absolute;\n    top: -12px;\n    left: 3px;\n    background: #fff;\n    height: 20px;\n    width: 20px;\n    border-radius: 2px;\n    transform: rotate3d(0, 0, 1, 45deg);\n    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.34);\n}\n@keyframes fade-in-data-plain-style {\n    0% {\n        opacity: 0;\n    }\n    100% {\n        opacity: 1;\n    }\n}\n\n/**\n *  BMAP */\n/**\n *  AMAP */\n.amap-marker-label {\n    border: none;\n    background: transparent;\n}\n";
-//# sourceMappingURL=style.js.map
 
 var Plain = (function () {
     function Plain(factory) {

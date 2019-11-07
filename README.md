@@ -1,9 +1,12 @@
-<a href="https://github.com/XingzheFE/plain">
-    <img src="https://raw.githubusercontent.com/XingzheFE/plain/HEAD/images/logo.png" alt="">
-    <br/>
-</a>
-使用同一套代码创建你的 web 地图应用。 ✨
-<p>
+<p align="center">
+    <a href="https://github.com/XingzheFE/plain">
+        <img width="140" src="https://user-images.githubusercontent.com/10026019/68386171-705bad80-0196-11ea-9e64-e98ea602ce56.png" alt="">
+        <br/>
+    </a>
+    </br>
+    Create your map application with same code, get rid of different Map library API ✨.
+</p>
+<p align="center">
     <a href="https://www.npmjs.com/package/plain-js">
         <img src="https://img.shields.io/npm/v/plain-js.svg">
     </a>
@@ -18,58 +21,61 @@
     </a>
 </p>
 
-[English](./README.en.md) | [简体中文](./README.md)
+<hr/>
+
+[English](./README.md) | [简体中文](./README.zh.md)
 
 ![example](./images/example.png)
 
 
-# 特性
-1. Layers
-    1. Marker
-    2. Polyline
-    3. Popup
-2. Map Controls
-    1. zoom
-    2. fitView
-    3. panTo
-3. Evented
-4. Utils
-    1. getBound
-    2. locate
-    3. coordinate translate
+# Features
+1. [Layers](#layers)
+    1. [Marker](#add-marker)
+    2. [Polyline](#add-polyline)
+    3. [Popup](#custom-layer-&-popup)
+2. [Map Controls](#map-controls)
+    1. [Zoom](#zoom-control)
+    2. [FitView](#fitview)
+    3. [PanTo](#panTo)
+3. [Evented](#evented)
+4. [Utils](#utils)
+    1. [GetBound](#getBound)
+    2. [Locate](#locate)
+    3. [Coordinate Translate](#coordinate-translate)
 
-# 如何使用
+# How to use plain?
 
-## 安装
-使用 `npm` 安装 `plain-js`，你也可以在页面中引入构建后的 `js` 文件。
+## Install
+Install `plain-js` via `npm`, you also could load `plain.min.js` in html file.
 
-`$ npm install plain-js --save`
+`$ npm install plain-js`
 
-## 创建地图
-创建地图的方式很简单，最直接的方式是在 html 文件中引入地图库的脚本文件以及 `plain.min.js`
+## Create Map
+It is simple, use following code after install `plain`:
 ```javascript
-// 首先初始化一个 plain 对象
+// create a plain Object
 let plain = new Plain();
 
-// 设置需要使用的坐标系，如果不设置的话所有地图使用默认的坐标系，
-// Google 和 高德地图在大陆使用 GCJ02，百度地图使用 BD09，
-// 为了方便开发建议设置为 GCJ02
-plain.setCoordType("GCJ02");
+// Set the default coordinate system,
+// if not, all the map will using the default coordinate system:
+// Google and Gaode using GCJ02 in mainland of China, baidu map using BD09.
+// we suggest 'GCJ02'.
+plain.setCoordType('GCJ02');
 
-// 告诉 plain 你需要使用 Google 地图，
-// 可选的参数有 Google Map "GMAP"， 高德地图 "AMAP"， 百度地图 "BMAP"
-plain.use("GMAP");
+// Tell plain which map you want use，
+// eg: Google Map 'GMAP'， GaodeMap 'AMAP'， BaiduMap 'BMAP'
+plain.use('GMAP');
 
-// 创建一个 Google 地图实例
+// Create a Google map object
 let map = plain.Map({
-    container: "#map",          // DivElement
+    container: "#map",          // or DivElement
     center: [39.908012, 116.399348],
     zoom: 15
 });
 ```
-或者使用回调的方式创建
+By the way, you can create map in the callback function
 ```javascript
-let plain = new Plain().use("GMAP");
+let plain = new Plain().use('GMAP');
 let key = "[your access key]";
 plain.loadMap(key, () => {
     let map = window.map = plain.Map({
@@ -83,16 +89,17 @@ plain.loadMap(key, () => {
 
 ```
 
-## 添加 Marker
+## Layers
+### Add Marker
 ```javascript
 let marker = plain.Marker([39.910, 116.404]);
-map.addLayer(marker);   // 也可传入一个数组
+map.addLayer(marker);   // or <Array>Marker
 ```
-如果想让 Marker 变得不一样也是可以的，在 Marker 方法中传入第二个参数：
+Wanna create a special Marker ? Just set second param:
 ```javascript
-// 自定义 icon
+// Create icon
 let icon = plain.Icon({
-    url: "https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon.png",
+    url: 'https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon.png',
     size: [25, 40],
     anchor: [12.5, 40]
 });
@@ -104,11 +111,13 @@ let markerOpt = {
 };
 let marker2 = plain.Marker([39.910, 116.404], markerOpt);
 map.addLayer(marker2);
-map.removeLayer(marker);    // 可以从地图中移除之前创建的标记
+// Try to remove marker from map,
+// But we will not destroy this marker
+map.removeLayer(marker);
 ```
 
-## 添加 Polyline
-向地图中添加折线之前需要先定义一个二维数组，注意：我们默认传入的坐标格式是 `[lat: Number, lng: Number]`
+### Add Polyline
+There is a path Object before create Polyline, array item should be an array like this: `[lat: Number, lng: Number]`
 ```javascript
 let path = [
     [39.910, 116.404],
@@ -124,48 +133,129 @@ let polyline = plain.Polyline(path, {
 map.addLayer(polyline);
 ```
 
-## 自定义覆盖物及 Popup
+### Custom Layer & Popup
 ```javascript
 let layer = plain.Layer()
-    .setContent("text or Element")
+    .setContent('text or HTMLElement')
     .setLatLng([31, 116])
-    .mount(map)
-    .show()
-    .hide()
-    .unmount();
-let popup = plain.Popup({closeBtn: false})
-    .setContent(document.createElement("button"))
+    .mount(map) // add to map
+    .show()     // set style.display to 'none'
+    .hide()     // set style.display to 'block'
+    .unmount(); // remove from map
+let popup = plain.Popup({closeBtn: false})  // goto popupOptions
+    .setContent(document.createElement('button'))
     .setLatLng([31, 116])
     .mount(map)
     .show()
     .hide()
     .unmount();
 ```
-
-## 事件
-到目前为止，我们已经可以创建一个展示基本信息的地图了，那么接下来就给地图绑定下点击事件的响应方法。
-plain 提供了一个工具方法格式化传入的事件对象，返回的值格式如下
-```typescript
-class Event {
-    e: any;             // 原始的事件对象
-    p: F.LatLng;        // 坐标 [lat: number, lng: number]
-    target: F.Layer;    // 触发事件的对象
-    type: string;       // 事件名
+`popupOptions`:
+```javascript
+{
+    closeBtn: false,    // use close btn, default: false
+    offset: [-40, 0],   // CSS margin attribute
+    zIndex: 999,        // CSS z-index attribute
 }
 ```
-其中坐标 p 为最初 `plain.setCoordType("GCJ02");` 设置的格式，如果没有设置，那么返回的值和原生地图库一致。
+
+## Map Controls
+
+### Zoom control
+
+You can set zoom paramter just as:
+
 ```javascript
-let listener = map.on("rightclick", function (e) {
+let map = plain.Map({
+    container: "#map",
+    center: [39.908012, 116.399348],
+    zoom: 15
+});
+```
+
+Or use methods:
+
+| method | description |
+|---|---|
+| setZoom(zoom: number) | Set zoom level, it's dependent on Map instance. Most of theme are at 1-15. |
+| getZoom(): number | Get zoom level. |
+| zoomIn() | Set zoom level++. |
+| zoomOut() | Set zoom level--. |
+
+### FitView
+
+| method | description |
+|---|---|
+| fitView(latlngs: LatLng[], opt?: ViewportOption) | Set map viewport. |
+
+```javascript
+interface ViewportOption {
+    margins: number[];
+}
+interface LatLng extends Array<number> {
+    [index: number]: number;
+}
+```
+
+### PanTo
+
+| method | description |
+|---|---|
+| panTo(latlng: LatLng) | Change the center point of the map to a given point. |
+
+## Evented
+
+So far, we have been able to create a map which shows the basic information, then we are going to addEventListenr.Plain method provides a tool for formatting the incoming event object, the value returned format is as follows
+
+```typescript
+class Event {
+    e: any;             // original event Object
+    p: F.LatLng;        // coordinate [lat: number, lng: number]
+    target: F.Layer;    // could be Plain's Marker or Map
+    type: string;       // event name
+}
+```
+
+`p` should be a coordinate which use same coordinate system with `plain.setCoordType('GCJ02');`.
+
+```javascript
+let listener = map.on('rightclick', function (e) {
     console.log(plain.Util.formatEvent.call(this, e));
-    // 顺便校正下地图窗口
+    // fit map viewport
     map.fitView(path);
 });
 ```
-接下来我们要取消事件监听：
+
+Cancel eventListener:
+
 ```javascript
 map.off(listener);
 ```
-> 有疑问和建议请创建 issue 哦，(by the way, we need e2e test)
+
+## Utils
+
+### Get bound
+
+| method | description |
+|---|---|
+| getBound(latlngs: LatLng[]): LatLng[]| Return a rectangle that cover all points. |
+
+### Locate
+
+| method | description |
+|---|---|
+| locate(success?: Function, error?: Function): void | Map location. |
+
+### Coordinate Translate
+
+| method | description |
+|---|---|
+| b2g(latlngs: LatLng[]): LatLng[] | BD09 to GCJ02. |
+| w2g(latlngs: LatLng[]): LatLng[] | WGS84 to BD09. |
+| g2w(latlngs: LatLng[]): LatLng[] | GCJ02 to WGS84. |
+| w2b(latlngs: LatLng[]): LatLng[] | WGS84 to BD09. |
+| b2w(latlngs: LatLng[]): LatLng[] | BD09 to WGS84. |
+| g2b(latlngs: LatLng[]): LatLng[] | GCJ02 to BD09. |
 
 ## License
 
