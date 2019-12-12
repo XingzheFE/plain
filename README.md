@@ -1,3 +1,5 @@
+[English](./README.md) | [简体中文](./README.zh.md)
+
 <p align="center">
     <a href="https://github.com/XingzheFE/plain">
         <img width="140" src="https://user-images.githubusercontent.com/10026019/68386171-705bad80-0196-11ea-9e64-e98ea602ce56.png" alt="">
@@ -22,8 +24,6 @@
 </p>
 
 <hr/>
-
-[English](./README.md) | [简体中文](./README.zh.md)
 
 ![example](./images/example.png)
 
