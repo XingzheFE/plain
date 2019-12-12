@@ -1,6 +1,6 @@
 {
   "name": "plain-js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Create your map application with same code, get rid of different Map library API ✨.",
   "main": "dist/plain.min.js",
   "directories": {
