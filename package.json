@@ -43,7 +43,7 @@
     "chromedriver": "^75.0.0",
     "growl": "^1.10.5",
     "http-server": "^0.10.0",
-    "karma": "^4.0.1",
+    "karma": "^6.3.14",
     "nightwatch": "^1.0.19",
     "rollup": "^0.43.0",
     "rollup-plugin-license": "^0.8.1",
